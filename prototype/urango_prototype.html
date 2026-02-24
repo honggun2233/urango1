@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>URANGO — 아웃도어 소셜 플랫폼 프로토타입</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #1a1a2e; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 20px; gap: 20px; flex-wrap: wrap; }
+
+  :root {
+    --primary: #028090;
+    --secondary: #00A896;
+    --accent: #02C39A;
+    --dark: #212121;
+    --light: #F5F5F5;
+  }
+
+  /* ─── Phone Frame ─── */
+  .phone-frame {
+    width: 375px;
+    min-height: 812px;
+    background: #fff;
+    border-radius: 40px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 8px #2d2d2d, 0 0 0 10px #1a1a1a;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .screen { display: none; flex-direction: column; height: 100%; }
+  .screen.active { display: flex; }
+
+  /* ─── Status Bar ─── */
+  .status-bar {
+    background: var(--primary);
+    padding: 12px 20px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* ─── Header ─── */
+  .header {
+    background: var(--primary);
+    padding: 12px 20px 16px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: 1px; }
+  .header .back-btn { cursor: pointer; font-size: 20px; }
+  .header .subtitle { font-size: 12px; opacity: 0.8; }
+
+  /* ─── Content Area ─── */
+  .content { flex: 1; overflow-y: auto; background: var(--light); }
+  .content::-webkit-scrollbar { width: 4px; }
+  .content::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  /* ─── Bottom Nav ─── */
+  .bottom-nav {
+    background: white;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    padding: 8px 0 12px;
+  }
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    padding: 6px 0;
+    transition: all 0.2s;
+  }
+  .nav-item.active .nav-icon { color: var(--primary); }
+  .nav-item.active .nav-label { color: var(--primary); font-weight: 600; }
+  .nav-icon { font-size: 22px; color: #aaa; transition: all 0.2s; }
+  .nav-label { font-size: 10px; color: #aaa; }
+
+  /* ─── Home Screen ─── */
+  .hero-banner {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    padding: 24px 20px;
+    color: white;
+  }
+  .hero-banner h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .hero-banner p { font-size: 13px; opacity: 0.85; }
+  .hero-banner .hero-stats { display: flex; gap: 20px; margin-top: 16px; }
+  .hero-stat { text-align: center; }
+  .hero-stat .num { font-size: 20px; font-weight: 700; }
+  .hero-stat .lbl { font-size: 10px; opacity: 0.8; }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 20px;
+  }
+  .category-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    text-align: center;
+    border: 2px solid transparent;
+  }
+  .category-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .category-card .cat-emoji { font-size: 36px; margin-bottom: 8px; }
+  .category-card .cat-name { font-size: 16px; font-weight: 700; color: var(--dark); }
+  .category-card .cat-count { font-size: 11px; color: #888; margin-top: 4px; }
+  .category-card.active { border-color: var(--primary); background: linear-gradient(135deg, #f0fafa, #fff); }
+
+  .section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark);
+    padding: 16px 20px 8px;
+  }
+
+  .activity-card {
+    background: white;
+    margin: 0 20px 12px;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .activity-card:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .activity-card-header {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    padding: 14px 16px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .activity-cat-badge {
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .activity-level { font-size: 11px; opacity: 0.9; }
+  .activity-card-body { padding: 14px 16px; }
+  .activity-title { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+  .activity-meta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 4px; font-size: 12px; color: #666; }
+  .activity-card-footer {
+    padding: 10px 16px;
+    border-top: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .leader-info { display: flex; align-items: center; gap: 8px; }
+  .leader-avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: white; font-weight: 700;
+  }
+  .leader-name { font-size: 12px; color: #555; }
+  .stars { color: #FFB800; font-size: 12px; }
+  .join-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .join-btn:hover { background: var(--secondary); }
+
+  /* ─── Search Screen ─── */
+  .search-bar-wrap {
+    background: white;
+    padding: 12px 20px;
+    display: flex;
+    gap: 10px;
+  }
+  .search-input {
+    flex: 1;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 24px;
+    padding: 10px 16px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-input:focus { border-color: var(--primary); }
+  .search-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 24px;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .filter-chips {
+    background: white;
+    padding: 10px 20px 12px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .filter-chips::-webkit-scrollbar { display: none; }
+  .chip {
+    white-space: nowrap;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    color: #555;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+  }
+  .chip.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+  /* ─── Create Screen ─── */
+  .create-form { padding: 20px; }
+  .form-group { margin-bottom: 18px; }
+  .form-label { font-size: 13px; font-weight: 600; color: #555; margin-bottom: 8px; display: block; }
+  .form-control {
+    width: 100%;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    background: white;
+  }
+  .form-control:focus { border-color: var(--primary); }
+  .radio-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .radio-btn {
+    border: 1.5px solid #e0e0e0;
+    border-radius: 24px;
+    padding: 7px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .radio-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+  .create-submit {
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    border-radius: 14px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.2s;
+  }
+  .create-submit:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* ─── Profile Screen ─── */
+  .profile-header {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    padding: 30px 20px 50px;
+    color: white;
+    text-align: center;
+  }
+  .profile-avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px;
+    margin: 0 auto 12px;
+    border: 3px solid rgba(255,255,255,0.5);
+  }
+  .profile-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .profile-id { font-size: 13px; opacity: 0.8; }
+  .profile-rating { font-size: 15px; margin-top: 8px; }
+  .profile-stats {
+    display: flex;
+    background: white;
+    margin: -30px 20px 0;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 16px;
+  }
+  .stat-item { flex: 1; text-align: center; }
+  .stat-num { font-size: 20px; font-weight: 700; color: var(--primary); }
+  .stat-lbl { font-size: 11px; color: #888; margin-top: 3px; }
+  .profile-menu { padding: 20px; }
+  .menu-item {
+    background: white;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+  }
+  .menu-item:hover { transform: translateX(4px); }
+  .menu-icon { font-size: 20px; width: 36px; height: 36px; background: var(--light); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .menu-text { flex: 1; font-size: 14px; font-weight: 500; color: var(--dark); }
+  .menu-arrow { color: #ccc; font-size: 16px; }
+
+  /* ─── Message Screen ─── */
+  .dm-list { padding: 12px; }
+  .dm-item {
+    background: white;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  }
+  .dm-item:hover { background: #f0fafa; }
+  .dm-avatar {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; color: white; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .dm-info { flex: 1; min-width: 0; }
+  .dm-name { font-size: 14px; font-weight: 600; color: var(--dark); }
+  .dm-preview { font-size: 12px; color: #888; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dm-time { font-size: 11px; color: #aaa; flex-shrink: 0; }
+  .unread-badge {
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    width: 18px; height: 18px;
+    font-size: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* ─── Page Title ─── */
+  .page-info {
+    text-align: center;
+    padding: 12px 20px;
+    background: white;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+    color: #666;
+  }
+
+  /* ─── Demo Label ─── */
+  .demo-info {
+    color: white;
+    text-align: center;
+    max-width: 340px;
+    padding-top: 20px;
+  }
+  .demo-info h2 { font-size: 28px; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+  .demo-info p { font-size: 14px; opacity: 0.7; line-height: 1.6; }
+  .demo-screens { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .demo-chip { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 5px 14px; font-size: 12px; color: var(--accent); border: 1px solid rgba(2,195,154,0.3); }
+</style>
+</head>
+<body>
+
+<!-- Demo Info Panel -->
+<div class="demo-info">
+  <h2>URANGO</h2>
+  <p>아웃도어 액티비티<br>소셜 플랫폼<br>인터랙티브 프로토타입</p>
+  <div class="demo-screens">
+    <div class="demo-chip">🏠 홈</div>
+    <div class="demo-chip">🔍 검색</div>
+    <div class="demo-chip">➕ 활동 생성</div>
+    <div class="demo-chip">👤 프로필</div>
+    <div class="demo-chip">💬 메시지</div>
+  </div>
+  <div style="margin-top:20px; font-size:12px; opacity:0.5;">
+    하단 네비게이션으로 화면 전환<br>
+    Version 1.0 · 2026.02.24
+  </div>
+</div>
+
+<!-- Phone Frame -->
+<div class="phone-frame">
+
+  <!-- ═══════════ HOME SCREEN ═══════════ -->
+  <div class="screen active" id="screen-home">
+    <div class="status-bar"><span>9:41</span><span>📶 🔋</span></div>
+    <div class="header">
+      <div>
+        <h1>URANGO</h1>
+        <div class="subtitle">어디로 떠날까요?</div>
+      </div>
+      <div style="margin-left:auto; font-size:22px; cursor:pointer">🔔</div>
+    </div>
+    <div class="content">
+      <div class="hero-banner">
+        <h2>함께 달리고,<br>함께 오르고! 🚀</h2>
+        <p>검증된 리더와 함께하는 안전한 아웃도어</p>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="num">1,247</div><div class="lbl">활성 활동</div></div>
+          <div class="hero-stat"><div class="num">8,924</div><div class="lbl">활동 리더</div></div>
+          <div class="hero-stat"><div class="num">42,100</div><div class="lbl">전체 회원</div></div>
+        </div>
+      </div>
+      <div class="page-info">📍 서울특별시 기준 추천 활동</div>
+      <div class="categories-grid">
+        <div class="category-card" onclick="selectCat(this,'Cycle')">
+          <div class="cat-emoji">🚴</div>
+          <div class="cat-name">Cycle</div>
+          <div class="cat-count">342개 활동</div>
+        </div>
+        <div class="category-card" onclick="selectCat(this,'Bike')">
+          <div class="cat-emoji">🏍️</div>
+          <div class="cat-name">Bike</div>
+          <div class="cat-count">187개 활동</div>
+        </div>
+        <div class="category-card" onclick="selectCat(this,'Run')">
+          <div class="cat-emoji">🏃</div>
+          <div class="cat-name">Run</div>
+          <div class="cat-count">426개 활동</div>
+        </div>
+        <div class="category-card" onclick="selectCat(this,'Mountain')">
+          <div class="cat-emoji">⛰️</div>
+          <div class="cat-name">Mountain</div>
+          <div class="cat-count">292개 활동</div>
+        </div>
+      </div>
+      <div class="section-title">⚡ 이번 주 추천 활동</div>
+      <div class="activity-card">
+        <div class="activity-card-header">
+          <span class="activity-cat-badge">🚴 Cycle</span>
+          <span class="activity-level">Beginner 友</span>
+        </div>
+        <div class="activity-card-body">
+          <div class="activity-title">한강 라이딩 함께해요 🌊</div>
+          <div class="activity-meta">
+            <div class="meta-item">📅 2026.03.15 (토)</div>
+            <div class="meta-item">📍 여의도 한강공원</div>
+            <div class="meta-item">👥 4/6명</div>
+          </div>
+        </div>
+        <div class="activity-card-footer">
+          <div class="leader-info">
+            <div class="leader-avatar">박</div>
+            <div>
+              <div class="leader-name">박민준 리더</div>
+              <div class="stars">★★★★★ 4.9</div>
+            </div>
+          </div>
+          <button class="join-btn" onclick="goScreen('search')">참가 신청</button>
+        </div>
+      </div>
+      <div class="activity-card">
+        <div class="activity-card-header" style="background: linear-gradient(135deg, #00A896, #02C39A)">
+          <span class="activity-cat-badge">⛰️ Mountain</span>
+          <span class="activity-level">Intermediate</span>
+        </div>
+        <div class="activity-card-body">
+          <div class="activity-title">북한산 둘레길 트레킹 🌿</div>
+          <div class="activity-meta">
+            <div class="meta-item">📅 2026.03.20 (목)</div>
+            <div class="meta-item">📍 북한산국립공원</div>
+            <div class="meta-item">👥 7/10명</div>
+          </div>
+        </div>
+        <div class="activity-card-footer">
+          <div class="leader-info">
+            <div class="leader-avatar" style="background: linear-gradient(135deg, #00A896, #02C39A)">김</div>
+            <div>
+              <div class="leader-name">김서연 리더</div>
+              <div class="stars">★★★★½ 4.7</div>
+            </div>
+          </div>
+          <button class="join-btn" style="background: var(--secondary)" onclick="goScreen('search')">참가 신청</button>
+        </div>
+      </div>
+      <div class="activity-card">
+        <div class="activity-card-header" style="background: linear-gradient(135deg, #02C39A, #028090)">
+          <span class="activity-cat-badge">🏃 Run</span>
+          <span class="activity-level">Beginner 友</span>
+        </div>
+        <div class="activity-card-body">
+          <div class="activity-title">올림픽공원 5K 러닝크루 🏅</div>
+          <div class="activity-meta">
+            <div class="meta-item">📅 2026.03.22 (토)</div>
+            <div class="meta-item">📍 올림픽공원</div>
+            <div class="meta-item">👥 12/15명</div>
+          </div>
+        </div>
+        <div class="activity-card-footer">
+          <div class="leader-info">
+            <div class="leader-avatar" style="background: linear-gradient(135deg, #02C39A, #028090)">이</div>
+            <div>
+              <div class="leader-name">이준호 리더</div>
+              <div class="stars">★★★★★ 5.0</div>
+            </div>
+          </div>
+          <button class="join-btn" style="background: var(--accent)" onclick="goScreen('search')">참가 신청</button>
+        </div>
+      </div>
+      <div style="height:20px"></div>
+    </div>
+    <nav class="bottom-nav">
+      <div class="nav-item active" onclick="goScreen('home')"><div class="nav-icon">🏠</div><div class="nav-label">홈</div></div>
+      <div class="nav-item" onclick="goScreen('search')"><div class="nav-icon">🔍</div><div class="nav-label">검색</div></div>
+      <div class="nav-item" onclick="goScreen('create')"><div class="nav-icon">➕</div><div class="nav-label">생성</div></div>
+      <div class="nav-item" onclick="goScreen('profile')"><div class="nav-icon">👤</div><div class="nav-label">프로필</div></div>
+      <div class="nav-item" onclick="goScreen('messages')"><div class="nav-icon">💬</div><div class="nav-label">메시지</div></div>
+    </nav>
+  </div>
+
+  <!-- ═══════════ SEARCH SCREEN ═══════════ -->
+  <div class="screen" id="screen-search">
+    <div class="status-bar"><span>9:41</span><span>📶 🔋</span></div>
+    <div class="header"><h1>활동 검색</h1></div>
+    <div class="search-bar-wrap">
+      <input class="search-input" placeholder="리더, 장소, 코스 검색..." type="text">
+      <button class="search-btn">검색</button>
+    </div>
+    <div class="filter-chips">
+      <div class="chip active" onclick="toggleChip(this)">전체</div>
+      <div class="chip" onclick="toggleChip(this)">🚴 Cycle</div>
+      <div class="chip" onclick="toggleChip(this)">🏍️ Bike</div>
+      <div class="chip" onclick="toggleChip(this)">🏃 Run</div>
+      <div class="chip" onclick="toggleChip(this)">⛰️ Mountain</div>
+      <div class="chip" onclick="toggleChip(this)">이번주</div>
+      <div class="chip" onclick="toggleChip(this)">⚡ 즉시참여</div>
+      <div class="chip" onclick="toggleChip(this)">초급</div>
+    </div>
+    <div class="content">
+      <div class="page-info">총 1,247개의 활동이 검색되었습니다</div>
+      <div class="activity-card">
+        <div class="activity-card-header">
+          <span class="activity-cat-badge">🚴 Cycle</span>
+          <span class="activity-level">Beginner ★4.9</span>
+        </div>
+        <div class="activity-card-body">
+          <div class="activity-title">한강 라이딩 함께해요 🌊</div>
+          <div class="activity-meta">
+            <div class="meta-item">📅 03.15 토요일</div>
+            <div class="meta-item">📍 여의도 한강공원</div>
+            <div class="meta-item">👥 4/6명</div>
+            <div class="meta-item">💪 초급</div>
+          </div>
+        </div>
+        <div class="activity-card-footer">
+          <div class="leader-info">
+            <div class="leader-avatar">박</div>
+            <div><div class="leader-name">박민준 리더</div><div class="stars">★★★★★ 4.9 (48회)</div></div>
+          </div>
+          <button class="join-btn">신청하기</button>
+        </div>
+      </div>
+      <div class="activity-card">
+        <div class="activity-card-header" style="background: linear-gradient(135deg, #00A896, #02C39A)">
+          <span class="activity-cat-badge">⛰️ Mountain</span>
+          <span class="activity-level">⚡ 즉시참여</span>
+        </div>
+        <div class="activity-card-body">
+          <div class="activity-title">도봉산 단풍 트레킹 🍁</div>
+          <div class="activity-meta">
+            <div class="meta-item">📅 03.16 일요일</div>
+            <div class="meta-item">📍 도봉산역 집결</div>
+            <div class="meta-item">👥 3/5명</div>
+            <div class="meta-item">💪 중급</div>
+          </div>
+        </div>
+        <div class="activity-card-footer">
+          <div class="leader-info">
+            <div class="leader-avatar" style="background: linear-gradient(135deg, #00A896, #02C39A)">최</div>
+            <div><div class="leader-name">최다현 리더</div><div class="stars">★★★★½ 4.8 (31회)</div></div>
+          </div>
+          <button class="join-btn" style="background: var(--secondary)">신청하기</button>
+        </div>
+      </div>
+      <div class="activity-card">
+        <div class="activity-card-header" style="background: linear-gradient(135deg, #028090, #0891B2)">
+          <span class="activity-cat-badge">🏍️ Bike</span>
+          <span class="activity-level">Intermediate</span>
+        </div>
+        <div class="activity-card-body">
+          <div class="activity-title">가평 바이크 투어링 🛣️</div>
+          <div class="activity-meta">
+            <div class="meta-item">📅 03.22 토요일</div>
+            <div class="meta-item">📍 청평IC 집결</div>
+            <div class="meta-item">👥 6/8명</div>
+            <div class="meta-item">💪 중급</div>
+          </div>
+        </div>
+        <div class="activity-card-footer">
+          <div class="leader-info">
+            <div class="leader-avatar" style="background: linear-gradient(135deg, #028090, #0891B2)">정</div>
+            <div><div class="leader-name">정현우 리더</div><div class="stars">★★★★★ 5.0 (67회)</div></div>
+          </div>
+          <button class="join-btn" style="background: #028090">신청하기</button>
+        </div>
+      </div>
+      <div style="height:20px"></div>
+    </div>
+    <nav class="bottom-nav">
+      <div class="nav-item" onclick="goScreen('home')"><div class="nav-icon">🏠</div><div class="nav-label">홈</div></div>
+      <div class="nav-item active" onclick="goScreen('search')"><div class="nav-icon">🔍</div><div class="nav-label">검색</div></div>
+      <div class="nav-item" onclick="goScreen('create')"><div class="nav-icon">➕</div><div class="nav-label">생성</div></div>
+      <div class="nav-item" onclick="goScreen('profile')"><div class="nav-icon">👤</div><div class="nav-label">프로필</div></div>
+      <div class="nav-item" onclick="goScreen('messages')"><div class="nav-icon">💬</div><div class="nav-label">메시지</div></div>
+    </nav>
+  </div>
+
+  <!-- ═══════════ CREATE SCREEN ═══════════ -->
+  <div class="screen" id="screen-create">
+    <div class="status-bar"><span>9:41</span><span>📶 🔋</span></div>
+    <div class="header"><h1>➕ 활동 만들기</h1></div>
+    <div class="content">
+      <div class="create-form">
+        <div class="form-group">
+          <label class="form-label">카테고리 선택</label>
+          <div class="radio-group">
+            <div class="radio-btn active" onclick="selectRadio(this)">🚴 Cycle</div>
+            <div class="radio-btn" onclick="selectRadio(this)">🏍️ Bike</div>
+            <div class="radio-btn" onclick="selectRadio(this)">🏃 Run</div>
+            <div class="radio-btn" onclick="selectRadio(this)">⛰️ Mountain</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">활동 제목</label>
+          <input class="form-control" type="text" placeholder="예: 한강 라이딩 함께해요!" value="">
+        </div>
+        <div class="form-group">
+          <label class="form-label">📅 날짜</label>
+          <input class="form-control" type="date" value="2026-03-15">
+        </div>
+        <div class="form-group">
+          <label class="form-label">📍 장소</label>
+          <select class="form-control">
+            <option>🇰🇷 대한민국</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">상세 코스</label>
+          <input class="form-control" type="text" placeholder="예: 여의도 한강공원 → 뚝섬 왕복">
+        </div>
+        <div class="form-group">
+          <label class="form-label">💪 난이도</label>
+          <div class="radio-group">
+            <div class="radio-btn active" onclick="selectRadio(this)">🟢 초급</div>
+            <div class="radio-btn" onclick="selectRadio(this)">🟡 중급</div>
+            <div class="radio-btn" onclick="selectRadio(this)">🔴 고급</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">👥 인원 제한</label>
+          <div class="radio-group">
+            <div class="radio-btn" onclick="selectRadio(this)">2-5명</div>
+            <div class="radio-btn active" onclick="selectRadio(this)">6-10명</div>
+            <div class="radio-btn" onclick="selectRadio(this)">11명 이상</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">활동 소개</label>
+          <textarea class="form-control" rows="3" placeholder="활동에 대한 간단한 소개를 작성해주세요..."></textarea>
+        </div>
+        <button class="create-submit" onclick="showToast('✅ 활동이 생성되었습니다!')">🚀 활동 생성하기</button>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <div class="nav-item" onclick="goScreen('home')"><div class="nav-icon">🏠</div><div class="nav-label">홈</div></div>
+      <div class="nav-item" onclick="goScreen('search')"><div class="nav-icon">🔍</div><div class="nav-label">검색</div></div>
+      <div class="nav-item active" onclick="goScreen('create')"><div class="nav-icon">➕</div><div class="nav-label">생성</div></div>
+      <div class="nav-item" onclick="goScreen('profile')"><div class="nav-icon">👤</div><div class="nav-label">프로필</div></div>
+      <div class="nav-item" onclick="goScreen('messages')"><div class="nav-icon">💬</div><div class="nav-label">메시지</div></div>
+    </nav>
+  </div>
+
+  <!-- ═══════════ PROFILE SCREEN ═══════════ -->
+  <div class="screen" id="screen-profile">
+    <div class="status-bar"><span>9:41</span><span>📶 🔋</span></div>
+    <div class="profile-header">
+      <div class="profile-avatar">👤</div>
+      <div class="profile-name">홍길동</div>
+      <div class="profile-id">@hong_outdoor</div>
+      <div class="profile-rating">⭐ 4.8점  •  리더</div>
+    </div>
+    <div class="content">
+      <div class="profile-stats">
+        <div class="stat-item"><div class="stat-num">24</div><div class="stat-lbl">리드 활동</div></div>
+        <div class="stat-item" style="border-left:1px solid #eee;border-right:1px solid #eee"><div class="stat-num">87</div><div class="stat-lbl">참여 활동</div></div>
+        <div class="stat-item"><div class="stat-num">312</div><div class="stat-lbl">팔로워</div></div>
+      </div>
+      <div style="padding: 16px 20px 8px; font-size:13px; font-weight:600; color:#555">선호 카테고리</div>
+      <div style="padding: 0 20px; display:flex; gap:8px; flex-wrap:wrap">
+        <div class="chip active">🚴 Cycle</div>
+        <div class="chip active">⛰️ Mountain</div>
+      </div>
+      <div class="profile-menu">
+        <div class="menu-item"><div class="menu-icon">🏆</div><div class="menu-text">내 활동 목록</div><div class="menu-arrow">›</div></div>
+        <div class="menu-item"><div class="menu-icon">👥</div><div class="menu-text">팔로잉 / 팔로워</div><div class="menu-arrow">›</div></div>
+        <div class="menu-item"><div class="menu-icon">📸</div><div class="menu-text">사진첩</div><div class="menu-arrow">›</div></div>
+        <div class="menu-item"><div class="menu-icon">⭐</div><div class="menu-text">평가 내역</div><div class="menu-arrow">›</div></div>
+        <div class="menu-item"><div class="menu-icon">🔔</div><div class="menu-text">알림 설정</div><div class="menu-arrow">›</div></div>
+        <div class="menu-item"><div class="menu-icon">⚙️</div><div class="menu-text">계정 설정</div><div class="menu-arrow">›</div></div>
+        <div class="menu-item" style="color:#ff4444"><div class="menu-icon">🚪</div><div class="menu-text" style="color:#ff4444">로그아웃</div><div class="menu-arrow">›</div></div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <div class="nav-item" onclick="goScreen('home')"><div class="nav-icon">🏠</div><div class="nav-label">홈</div></div>
+      <div class="nav-item" onclick="goScreen('search')"><div class="nav-icon">🔍</div><div class="nav-label">검색</div></div>
+      <div class="nav-item" onclick="goScreen('create')"><div class="nav-icon">➕</div><div class="nav-label">생성</div></div>
+      <div class="nav-item active" onclick="goScreen('profile')"><div class="nav-icon">👤</div><div class="nav-label">프로필</div></div>
+      <div class="nav-item" onclick="goScreen('messages')"><div class="nav-icon">💬</div><div class="nav-label">메시지</div></div>
+    </nav>
+  </div>
+
+  <!-- ═══════════ MESSAGES SCREEN ═══════════ -->
+  <div class="screen" id="screen-messages">
+    <div class="status-bar"><span>9:41</span><span>📶 🔋</span></div>
+    <div class="header"><h1>💬 메시지</h1></div>
+    <div class="content">
+      <div class="page-info">읽지 않은 메시지 3개</div>
+      <div class="dm-list">
+        <div class="dm-item">
+          <div class="dm-avatar">박</div>
+          <div class="dm-info">
+            <div class="dm-name">박민준 리더</div>
+            <div class="dm-preview">안녕하세요! 한강 라이딩 신청 확인했습니다 😊</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <div class="dm-time">방금</div>
+            <div class="unread-badge">2</div>
+          </div>
+        </div>
+        <div class="dm-item">
+          <div class="dm-avatar" style="background: linear-gradient(135deg, #00A896, #02C39A)">김</div>
+          <div class="dm-info">
+            <div class="dm-name">김서연 리더</div>
+            <div class="dm-preview">북한산 트레킹 준비물 안내드립니다 🎒</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <div class="dm-time">1시간 전</div>
+            <div class="unread-badge">1</div>
+          </div>
+        </div>
+        <div class="dm-item">
+          <div class="dm-avatar" style="background: linear-gradient(135deg, #028090, #0891B2)">정</div>
+          <div class="dm-info">
+            <div class="dm-name">정현우 리더</div>
+            <div class="dm-preview">가평 투어 잘 다녀왔습니다! 다음에 또 봬요</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <div class="dm-time">어제</div>
+          </div>
+        </div>
+        <div class="dm-item">
+          <div class="dm-avatar" style="background: linear-gradient(135deg, #02C39A, #028090)">이</div>
+          <div class="dm-info">
+            <div class="dm-name">이준호 리더</div>
+            <div class="dm-preview">5K 러닝 같이 달렸던 분들 단체 채팅방 만들었어요!</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <div class="dm-time">2일 전</div>
+          </div>
+        </div>
+        <div class="dm-item">
+          <div class="dm-avatar" style="background: linear-gradient(135deg, #6366f1, #8b5cf6)">최</div>
+          <div class="dm-info">
+            <div class="dm-name">최다현 리더</div>
+            <div class="dm-preview">다음 도봉산 트레킹도 기대해주세요! ⛰️</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <div class="dm-time">3일 전</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <div class="nav-item" onclick="goScreen('home')"><div class="nav-icon">🏠</div><div class="nav-label">홈</div></div>
+      <div class="nav-item" onclick="goScreen('search')"><div class="nav-icon">🔍</div><div class="nav-label">검색</div></div>
+      <div class="nav-item" onclick="goScreen('create')"><div class="nav-icon">➕</div><div class="nav-label">생성</div></div>
+      <div class="nav-item" onclick="goScreen('profile')"><div class="nav-icon">👤</div><div class="nav-label">프로필</div></div>
+      <div class="nav-item active" onclick="goScreen('messages')"><div class="nav-icon">💬</div><div class="nav-label">메시지</div></div>
+    </nav>
+  </div>
+
+</div><!-- /phone-frame -->
+
+<!-- Toast Notification -->
+<div id="toast" style="display:none;position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#212121;color:white;padding:12px 24px;border-radius:24px;font-size:14px;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,0.3)"></div>
+
+<script>
+function goScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+}
+function selectCat(el, name) {
+  document.querySelectorAll('.category-card').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+function toggleChip(el) {
+  document.querySelectorAll('.filter-chips .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+}
+function selectRadio(el) {
+  el.parentElement.querySelectorAll('.radio-btn').forEach(r => r.classList.remove('active'));
+  el.classList.add('active');
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => { t.style.display = 'none'; }, 2500);
+}
+</script>
+</body>
+</html>

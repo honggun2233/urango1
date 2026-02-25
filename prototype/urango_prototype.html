@@ -325,6 +325,111 @@
   .demo-screens { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
   .demo-chip { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 5px 14px; font-size: 12px; color: var(--accent); border: 1px solid rgba(2,195,154,0.3); }
   .demo-fix { background: rgba(255,100,100,0.1); border-color: rgba(255,100,100,0.3); color: #ff9999; }
+
+  /* ─── Golf Screens ─── */
+  .golf-search-bar { background: white; padding: 12px 20px; display: flex; gap: 10px; flex-shrink: 0; }
+  .golf-region-chips { background: white; padding: 8px 20px 10px; display: flex; gap: 8px; overflow-x: auto; border-bottom: 1px solid #f0f0f0; flex-shrink: 0; }
+  .golf-region-chips::-webkit-scrollbar { display: none; }
+
+  .golf-card {
+    background: white; margin: 0 16px 12px; border-radius: 16px;
+    overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.07); cursor: pointer; transition: all 0.2s;
+  }
+  .golf-card:hover { transform: translateY(-1px); box-shadow: 0 4px 18px rgba(0,0,0,0.12); }
+  .golf-card-banner {
+    height: 80px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 18px; color: white;
+  }
+  .golf-card-name { font-size: 17px; font-weight: 800; letter-spacing: 0.5px; }
+  .golf-card-holes { font-size: 12px; opacity: 0.85; margin-top: 3px; }
+  .golf-card-icon { font-size: 38px; opacity: 0.8; }
+  .golf-card-body { padding: 12px 16px; }
+  .golf-card-loc { font-size: 12px; color: #888; display: flex; align-items: center; gap: 4px; margin-bottom: 8px; }
+  .golf-card-row { display: flex; justify-content: space-between; align-items: center; }
+  .golf-rating { display: flex; align-items: center; gap: 4px; font-size: 13px; color: var(--dark); font-weight: 600; }
+  .golf-price { font-size: 13px; color: var(--primary); font-weight: 700; }
+  .golf-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .golf-tag { background: #f0fafa; color: var(--primary); border-radius: 10px; padding: 3px 10px; font-size: 11px; font-weight: 500; }
+  .golf-api-badge { background: #e8f5e9; color: #2e7d32; border-radius: 10px; padding: 3px 10px; font-size: 11px; font-weight: 600; }
+
+  .golf-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 200px; gap: 12px; color: #888; font-size: 14px; }
+  .spinner { width: 32px; height: 32px; border: 3px solid #eee; border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Golf Detail */
+  .golf-detail-banner { padding: 24px 20px 20px; color: white; }
+  .golf-detail-name { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+  .golf-detail-sub { font-size: 13px; opacity: 0.85; }
+  .golf-detail-stats { display: flex; gap: 0; background: white; margin: 0 16px; border-radius: 14px; box-shadow: 0 3px 14px rgba(0,0,0,0.1); overflow: hidden; }
+  .golf-stat { flex: 1; text-align: center; padding: 14px 8px; border-right: 1px solid #f0f0f0; }
+  .golf-stat:last-child { border-right: none; }
+  .golf-stat-num { font-size: 18px; font-weight: 700; color: var(--primary); }
+  .golf-stat-lbl { font-size: 10px; color: #999; margin-top: 2px; }
+
+  .date-picker-row { display: flex; gap: 8px; padding: 16px 16px 0; overflow-x: auto; }
+  .date-picker-row::-webkit-scrollbar { display: none; }
+  .date-btn {
+    flex-shrink: 0; text-align: center; padding: 10px 14px; border-radius: 12px;
+    border: 1.5px solid #e0e0e0; cursor: pointer; transition: all 0.2s; background: white;
+  }
+  .date-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+  .date-btn .d-day { font-size: 11px; color: #888; }
+  .date-btn.active .d-day { color: rgba(255,255,255,0.8); }
+  .date-btn .d-date { font-size: 16px; font-weight: 700; color: var(--dark); }
+  .date-btn.active .d-date { color: white; }
+
+  .tee-section-title { font-size: 13px; font-weight: 700; color: #555; padding: 14px 16px 8px; }
+  .tee-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 16px 16px; }
+  .tee-btn {
+    text-align: center; padding: 10px 6px; border-radius: 10px;
+    border: 1.5px solid #e0e0e0; cursor: pointer; transition: all 0.2s; background: white;
+  }
+  .tee-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+  .tee-btn.full { background: #f5f5f5; border-color: #e0e0e0; color: #bbb; cursor: not-allowed; }
+  .tee-time { font-size: 15px; font-weight: 700; }
+  .tee-info { font-size: 10px; color: #888; margin-top: 2px; }
+  .tee-btn.active .tee-info { color: rgba(255,255,255,0.8); }
+  .tee-btn.full .tee-info { color: #ccc; }
+
+  /* Golf Booking */
+  .booking-summary {
+    background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+    border: 1px solid #c8e6c9; border-radius: 14px; padding: 14px 16px; margin: 16px;
+  }
+  .booking-summary-title { font-size: 12px; color: #666; margin-bottom: 8px; font-weight: 600; }
+  .booking-summary-name { font-size: 16px; font-weight: 800; color: var(--dark); }
+  .booking-summary-info { font-size: 13px; color: #555; margin-top: 4px; }
+  .player-selector { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 8px 0; }
+  .player-btn { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--primary); background: white; color: var(--primary); font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; transition: all 0.2s; }
+  .player-btn:hover { background: var(--primary); color: white; }
+  .player-count { font-size: 28px; font-weight: 800; color: var(--dark); min-width: 40px; text-align: center; }
+  .price-breakdown { background: #f8f8f8; border-radius: 12px; padding: 14px 16px; margin: 0 16px 16px; }
+  .price-row { display: flex; justify-content: space-between; font-size: 13px; color: #555; margin-bottom: 8px; }
+  .price-row.total { font-size: 15px; font-weight: 700; color: var(--dark); border-top: 1px solid #e0e0e0; padding-top: 10px; margin-top: 4px; }
+  .price-row.total span:last-child { color: var(--primary); }
+  .booking-btn {
+    margin: 0 16px 16px; width: calc(100% - 32px);
+    background: linear-gradient(135deg, #2e7d32, #43a047); color: white; border: none;
+    border-radius: 14px; padding: 16px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+  }
+  .booking-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+  /* Booking Confirm */
+  .confirm-circle {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: linear-gradient(135deg, #2e7d32, #43a047);
+    display: flex; align-items: center; justify-content: center; font-size: 36px; margin: 30px auto 16px;
+  }
+  .confirm-booking-id { font-size: 13px; color: #888; text-align: center; margin-bottom: 4px; }
+  .confirm-id-val { font-size: 22px; font-weight: 800; color: var(--primary); text-align: center; letter-spacing: 2px; margin-bottom: 20px; }
+  .confirm-detail-card { background: #f8f8f8; border-radius: 14px; padding: 16px; margin: 0 16px 16px; }
+  .confirm-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 13px; }
+  .confirm-row:last-child { margin-bottom: 0; }
+  .confirm-label { color: #888; }
+  .confirm-value { color: var(--dark); font-weight: 600; }
+  .confirm-actions { display: flex; gap: 10px; padding: 0 16px 16px; }
+  .confirm-btn-sec { flex: 1; background: #f0fafa; color: var(--primary); border: 1.5px solid var(--accent); border-radius: 12px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; text-align: center; }
+  .confirm-btn-pri { flex: 1; background: linear-gradient(135deg, #2e7d32, #43a047); color: white; border: none; border-radius: 12px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -342,6 +447,7 @@
     <div class="demo-chip">📋 활동 상세 ✨</div>
     <div class="demo-chip">💬 채팅 ✨</div>
     <div class="demo-chip">🔔 알림 ✨</div>
+    <div class="demo-chip">⛳ 골프 예약 ✨</div>
   </div>
   <div style="margin-top:20px; background:rgba(255,255,255,0.05); border-radius:12px; padding:14px; text-align:left; font-size:12px; line-height:1.8; color:rgba(255,255,255,0.6)">
     <div style="color:var(--accent); font-weight:700; margin-bottom:6px">✅ v2.0 개선 사항</div>
@@ -396,10 +502,10 @@
           <div class="cat-name">Cycle</div>
           <div class="cat-count">342개 활동</div>
         </div>
-        <div class="category-card" onclick="goCategory('Bike')">
-          <div class="cat-emoji">🏍️</div>
-          <div class="cat-name">Bike</div>
-          <div class="cat-count">187개 활동</div>
+        <div class="category-card" onclick="goCategory('Golf')">
+          <div class="cat-emoji">⛳</div>
+          <div class="cat-name">Golf</div>
+          <div class="cat-count">골프장 예약</div>
         </div>
         <div class="category-card" onclick="goCategory('Run')">
           <div class="cat-emoji">🏃</div>
@@ -439,7 +545,7 @@
     <div class="filter-chips" id="filter-chips">
       <div class="chip cat-chip active" data-cat="전체" onclick="toggleCatChip(this)">전체</div>
       <div class="chip cat-chip" data-cat="Cycle" onclick="toggleCatChip(this)">🚴 Cycle</div>
-      <div class="chip cat-chip" data-cat="Bike" onclick="toggleCatChip(this)">🏍️ Bike</div>
+      <div class="chip cat-chip" data-cat="Golf" onclick="toggleCatChip(this)">⛳ Golf</div>
       <div class="chip cat-chip" data-cat="Run" onclick="toggleCatChip(this)">🏃 Run</div>
       <div class="chip cat-chip" data-cat="Mountain" onclick="toggleCatChip(this)">⛰️ Mountain</div>
       <div class="chip opt-chip" data-opt="이번주" onclick="toggleOptChip(this)">이번주</div>
@@ -472,7 +578,7 @@
           <label class="form-label">카테고리 선택</label>
           <div class="radio-group" id="cat-radio">
             <div class="radio-btn active" onclick="selectRadio(this,'cat-radio')">🚴 Cycle</div>
-            <div class="radio-btn" onclick="selectRadio(this,'cat-radio')">🏍️ Bike</div>
+            <div class="radio-btn" onclick="selectRadio(this,'cat-radio')">⛳ Golf</div>
             <div class="radio-btn" onclick="selectRadio(this,'cat-radio')">🏃 Run</div>
             <div class="radio-btn" onclick="selectRadio(this,'cat-radio')">⛰️ Mountain</div>
           </div>
@@ -764,6 +870,125 @@
     </div>
   </div>
 
+
+  <!-- ══════════════════════════════════════
+       [NEW] GOLF COURSE LIST SCREEN
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-golf">
+    <div class="status-bar"><span id="clock-golf">9:41</span><span>📶 🔋</span></div>
+    <div class="header" style="justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="back-btn" onclick="goBack()">←</span>
+        <div>
+          <h1>⛳ 골프장 예약</h1>
+          <div class="subtitle" id="golf-api-status">골프장 검색 중...</div>
+        </div>
+      </div>
+    </div>
+    <div class="golf-search-bar">
+      <input class="search-input" id="golf-search-input" placeholder="골프장 이름, 지역 검색..." type="text" oninput="filterGolfCourses()">
+      <button class="search-btn" onclick="filterGolfCourses()">검색</button>
+    </div>
+    <div class="golf-region-chips" id="golf-region-chips">
+      <div class="chip active" data-region="전체" onclick="selectGolfRegion(this)">전체</div>
+      <div class="chip" data-region="서울" onclick="selectGolfRegion(this)">서울</div>
+      <div class="chip" data-region="경기" onclick="selectGolfRegion(this)">경기</div>
+      <div class="chip" data-region="인천" onclick="selectGolfRegion(this)">인천</div>
+      <div class="chip" data-region="강원" onclick="selectGolfRegion(this)">강원</div>
+      <div class="chip" data-region="충청" onclick="selectGolfRegion(this)">충청</div>
+      <div class="chip" data-region="경상" onclick="selectGolfRegion(this)">경상</div>
+      <div class="chip" data-region="전라" onclick="selectGolfRegion(this)">전라</div>
+      <div class="chip" data-region="제주" onclick="selectGolfRegion(this)">제주</div>
+    </div>
+    <div class="content" id="golf-list-content">
+      <div class="page-info" id="golf-count">골프장을 불러오는 중...</div>
+      <div id="golf-list"></div>
+      <div style="height:20px"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       [NEW] GOLF DETAIL + TEE TIME SCREEN
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-golf-detail">
+    <div class="status-bar"><span id="clock-golf-detail">9:41</span><span>📶 🔋</span></div>
+    <div class="header" id="golf-detail-header">
+      <span class="back-btn" onclick="goBack()">←</span>
+      <h1 id="golf-detail-title">골프장 상세</h1>
+    </div>
+    <div class="content" id="golf-detail-content"></div>
+    <div class="detail-join-bar">
+      <div class="detail-join-info">티타임 선택 후<br><strong id="golf-selected-time">시간을 선택하세요</strong></div>
+      <button class="detail-join-btn" style="background:linear-gradient(135deg,#2e7d32,#43a047)"
+        onclick="openGolfBooking()">예약하기</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       [NEW] GOLF BOOKING FORM SCREEN
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-golf-booking">
+    <div class="status-bar"><span id="clock-golf-booking">9:41</span><span>📶 🔋</span></div>
+    <div class="header">
+      <span class="back-btn" onclick="goBack()">←</span>
+      <h1>⛳ 예약 정보 입력</h1>
+    </div>
+    <div class="content">
+      <div class="booking-summary" id="booking-summary-box"></div>
+      <div style="padding:0 16px 8px">
+        <div class="form-label" style="margin-bottom:12px">👥 플레이어 수</div>
+        <div class="player-selector">
+          <button class="player-btn" onclick="changePlayerCount(-1)">−</button>
+          <div class="player-count" id="player-count-display">4</div>
+          <button class="player-btn" onclick="changePlayerCount(1)">+</button>
+        </div>
+        <div style="text-align:center;font-size:12px;color:#888;margin-top:4px">최대 4명</div>
+      </div>
+      <div style="padding:16px 16px 8px">
+        <div class="form-label" style="margin-bottom:10px">🚗 카트 / 캐디 선택</div>
+        <div class="radio-group" id="cart-radio">
+          <div class="radio-btn active" onclick="selectRadio(this,'cart-radio')">카트+캐디</div>
+          <div class="radio-btn" onclick="selectRadio(this,'cart-radio')">카트 전용</div>
+          <div class="radio-btn" onclick="selectRadio(this,'cart-radio')">도보</div>
+        </div>
+      </div>
+      <div style="padding:16px 16px 8px">
+        <div class="form-label" style="margin-bottom:10px">📋 예약자 정보</div>
+        <input class="form-control" id="booker-name" type="text" placeholder="예약자 성함" style="margin-bottom:10px">
+        <input class="form-control" id="booker-phone" type="tel" placeholder="연락처 (010-0000-0000)">
+      </div>
+      <div class="price-breakdown" id="price-breakdown"></div>
+      <button class="booking-btn" onclick="confirmGolfBooking()">⛳ 예약 확정하기</button>
+      <div style="text-align:center;font-size:11px;color:#aaa;padding-bottom:16px">
+        예약 후 취소는 라운딩 48시간 전까지 가능합니다
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       [NEW] GOLF BOOKING CONFIRM SCREEN
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-golf-confirm">
+    <div class="status-bar"><span id="clock-golf-confirm">9:41</span><span>📶 🔋</span></div>
+    <div class="header" style="background:linear-gradient(135deg,#2e7d32,#43a047)">
+      <h1 style="margin:0 auto">예약 완료</h1>
+    </div>
+    <div class="content">
+      <div class="confirm-circle">⛳</div>
+      <div style="text-align:center;font-size:18px;font-weight:800;color:var(--dark);margin-bottom:6px">예약이 완료되었습니다!</div>
+      <div class="confirm-booking-id">예약 번호</div>
+      <div class="confirm-id-val" id="confirm-booking-id">GF00000000</div>
+      <div class="confirm-detail-card" id="confirm-detail"></div>
+      <div class="confirm-actions">
+        <div class="confirm-btn-sec" onclick="showToast('📅 캘린더에 추가되었습니다')">📅 캘린더 추가</div>
+        <div class="confirm-btn-pri" onclick="goScreen('home')">🏠 홈으로</div>
+      </div>
+      <div style="text-align:center;font-size:12px;color:#aaa;padding-bottom:16px">
+        예약 확인서가 등록된 연락처로 발송됩니다
+      </div>
+    </div>
+  </div>
+
 </div><!-- /phone-frame -->
 
 <!-- Toast -->
@@ -819,15 +1044,15 @@ const ACTIVITIES = [
     desc: '도봉산의 아름다운 경치를 즐기는 트레킹입니다. 중급 코스이지만 가이드가 함께하니 걱정 마세요! 즉시 참여 가능한 활동입니다.'
   },
   {
-    id: 4, cat: 'Bike', catEmoji: '🏍️',
-    title: '가평 바이크 투어링 🛣️',
-    date: '2026.03.22 (토) 09:00', location: '청평IC 집결',
-    course: '청평IC → 가평 → 춘천 (왕복 약 200km)', level: '🟡 중급',
-    current: 6, max: 8, popJoin: false,
-    leader: '정현우', initial: '정', grad: 'linear-gradient(135deg,#028090,#0891B2)',
+    id: 4, cat: 'Golf', catEmoji: '⛳',
+    title: '베어즈베스트 청라 주말 라운딩 🏌️',
+    date: '2026.03.22 (토) 07:00', location: '인천 청라 베어즈베스트 GC',
+    course: '18홀 Par 72 · 잭 니클라우스 디자인', level: '🟡 중급',
+    current: 3, max: 4, popJoin: false,
+    leader: '정현우', initial: '정', grad: 'linear-gradient(135deg,#2e7d32,#43a047)',
     rating: '★★★★★ 5.0', ratingCount: '(67회 리드)',
-    headerGrad: 'linear-gradient(135deg,#028090,#0891B2)',
-    desc: '가평-춘천 코스를 달리는 바이크 투어링입니다. 경치 좋은 드라이브 코스를 함께 달려요! 중간 맛집도 들릅니다 🍽️'
+    headerGrad: 'linear-gradient(135deg,#2e7d32,#388e3c)',
+    desc: '세계 명문 코스를 재현한 베어즈베스트 청라에서 함께 라운딩해요! 4인 팀 한 자리 남았습니다. 중급 이상 권장 🏌️'
   }
 ];
 
@@ -913,6 +1138,11 @@ function goCategory(catName) {
 //  SEARCH FILTER (Fix: 복수 선택)
 // ════════════════════════════════════════
 function toggleCatChip(el) {
+  if (el.dataset.cat === 'Golf') {
+    goScreen('golf');
+    loadGolfCourses('전체');
+    return;
+  }
   if (el.dataset.cat === '전체') {
     document.querySelectorAll('#filter-chips .cat-chip').forEach(c => c.classList.remove('active'));
     el.classList.add('active');
@@ -1184,6 +1414,368 @@ function updateClock() {
 }
 updateClock();
 setInterval(updateClock, 10000);
+
+// ════════════════════════════════════════
+//  GOLF — 데이터 & API
+// ════════════════════════════════════════
+
+// 한국 지역별 Bounding Box (위도min, 경도min, 위도max, 경도max)
+const REGION_BBOX = {
+  '전체':  '33.0,124.0,38.6,132.0',
+  '서울':  '37.42,126.73,37.70,127.18',
+  '경기':  '36.90,126.40,38.05,127.90',
+  '인천':  '37.22,126.34,37.79,126.97',
+  '강원':  '37.00,127.50,38.60,129.40',
+  '충청':  '36.00,126.60,37.20,128.00',
+  '경상':  '34.50,127.80,36.70,129.60',
+  '전라':  '34.30,126.10,36.00,127.90',
+  '제주':  '33.10,126.10,33.60,126.95',
+};
+
+// 로컬 폴백 데이터 (Overpass API 실패 시 사용)
+const GOLF_FALLBACK = [
+  { id:'f1', name:'베어즈베스트 청라 GC', location:'인천광역시 서구 청라동', region:'인천', holes:18, par:72, price_wd:200000, price_we:280000, rating:4.9, reviews:567, color:'#1b5e20', desc:'잭 니클라우스 디자인의 명품 18홀 코스. 세계 유명 코스를 재현했습니다.', facilities:['클럽하우스','레스토랑','프로샵','연습장'], source:'local' },
+  { id:'f2', name:'레이크우드 컨트리클럽', location:'경기도 용인시 처인구', region:'경기', holes:27, par:108, price_wd:160000, price_we:240000, rating:4.8, reviews:324, color:'#2e7d32', desc:'경기 용인의 27홀 대형 골프클럽. 넓은 페어웨이와 아름다운 경관이 특징입니다.', facilities:['클럽하우스','레스토랑','프로샵','연습장','숙박'], source:'local' },
+  { id:'f3', name:'남서울 컨트리클럽', location:'경기도 성남시 수정구', region:'경기', holes:18, par:72, price_wd:150000, price_we:220000, rating:4.6, reviews:182, color:'#388e3c', desc:'서울 근교 접근성이 좋은 18홀 정규 코스입니다.', facilities:['클럽하우스','레스토랑','프로샵'], source:'local' },
+  { id:'f4', name:'파인밸리 골프 리조트', location:'경기도 이천시 마장면', region:'경기', holes:18, par:72, price_wd:190000, price_we:260000, rating:4.9, reviews:411, color:'#1b5e20', desc:'프리미엄 리조트 골프클럽. 스파·숙박 시설을 함께 즐길 수 있습니다.', facilities:['클럽하우스','레스토랑','프로샵','연습장','스파','숙박'], source:'local' },
+  { id:'f5', name:'제주 중문 GC', location:'제주특별자치도 서귀포시 중문동', region:'제주', holes:27, par:108, price_wd:170000, price_we:230000, rating:4.7, reviews:253, color:'#00695c', desc:'제주 중문 관광단지 내 위치한 27홀 골프클럽. 바다 전망이 일품입니다.', facilities:['클럽하우스','레스토랑','프로샵','연습장','숙박'], source:'local' },
+  { id:'f6', name:'스카이72 골프클럽', location:'인천광역시 중구 을왕동', region:'인천', holes:72, par:288, price_wd:140000, price_we:200000, rating:4.5, reviews:895, color:'#0277bd', desc:'국내 최대 72홀 규모. 오션·레이크·클래식·드림코스 4개 코스 보유.', facilities:['클럽하우스','레스토랑','프로샵','연습장'], source:'local' },
+  { id:'f7', name:'엘리시안 강촌 CC', location:'강원도 춘천시 남산면', region:'강원', holes:18, par:72, price_wd:130000, price_we:190000, rating:4.4, reviews:198, color:'#37474f', desc:'강촌 자연 속 18홀 코스. 스키장과 함께 사계절 리조트로 운영됩니다.', facilities:['클럽하우스','레스토랑','프로샵','스키장'], source:'local' },
+  { id:'f8', name:'부산 아시아드 CC', location:'부산광역시 연제구 거제동', region:'경상', holes:18, par:72, price_wd:130000, price_we:190000, rating:4.4, reviews:145, color:'#1565c0', desc:'부산 도심에서 가까운 18홀 코스. 도심 접근성이 뛰어납니다.', facilities:['클럽하우스','레스토랑','프로샵','연습장'], source:'local' },
+];
+
+let golfCoursesData = [];       // 로드된 전체 코스 목록
+let selectedGolfCourse = null;  // 현재 선택된 코스
+let selectedTeeDate   = null;   // 선택된 날짜
+let selectedTeeTime   = null;   // 선택된 티타임
+let playerCount       = 4;      // 플레이어 수
+
+// ── Overpass API로 실제 한국 골프장 조회 ──
+async function fetchGolfCoursesFromAPI(region) {
+  const bbox = REGION_BBOX[region] || REGION_BBOX['전체'];
+  const query = `[out:json][timeout:20];(way["leisure"="golf_course"](${bbox});relation["leisure"="golf_course"](${bbox}););out center tags;`;
+  const res = await fetch('https://overpass-api.de/api/interpreter', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: 'data=' + encodeURIComponent(query),
+  });
+  if (!res.ok) throw new Error('Overpass API 오류');
+  const json = await res.json();
+  return json.elements
+    .filter(el => el.tags?.name || el.tags?.['name:ko'])
+    .map(el => ({
+      id: 'osm_' + el.id,
+      name: el.tags?.['name:ko'] || el.tags?.name || '골프장',
+      location: [el.tags?.['addr:full'], el.tags?.['addr:city'], el.tags?.['addr:province']].filter(Boolean).join(' ') || '위치 정보',
+      region,
+      holes: parseInt(el.tags?.holes) || 18,
+      par: parseInt(el.tags?.par) || 72,
+      price_wd: Math.floor(Math.random() * 8 + 12) * 10000,
+      price_we: Math.floor(Math.random() * 8 + 18) * 10000,
+      rating: (Math.random() * 0.8 + 4.1).toFixed(1),
+      reviews: Math.floor(Math.random() * 300 + 50),
+      color: ['#1b5e20','#2e7d32','#388e3c','#0277bd','#00695c','#37474f'][Math.floor(Math.random()*6)],
+      desc: `${el.tags?.['name:ko'] || el.tags?.name || '골프장'}의 골프 코스입니다.`,
+      facilities: ['클럽하우스','레스토랑','프로샵'].slice(0, Math.floor(Math.random()*2)+2),
+      website: el.tags?.website || null,
+      source: 'osm',
+    }));
+}
+
+// ── 골프장 목록 로드 (API → fallback) ──
+async function loadGolfCourses(region = '전체') {
+  const listEl   = document.getElementById('golf-list');
+  const countEl  = document.getElementById('golf-count');
+  const statusEl = document.getElementById('golf-api-status');
+
+  listEl.innerHTML = `<div class="golf-loading"><div class="spinner"></div><div>OpenStreetMap API 조회 중...</div></div>`;
+  countEl.textContent = '골프장을 불러오는 중...';
+
+  try {
+    const apiData = await fetchGolfCoursesFromAPI(region);
+    // OSM 데이터 + 폴백 데이터 병합 (중복 이름 제거)
+    const names = new Set(apiData.map(c => c.name));
+    const fallback = GOLF_FALLBACK.filter(c => !names.has(c.name) && (region === '전체' || c.region === region));
+    golfCoursesData = [...apiData, ...fallback];
+    statusEl.textContent = `API 연동 완료 · 실시간 데이터`;
+    statusEl.style.color = '#a5d6a7';
+  } catch (e) {
+    golfCoursesData = region === '전체' ? [...GOLF_FALLBACK] : GOLF_FALLBACK.filter(c => c.region === region);
+    statusEl.textContent = '로컬 데이터 사용 중';
+    statusEl.style.color = 'rgba(255,255,255,0.6)';
+  }
+  renderGolfList();
+}
+
+function filterGolfCourses() {
+  const kw = (document.getElementById('golf-search-input')?.value || '').trim().toLowerCase();
+  const active = document.querySelector('#golf-region-chips .chip.active')?.dataset.region || '전체';
+  let filtered = golfCoursesData.filter(c => {
+    if (active !== '전체' && c.region !== active) return false;
+    if (kw && !c.name.toLowerCase().includes(kw) && !c.location.toLowerCase().includes(kw)) return false;
+    return true;
+  });
+  renderGolfList(filtered);
+}
+
+function selectGolfRegion(el) {
+  document.querySelectorAll('#golf-region-chips .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  const region = el.dataset.region;
+  // 지역 변경 시 API 재조회
+  loadGolfCourses(region);
+}
+
+function renderGolfList(list) {
+  const data = list !== undefined ? list : golfCoursesData;
+  const listEl  = document.getElementById('golf-list');
+  const countEl = document.getElementById('golf-count');
+  if (!listEl) return;
+  countEl.textContent = `총 ${data.length}개 골프장`;
+  listEl.innerHTML = '';
+  if (data.length === 0) {
+    listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#aaa">검색 결과가 없습니다</div>';
+    return;
+  }
+  data.forEach(c => {
+    const card = document.createElement('div');
+    card.className = 'golf-card';
+    card.onclick = () => openGolfDetail(c);
+    const srcBadge = c.source === 'osm'
+      ? `<span class="golf-api-badge">🌐 OSM</span>`
+      : `<span class="golf-tag">📋 로컬</span>`;
+    const price = Number(c.price_wd).toLocaleString();
+    card.innerHTML = `
+      <div class="golf-card-banner" style="background:linear-gradient(135deg,${c.color},${c.color}cc)">
+        <div>
+          <div class="golf-card-name">${c.name}</div>
+          <div class="golf-card-holes">${c.holes}홀 Par ${c.par}</div>
+        </div>
+        <div class="golf-card-icon">⛳</div>
+      </div>
+      <div class="golf-card-body">
+        <div class="golf-card-loc">📍 ${c.location}</div>
+        <div class="golf-card-row">
+          <div class="golf-rating">⭐ ${c.rating} <span style="font-size:11px;color:#aaa;font-weight:400">(${c.reviews}리뷰)</span></div>
+          <div class="golf-price">평일 ${price}원~</div>
+        </div>
+        <div class="golf-tags" style="margin-top:8px">
+          ${srcBadge}
+          ${(c.facilities||[]).slice(0,3).map(f=>`<span class="golf-tag">${f}</span>`).join('')}
+        </div>
+      </div>`;
+    listEl.appendChild(card);
+  });
+}
+
+// ════════════════════════════════════════
+//  GOLF DETAIL — 티타임 선택
+// ════════════════════════════════════════
+function openGolfDetail(course) {
+  selectedGolfCourse = course;
+  selectedTeeDate = null;
+  selectedTeeTime = null;
+  document.getElementById('golf-selected-time').textContent = '시간을 선택하세요';
+  document.getElementById('golf-detail-title').textContent = course.name;
+
+  // 날짜 버튼 생성 (오늘 포함 7일)
+  const today = new Date();
+  const days  = ['일','월','화','수','목','금','토'];
+  let dateBtns = '';
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today); d.setDate(today.getDate() + i);
+    const month = d.getMonth() + 1;
+    const date  = d.getDate();
+    const day   = days[d.getDay()];
+    const label = i === 0 ? '오늘' : i === 1 ? '내일' : day;
+    const iso   = `${d.getFullYear()}-${String(month).padStart(2,'0')}-${String(date).padStart(2,'0')}`;
+    dateBtns += `<div class="date-btn${i===0?' active':''}" data-date="${iso}" data-label="${month}/${date}(${day})" onclick="selectGolfDate(this)">
+      <div class="d-day">${label}</div>
+      <div class="d-date">${date}</div>
+    </div>`;
+  }
+
+  // 첫 번째 날짜로 초기화
+  const firstDate = new Date(today);
+  const firstIso  = `${firstDate.getFullYear()}-${String(firstDate.getMonth()+1).padStart(2,'0')}-${String(firstDate.getDate()).padStart(2,'0')}`;
+  selectedTeeDate = firstIso;
+
+  const teeGrid = buildTeeGrid(firstIso);
+  const priceWd = Number(course.price_wd||0).toLocaleString();
+  const priceWe = Number(course.price_we||0).toLocaleString();
+
+  document.getElementById('golf-detail-content').innerHTML = `
+    <div class="golf-detail-banner" style="background:linear-gradient(135deg,${course.color},${course.color}bb)">
+      <div class="golf-detail-name">⛳ ${course.name}</div>
+      <div class="golf-detail-sub">📍 ${course.location}</div>
+      <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+        <span style="background:rgba(255,255,255,0.2);color:white;border-radius:10px;padding:3px 10px;font-size:11px">${course.holes}홀 Par ${course.par}</span>
+        <span style="background:rgba(255,255,255,0.2);color:white;border-radius:10px;padding:3px 10px;font-size:11px">⭐ ${course.rating}</span>
+        ${course.source==='osm'?'<span style="background:rgba(255,255,255,0.2);color:white;border-radius:10px;padding:3px 10px;font-size:11px">🌐 OSM 실시간</span>':''}
+      </div>
+    </div>
+    <div class="golf-detail-stats">
+      <div class="golf-stat"><div class="golf-stat-num">${course.holes}홀</div><div class="golf-stat-lbl">코스</div></div>
+      <div class="golf-stat"><div class="golf-stat-num">Par ${course.par}</div><div class="golf-stat-lbl">파</div></div>
+      <div class="golf-stat"><div class="golf-stat-num">${priceWd}~</div><div class="golf-stat-lbl">평일(원)</div></div>
+      <div class="golf-stat"><div class="golf-stat-num">${priceWe}~</div><div class="golf-stat-lbl">주말(원)</div></div>
+    </div>
+    <div class="tee-section-title">📅 날짜 선택</div>
+    <div class="date-picker-row" id="date-picker-row">${dateBtns}</div>
+    <div class="tee-section-title">⏰ 티타임 선택</div>
+    <div class="tee-grid" id="tee-grid">${teeGrid}</div>
+    <div style="padding:0 16px 16px">
+      <div class="detail-section-title" style="margin-bottom:10px">시설 정보</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        ${(course.facilities||[]).map(f=>`<span class="golf-tag">✓ ${f}</span>`).join('')}
+      </div>
+      <div style="font-size:13px;color:#666;margin-top:14px;line-height:1.7;background:#f8f8f8;border-radius:10px;padding:14px">${course.desc}</div>
+    </div>
+    <div style="height:20px"></div>
+  `;
+  goScreen('golf-detail');
+}
+
+function buildTeeGrid(dateIso) {
+  // 날짜에 따라 시간대별 잔여 여부 시뮬레이션
+  const seed = dateIso ? parseInt(dateIso.replace(/-/g,'')) : 0;
+  const times = ['06:00','06:10','06:20','06:30','07:00','07:10','07:20','07:30',
+                  '08:00','08:10','08:30','09:00','09:30','10:00','11:00','13:00','14:00','15:00'];
+  return times.map((t, i) => {
+    const isFull = ((seed + i * 7) % 5 === 0);
+    const remain = isFull ? 0 : ((seed + i * 3) % 4) + 1;
+    return `<div class="tee-btn${isFull?' full':''}" data-time="${t}" ${isFull?'':'onclick="selectTeeTime(this)"'}>
+      <div class="tee-time">${t}</div>
+      <div class="tee-info">${isFull ? '마감' : `잔여 ${remain}명`}</div>
+    </div>`;
+  }).join('');
+}
+
+function selectGolfDate(el) {
+  document.querySelectorAll('.date-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  selectedTeeDate = el.dataset.date;
+  selectedTeeTime = null;
+  document.getElementById('golf-selected-time').textContent = '시간을 선택하세요';
+  const grid = document.getElementById('tee-grid');
+  if (grid) grid.innerHTML = buildTeeGrid(selectedTeeDate);
+}
+
+function selectTeeTime(el) {
+  document.querySelectorAll('.tee-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  selectedTeeTime = el.dataset.time;
+  const label = document.getElementById('date-picker-row')?.querySelector('.date-btn.active')?.dataset.label || selectedTeeDate;
+  document.getElementById('golf-selected-time').textContent = `${label} ${selectedTeeTime}`;
+}
+
+// ════════════════════════════════════════
+//  GOLF BOOKING
+// ════════════════════════════════════════
+function openGolfBooking() {
+  if (!selectedTeeTime) { showToast('⚠️ 티타임을 먼저 선택해주세요'); return; }
+  const c = selectedGolfCourse;
+  const dateLabel = document.getElementById('date-picker-row')?.querySelector('.date-btn.active')?.dataset.label || selectedTeeDate;
+  playerCount = 4;
+  document.getElementById('player-count-display').textContent = playerCount;
+
+  document.getElementById('booking-summary-box').innerHTML = `
+    <div class="booking-summary-title">⛳ 예약 정보 확인</div>
+    <div class="booking-summary-name">${c.name}</div>
+    <div class="booking-summary-info">📅 ${dateLabel} ${selectedTeeTime} · ${c.holes}홀 Par ${c.par}</div>
+    <div class="booking-summary-info">📍 ${c.location}</div>
+  `;
+  updatePriceBreakdown();
+  goScreen('golf-booking');
+}
+
+function changePlayerCount(delta) {
+  playerCount = Math.max(1, Math.min(4, playerCount + delta));
+  document.getElementById('player-count-display').textContent = playerCount;
+  updatePriceBreakdown();
+}
+
+function updatePriceBreakdown() {
+  const c = selectedGolfCourse;
+  if (!c) return;
+  const dateIso = selectedTeeDate || '';
+  const d = new Date(dateIso);
+  const isWeekend = d.getDay() === 0 || d.getDay() === 6;
+  const basePrice = isWeekend ? (c.price_we || 220000) : (c.price_wd || 150000);
+  const cartFee   = document.querySelector('#cart-radio .radio-btn.active')?.textContent === '도보' ? 0 : 50000;
+  const total     = (basePrice + cartFee) * playerCount;
+  document.getElementById('price-breakdown').innerHTML = `
+    <div class="price-row"><span>그린피 (${isWeekend?'주말':'평일'}) × ${playerCount}명</span><span>${(basePrice * playerCount).toLocaleString()}원</span></div>
+    <div class="price-row"><span>카트/캐디비 × ${playerCount}명</span><span>${(cartFee * playerCount).toLocaleString()}원</span></div>
+    <div class="price-row total"><span>총 결제 금액</span><span>${total.toLocaleString()}원</span></div>
+  `;
+}
+
+async function confirmGolfBooking() {
+  const name  = document.getElementById('booker-name').value.trim();
+  const phone = document.getElementById('booker-phone').value.trim();
+  if (!name)  { showToast('❗ 예약자 성함을 입력해주세요'); return; }
+  if (!phone) { showToast('❗ 연락처를 입력해주세요'); return; }
+
+  const btn = document.querySelector('.booking-btn');
+  btn.textContent = '예약 처리 중...';
+  btn.disabled = true;
+
+  // ── 실제 예약 API 호출 구조 (예시) ──────────────────────────
+  // try {
+  //   const res = await fetch('https://api.golf-reservation.com/bookings', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer YOUR_API_KEY' },
+  //     body: JSON.stringify({ courseId: selectedGolfCourse.id, date: selectedTeeDate,
+  //       time: selectedTeeTime, players: playerCount, name, phone })
+  //   });
+  //   const data = await res.json();
+  //   showConfirm(data.bookingId, name, phone);
+  // } catch(e) { showToast('❌ 예약 오류: ' + e.message); }
+  // ────────────────────────────────────────────────────────────
+
+  // 프로토타입: 예약 시뮬레이션
+  await new Promise(r => setTimeout(r, 900));
+  const bookingId = 'GF' + Date.now().toString().slice(-8);
+  btn.textContent = '⛳ 예약 확정하기';
+  btn.disabled = false;
+  showConfirm(bookingId, name, phone);
+}
+
+function showConfirm(bookingId, name, phone) {
+  const c = selectedGolfCourse;
+  const dateLabel = document.getElementById('date-picker-row')?.querySelector('.date-btn.active')?.dataset.label || selectedTeeDate;
+  const d = new Date(selectedTeeDate || '');
+  const isWeekend = d.getDay() === 0 || d.getDay() === 6;
+  const basePrice = isWeekend ? (c.price_we || 220000) : (c.price_wd || 150000);
+  const cartFee   = document.querySelector('#cart-radio .radio-btn.active')?.textContent === '도보' ? 0 : 50000;
+  const total     = (basePrice + cartFee) * playerCount;
+  const cartType  = document.querySelector('#cart-radio .radio-btn.active')?.textContent || '카트+캐디';
+
+  document.getElementById('confirm-booking-id').textContent = bookingId;
+  document.getElementById('confirm-detail').innerHTML = `
+    <div class="confirm-row"><span class="confirm-label">골프장</span><span class="confirm-value">${c.name}</span></div>
+    <div class="confirm-row"><span class="confirm-label">일시</span><span class="confirm-value">${dateLabel} ${selectedTeeTime}</span></div>
+    <div class="confirm-row"><span class="confirm-label">인원</span><span class="confirm-value">${playerCount}명</span></div>
+    <div class="confirm-row"><span class="confirm-label">카트/캐디</span><span class="confirm-value">${cartType}</span></div>
+    <div class="confirm-row"><span class="confirm-label">예약자</span><span class="confirm-value">${name} (${phone})</span></div>
+    <div class="confirm-row"><span class="confirm-label">총 결제</span><span class="confirm-value" style="color:var(--primary)">${total.toLocaleString()}원</span></div>
+  `;
+  goScreen('golf-confirm');
+}
+
+// ════════════════════════════════════════
+//  goCategory 수정 — Golf는 전용 화면으로
+// ════════════════════════════════════════
+const _origGoCategory = goCategory;
+goCategory = function(catName) {
+  if (catName === 'Golf') {
+    goScreen('golf');
+    loadGolfCourses('전체');
+  } else {
+    _origGoCategory(catName);
+  }
+};
 
 // ════════════════════════════════════════
 //  INIT

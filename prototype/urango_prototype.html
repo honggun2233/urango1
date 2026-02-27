@@ -76,7 +76,7 @@
   .categories-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px; }
   .category-card { background: var(--surface); border-radius: var(--r); padding: 18px 14px; cursor: pointer; transition: all 0.2s; border: 1.5px solid var(--border); text-align: center; }
   .category-card:hover { border-color: var(--dark); transform: translateY(-1px); }
-  .category-card .cat-emoji { font-size: 30px; margin-bottom: 8px; }
+  .category-card .cat-emoji { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; color: var(--text1); }
   .category-card .cat-name { font-size: 14px; font-weight: 700; color: var(--text1); letter-spacing: 0.3px; }
   .category-card .cat-count { font-size: 11px; color: var(--text3); margin-top: 4px; }
   .category-card.active { border-color: var(--dark); background: var(--dark); }
@@ -295,6 +295,19 @@
   .confirm-actions { display: flex; gap: 10px; padding: 0 14px 14px; }
   .confirm-btn-sec { flex: 1; background: var(--bg); color: var(--text1); border: 1.5px solid var(--border); border-radius: 9px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; text-align: center; }
   .confirm-btn-pri { flex: 1; background: var(--golf); color: white; border: none; border-radius: 9px; padding: 12px; font-size: 14px; font-weight: 600; cursor: pointer; }
+
+  /* ─── Photo Upload ─── */
+  .photo-section { padding: 0 16px 16px; }
+  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-bottom: 10px; }
+  .photo-thumb { aspect-ratio: 1; border-radius: 7px; overflow: hidden; background: var(--bg); border: 1px solid var(--border); position: relative; }
+  .photo-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo-thumb-del { position: absolute; top: 3px; right: 3px; width: 18px; height: 18px; background: rgba(0,0,0,0.55); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; font-size: 10px; line-height: 1; }
+  .photo-add-btn { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 11px; border: 1.5px dashed var(--border); border-radius: var(--r); font-size: 13px; color: var(--text2); cursor: pointer; transition: all 0.2s; background: transparent; }
+  .photo-add-btn:hover { border-color: var(--dark); color: var(--text1); background: var(--bg); }
+  .photo-empty { font-size: 12px; color: var(--text3); text-align: center; padding: 18px 0; }
+  .cover-upload-zone { display: flex; align-items: center; justify-content: center; gap: 8px; height: 90px; border: 1.5px dashed var(--border); border-radius: var(--r); cursor: pointer; font-size: 13px; color: var(--text2); transition: all 0.2s; overflow: hidden; position: relative; }
+  .cover-upload-zone:hover { border-color: var(--dark); color: var(--text1); }
+  .cover-upload-zone img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 </style>
 </head>
 <body>
@@ -311,8 +324,8 @@
     <div class="demo-chip">💬 메시지</div>
     <div class="demo-chip">📋 활동 상세 ✨</div>
     <div class="demo-chip">💬 채팅 ✨</div>
-    <div class="demo-chip">🔔 알림 ✨</div>
-    <div class="demo-chip">⛳ 골프 예약 ✨</div>
+    <div class="demo-chip">알림 ✨</div>
+    <div class="demo-chip">골프 예약 ✨</div>
   </div>
   <div style="margin-top:20px; background:rgba(255,255,255,0.05); border-radius:12px; padding:14px; text-align:left; font-size:12px; line-height:1.8; color:rgba(255,255,255,0.6)">
     <div style="color:var(--accent); font-weight:700; margin-bottom:6px">✅ v2.0 개선 사항</div>
@@ -338,21 +351,21 @@
   ══════════════════════════════════════ -->
   <div class="screen active" id="screen-home">
     <div class="status-bar">
-      <span id="clock-home">9:41</span><span>📶 🔋</span>
+      <span id="clock-home">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span>
     </div>
     <div class="header" style="justify-content:space-between">
       <div>
         <h1>URANGO</h1>
         <div class="subtitle">어디로 떠날까요?</div>
       </div>
-      <div style="font-size:22px;cursor:pointer;position:relative" onclick="goScreen('notify')">
-        🔔
-        <div style="position:absolute;top:-2px;right:-4px;width:10px;height:10px;background:var(--accent);border-radius:50%;border:2px solid var(--dark)"></div>
+      <div style="cursor:pointer;position:relative;color:white;line-height:0" onclick="goScreen('notify')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        <div style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:var(--accent);border-radius:50%;border:2px solid var(--dark)"></div>
       </div>
     </div>
     <div class="content" id="content-home">
       <div class="hero-banner">
-        <h2>함께 달리고,<br>함께 오르고! 🚀</h2>
+        <h2>함께 달리고,<br>함께 오르고!</h2>
         <p>검증된 리더와 함께하는 안전한 아웃도어</p>
         <div class="hero-stats">
           <div class="hero-stat"><div class="num">1,247</div><div class="lbl">활성 활동</div></div>
@@ -360,30 +373,30 @@
           <div class="hero-stat"><div class="num">42,100</div><div class="lbl">전체 회원</div></div>
         </div>
       </div>
-      <div class="page-info">📍 서울특별시 기준 추천 활동</div>
+      <div class="page-info">서울특별시 기준 추천 활동</div>
       <div class="categories-grid">
         <div class="category-card" onclick="goCategory('Cycle')">
-          <div class="cat-emoji">🚴</div>
+          <div class="cat-emoji"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="16" r="4"/><circle cx="18" cy="16" r="4"/><path d="M6 16l5-9h3"/><path d="M14 7l3 9"/><path d="M10 7l2 5h6"/><circle cx="15" cy="5.5" r="1.5"/></svg></div>
           <div class="cat-name">Cycle</div>
           <div class="cat-count">342개 활동</div>
         </div>
         <div class="category-card" onclick="goCategory('Golf')">
-          <div class="cat-emoji">⛳</div>
+          <div class="cat-emoji"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="3" x2="12" y2="22"/><path d="M12 3l8 4-8 4V3z"/><ellipse cx="12" cy="22" rx="5" ry="1.5"/></svg></div>
           <div class="cat-name">Golf</div>
           <div class="cat-count">골프장 예약</div>
         </div>
         <div class="category-card" onclick="goCategory('Run')">
-          <div class="cat-emoji">🏃</div>
+          <div class="cat-emoji"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4" r="1.8"/><path d="M7 20l2.5-5 3 2.5 2-5.5"/><path d="M7 14l2.5-3.5 4.5-0.5 2.5-2.5"/><path d="M16 14l2.5 4"/></svg></div>
           <div class="cat-name">Run</div>
           <div class="cat-count">426개 활동</div>
         </div>
         <div class="category-card" onclick="goCategory('Mountain')">
-          <div class="cat-emoji">⛰️</div>
+          <div class="cat-emoji"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l5.5-11 4 7 2.5-4.5L21 20H3z"/><path d="M13.5 15.5l2.5-4.5"/></svg></div>
           <div class="cat-name">Mountain</div>
           <div class="cat-count">292개 활동</div>
         </div>
       </div>
-      <div class="section-title">⚡ 이번 주 추천 활동</div>
+      <div class="section-title">이번 주 추천 활동</div>
       <div id="home-activity-list"></div>
       <div style="height:20px"></div>
     </div>
@@ -400,7 +413,7 @@
        SEARCH SCREEN
   ══════════════════════════════════════ -->
   <div class="screen" id="screen-search">
-    <div class="status-bar"><span id="clock-search">9:41</span><span>📶 🔋</span></div>
+    <div class="status-bar"><span id="clock-search">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
     <div class="header"><h1>활동 검색</h1></div>
     <div class="search-bar-wrap">
       <input class="search-input" id="search-input" placeholder="리더, 장소, 코스 검색..." type="text" oninput="renderSearchResults()">
@@ -409,12 +422,12 @@
     <!-- Fix: 카테고리 칩(단일) + 옵션 칩(복수) 분리 -->
     <div class="filter-chips" id="filter-chips">
       <div class="chip cat-chip active" data-cat="전체" onclick="toggleCatChip(this)">전체</div>
-      <div class="chip cat-chip" data-cat="Cycle" onclick="toggleCatChip(this)">🚴 Cycle</div>
-      <div class="chip cat-chip" data-cat="Golf" onclick="toggleCatChip(this)">⛳ Golf</div>
-      <div class="chip cat-chip" data-cat="Run" onclick="toggleCatChip(this)">🏃 Run</div>
-      <div class="chip cat-chip" data-cat="Mountain" onclick="toggleCatChip(this)">⛰️ Mountain</div>
+      <div class="chip cat-chip" data-cat="Cycle" onclick="toggleCatChip(this)">Cycle</div>
+      <div class="chip cat-chip" data-cat="Golf" onclick="toggleCatChip(this)">Golf</div>
+      <div class="chip cat-chip" data-cat="Run" onclick="toggleCatChip(this)">Run</div>
+      <div class="chip cat-chip" data-cat="Mountain" onclick="toggleCatChip(this)">Mountain</div>
       <div class="chip opt-chip" data-opt="이번주" onclick="toggleOptChip(this)">이번주</div>
-      <div class="chip opt-chip" data-opt="즉시참여" onclick="toggleOptChip(this)">⚡ 즉시참여</div>
+      <div class="chip opt-chip" data-opt="즉시참여" onclick="toggleOptChip(this)">즉시참여</div>
       <div class="chip opt-chip" data-opt="초급" onclick="toggleOptChip(this)">초급</div>
     </div>
     <div class="content">
@@ -435,17 +448,17 @@
        CREATE SCREEN
   ══════════════════════════════════════ -->
   <div class="screen" id="screen-create">
-    <div class="status-bar"><span id="clock-create">9:41</span><span>📶 🔋</span></div>
-    <div class="header"><h1>➕ 활동 만들기</h1></div>
+    <div class="status-bar"><span id="clock-create">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
+    <div class="header"><h1>활동 만들기</h1></div>
     <div class="content">
       <div class="create-form">
         <div class="form-group">
           <label class="form-label">카테고리 선택</label>
           <div class="radio-group" id="cat-radio">
-            <div class="radio-btn active" onclick="selectRadio(this,'cat-radio')">🚴 Cycle</div>
-            <div class="radio-btn" onclick="selectRadio(this,'cat-radio')">⛳ Golf</div>
-            <div class="radio-btn" onclick="selectRadio(this,'cat-radio')">🏃 Run</div>
-            <div class="radio-btn" onclick="selectRadio(this,'cat-radio')">⛰️ Mountain</div>
+            <div class="radio-btn active" onclick="selectRadio(this,'cat-radio')">Cycle</div>
+            <div class="radio-btn" onclick="selectRadio(this,'cat-radio')">Golf</div>
+            <div class="radio-btn" onclick="selectRadio(this,'cat-radio')">Run</div>
+            <div class="radio-btn" onclick="selectRadio(this,'cat-radio')">Mountain</div>
           </div>
         </div>
         <div class="form-group">
@@ -453,12 +466,12 @@
           <input class="form-control" id="new-title" type="text" placeholder="예: 한강 라이딩 함께해요!">
         </div>
         <div class="form-group">
-          <label class="form-label">📅 날짜</label>
+          <label class="form-label">날짜</label>
           <input class="form-control" id="new-date" type="date" value="2026-03-15">
         </div>
         <!-- Fix: 지역 선택 옵션 추가 -->
         <div class="form-group">
-          <label class="form-label">📍 지역</label>
+          <label class="form-label">지역</label>
           <select class="form-control" id="new-region">
             <option value="서울">서울특별시</option>
             <option value="경기">경기도</option>
@@ -480,15 +493,15 @@
           <input class="form-control" id="new-course" type="text" placeholder="예: 여의도 한강공원 → 뚝섬 왕복">
         </div>
         <div class="form-group">
-          <label class="form-label">💪 난이도</label>
+          <label class="form-label">난이도</label>
           <div class="radio-group" id="level-radio">
-            <div class="radio-btn active" onclick="selectRadio(this,'level-radio')">🟢 초급</div>
-            <div class="radio-btn" onclick="selectRadio(this,'level-radio')">🟡 중급</div>
-            <div class="radio-btn" onclick="selectRadio(this,'level-radio')">🔴 고급</div>
+            <div class="radio-btn active" onclick="selectRadio(this,'level-radio')"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#16a34a;margin-right:5px;vertical-align:middle"></span>초급</div>
+            <div class="radio-btn" onclick="selectRadio(this,'level-radio')"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#f59e0b;margin-right:5px;vertical-align:middle"></span>중급</div>
+            <div class="radio-btn" onclick="selectRadio(this,'level-radio')"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#ef4444;margin-right:5px;vertical-align:middle"></span>고급</div>
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">👥 인원 제한</label>
+          <label class="form-label">인원 제한</label>
           <div class="radio-group" id="size-radio">
             <div class="radio-btn" onclick="selectRadio(this,'size-radio')">2~5명</div>
             <div class="radio-btn active" onclick="selectRadio(this,'size-radio')">6~10명</div>
@@ -499,7 +512,17 @@
           <label class="form-label">활동 소개</label>
           <textarea class="form-control" id="new-desc" rows="3" placeholder="활동에 대한 간단한 소개를 작성해주세요..."></textarea>
         </div>
-        <button class="create-submit" onclick="submitCreate()">🚀 활동 생성하기</button>
+        <div class="form-group">
+          <label class="form-label">커버 사진 <span style="font-weight:400;color:var(--text3)">(선택)</span></label>
+          <label class="cover-upload-zone" for="cover-photo-input">
+            <span id="cover-placeholder" style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text3)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              사진 선택
+            </span>
+            <input type="file" id="cover-photo-input" accept="image/*" style="display:none" onchange="previewCover(this)">
+          </label>
+        </div>
+        <button class="create-submit" onclick="submitCreate()">활동 생성하기</button>
       </div>
     </div>
     <nav class="bottom-nav">
@@ -515,12 +538,12 @@
        PROFILE SCREEN
   ══════════════════════════════════════ -->
   <div class="screen" id="screen-profile">
-    <div class="status-bar"><span id="clock-profile">9:41</span><span>📶 🔋</span></div>
+    <div class="status-bar"><span id="clock-profile">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
     <div class="profile-header">
-      <div class="profile-avatar">👤</div>
+      <div class="profile-avatar"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
       <div class="profile-name">홍길동</div>
       <div class="profile-id">@hong_outdoor</div>
-      <div class="profile-rating">⭐ 4.8점  •  리더</div>
+      <div class="profile-rating">★ 4.8점  ·  리더</div>
     </div>
     <div class="content">
       <div class="profile-stats">
@@ -528,33 +551,39 @@
         <div class="stat-item" style="border-left:1px solid #eee;border-right:1px solid #eee"><div class="stat-num">87</div><div class="stat-lbl">참여 활동</div></div>
         <div class="stat-item"><div class="stat-num">312</div><div class="stat-lbl">팔로워</div></div>
       </div>
-      <div style="padding:16px 20px 8px;font-size:13px;font-weight:600;color:#555">선호 카테고리</div>
-      <div style="padding:0 20px;display:flex;gap:8px;flex-wrap:wrap">
-        <div class="chip active">🚴 Cycle</div>
-        <div class="chip active">⛰️ Mountain</div>
+      <div style="padding:14px 16px 8px;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px">선호 카테고리</div>
+      <div style="padding:0 16px;display:flex;gap:6px;flex-wrap:wrap">
+        <div class="chip active">Cycle</div>
+        <div class="chip active">Mountain</div>
       </div>
-      <!-- Fix: 메뉴 항목 클릭 반응 추가 -->
       <div class="profile-menu">
-        <div class="menu-item" onclick="showToast('🏆 내 활동 목록을 불러옵니다...')">
-          <div class="menu-icon">🏆</div><div class="menu-text">내 활동 목록</div><div class="menu-arrow">›</div>
+        <div class="menu-item" onclick="showToast('내 활동 목록을 불러옵니다')">
+          <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 010-5H6M18 9h1.5a2.5 2.5 0 000-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0012 0V2z"/></svg></div>
+          <div class="menu-text">내 활동 목록</div><div class="menu-arrow">›</div>
         </div>
-        <div class="menu-item" onclick="showToast('👥 팔로잉 198명 / 팔로워 312명')">
-          <div class="menu-icon">👥</div><div class="menu-text">팔로잉 / 팔로워</div><div class="menu-arrow">›</div>
+        <div class="menu-item" onclick="showToast('팔로잉 198명 / 팔로워 312명')">
+          <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+          <div class="menu-text">팔로잉 / 팔로워</div><div class="menu-arrow">›</div>
         </div>
-        <div class="menu-item" onclick="showToast('📸 사진첩 87장의 사진이 있습니다')">
-          <div class="menu-icon">📸</div><div class="menu-text">사진첩</div><div class="menu-arrow">›</div>
+        <div class="menu-item" onclick="showToast('사진첩: 87장의 사진이 있습니다')">
+          <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+          <div class="menu-text">사진첩</div><div class="menu-arrow">›</div>
         </div>
-        <div class="menu-item" onclick="showToast('⭐ 평균 평점 4.8점 (총 56회 평가)')">
-          <div class="menu-icon">⭐</div><div class="menu-text">평가 내역</div><div class="menu-arrow">›</div>
+        <div class="menu-item" onclick="showToast('평균 평점 4.8점 (총 56회 평가)')">
+          <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="menu-text">평가 내역</div><div class="menu-arrow">›</div>
         </div>
-        <div class="menu-item" onclick="showToast('🔔 알림 설정으로 이동합니다')">
-          <div class="menu-icon">🔔</div><div class="menu-text">알림 설정</div><div class="menu-arrow">›</div>
+        <div class="menu-item" onclick="showToast('알림 설정으로 이동합니다')">
+          <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+          <div class="menu-text">알림 설정</div><div class="menu-arrow">›</div>
         </div>
-        <div class="menu-item" onclick="showToast('⚙️ 계정 설정으로 이동합니다')">
-          <div class="menu-icon">⚙️</div><div class="menu-text">계정 설정</div><div class="menu-arrow">›</div>
+        <div class="menu-item" onclick="showToast('계정 설정으로 이동합니다')">
+          <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
+          <div class="menu-text">계정 설정</div><div class="menu-arrow">›</div>
         </div>
-        <div class="menu-item" onclick="showToast('👋 로그아웃 되었습니다')">
-          <div class="menu-icon">🚪</div><div class="menu-text" style="color:#ff4444">로그아웃</div><div class="menu-arrow">›</div>
+        <div class="menu-item" onclick="showToast('로그아웃 되었습니다')">
+          <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+          <div class="menu-text" style="color:#ef4444">로그아웃</div><div class="menu-arrow">›</div>
         </div>
       </div>
     </div>
@@ -571,8 +600,8 @@
        MESSAGES SCREEN
   ══════════════════════════════════════ -->
   <div class="screen" id="screen-messages">
-    <div class="status-bar"><span id="clock-messages">9:41</span><span>📶 🔋</span></div>
-    <div class="header"><h1>💬 메시지</h1></div>
+    <div class="status-bar"><span id="clock-messages">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
+    <div class="header"><h1>메시지</h1></div>
     <div class="content">
       <div class="page-info">읽지 않은 메시지 3개</div>
       <div class="dm-list">
@@ -641,7 +670,7 @@
        [NEW] ACTIVITY DETAIL SCREEN
   ══════════════════════════════════════ -->
   <div class="screen" id="screen-detail">
-    <div class="status-bar"><span id="clock-detail">9:41</span><span>📶 🔋</span></div>
+    <div class="status-bar"><span id="clock-detail">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
     <div class="header">
       <span class="back-btn" onclick="goBack()">←</span>
       <h1 id="detail-cat-label">활동 상세</h1>
@@ -657,19 +686,19 @@
        [NEW] CHAT SCREEN
   ══════════════════════════════════════ -->
   <div class="screen" id="screen-chat">
-    <div class="status-bar"><span id="clock-chat">9:41</span><span>📶 🔋</span></div>
+    <div class="status-bar"><span id="clock-chat">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
     <div class="header">
       <span class="back-btn" onclick="goScreen('messages')">←</span>
       <div class="chat-header-info">
         <div class="chat-header-name" id="chat-name">박민준 리더</div>
         <div class="chat-header-status">온라인</div>
       </div>
-      <div style="font-size:20px;cursor:pointer" onclick="showToast('📞 통화 연결 중...')">📞</div>
+      <div style="cursor:pointer;color:white;line-height:0" onclick="showToast('통화 연결 중...')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
     </div>
     <div class="chat-messages" id="chat-messages"></div>
     <div class="chat-input-bar">
       <input class="chat-input" id="chat-input" placeholder="메시지를 입력하세요..." onkeydown="if(event.key==='Enter')sendMessage()">
-      <button class="chat-send-btn" onclick="sendMessage()">➤</button>
+      <button class="chat-send-btn" onclick="sendMessage()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
     </div>
   </div>
 
@@ -677,16 +706,16 @@
        [NEW] NOTIFY SCREEN
   ══════════════════════════════════════ -->
   <div class="screen" id="screen-notify">
-    <div class="status-bar"><span id="clock-notify">9:41</span><span>📶 🔋</span></div>
+    <div class="status-bar"><span id="clock-notify">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
     <div class="header">
       <span class="back-btn" onclick="goScreen('home')">←</span>
-      <h1>🔔 알림</h1>
+      <h1>알림</h1>
     </div>
     <div class="content">
       <div class="page-info">읽지 않은 알림 4개</div>
       <div class="notify-list">
         <div class="notify-item unread" onclick="this.classList.remove('unread');this.querySelector('.notify-dot')?.remove();showToast('알림을 확인했습니다')">
-          <div class="notify-icon">✅</div>
+          <div class="notify-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
           <div class="notify-content">
             <div class="notify-text"><strong>박민준 리더</strong>가 귀하의 한강 라이딩 참가 신청을 <strong>승인</strong>했습니다.</div>
             <div class="notify-time">방금 전</div>
@@ -694,7 +723,7 @@
           <div class="notify-dot"></div>
         </div>
         <div class="notify-item unread" onclick="this.classList.remove('unread');this.querySelector('.notify-dot')?.remove();showToast('알림을 확인했습니다')">
-          <div class="notify-icon">💬</div>
+          <div class="notify-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--dark)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
           <div class="notify-content">
             <div class="notify-text"><strong>박민준 리더</strong>가 메시지를 보냈습니다: "안녕하세요! 한강 라이딩..."</div>
             <div class="notify-time">5분 전</div>
@@ -702,7 +731,7 @@
           <div class="notify-dot"></div>
         </div>
         <div class="notify-item unread" onclick="this.classList.remove('unread');this.querySelector('.notify-dot')?.remove();showToast('알림을 확인했습니다')">
-          <div class="notify-icon">👥</div>
+          <div class="notify-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
           <div class="notify-content">
             <div class="notify-text"><strong>김서연</strong>님이 팔로우하기 시작했습니다.</div>
             <div class="notify-time">1시간 전</div>
@@ -710,7 +739,7 @@
           <div class="notify-dot"></div>
         </div>
         <div class="notify-item unread" onclick="this.classList.remove('unread');this.querySelector('.notify-dot')?.remove();showToast('알림을 확인했습니다')">
-          <div class="notify-icon">⭐</div>
+          <div class="notify-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
           <div class="notify-content">
             <div class="notify-text"><strong>이준호</strong>님이 <strong>★★★★★ 5.0</strong> 평점을 남겼습니다.</div>
             <div class="notify-time">3시간 전</div>
@@ -718,14 +747,14 @@
           <div class="notify-dot"></div>
         </div>
         <div class="notify-item" onclick="showToast('알림을 확인했습니다')">
-          <div class="notify-icon">🚴</div>
+          <div class="notify-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
           <div class="notify-content">
             <div class="notify-text">참가하신 <strong>올림픽공원 5K 러닝크루</strong> 활동이 내일입니다!</div>
             <div class="notify-time">어제</div>
           </div>
         </div>
         <div class="notify-item" onclick="showToast('알림을 확인했습니다')">
-          <div class="notify-icon">📍</div>
+          <div class="notify-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
           <div class="notify-content">
             <div class="notify-text">근처에 새 활동 등록: <strong>한강 자전거 라이딩 초보환영</strong></div>
             <div class="notify-time">2일 전</div>
@@ -740,12 +769,12 @@
        [NEW] GOLF COURSE LIST SCREEN
   ══════════════════════════════════════ -->
   <div class="screen" id="screen-golf">
-    <div class="status-bar"><span id="clock-golf">9:41</span><span>📶 🔋</span></div>
+    <div class="status-bar"><span id="clock-golf">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
     <div class="header" style="justify-content:space-between">
       <div style="display:flex;align-items:center;gap:10px">
         <span class="back-btn" onclick="goBack()">←</span>
         <div>
-          <h1>⛳ 골프장 예약</h1>
+          <h1>골프장 예약</h1>
           <div class="subtitle" id="golf-api-status">골프장 검색 중...</div>
         </div>
       </div>
@@ -776,7 +805,7 @@
        [NEW] GOLF DETAIL + TEE TIME SCREEN
   ══════════════════════════════════════ -->
   <div class="screen" id="screen-golf-detail">
-    <div class="status-bar"><span id="clock-golf-detail">9:41</span><span>📶 🔋</span></div>
+    <div class="status-bar"><span id="clock-golf-detail">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
     <div class="header" id="golf-detail-header">
       <span class="back-btn" onclick="goBack()">←</span>
       <h1 id="golf-detail-title">골프장 상세</h1>
@@ -793,15 +822,15 @@
        [NEW] GOLF BOOKING FORM SCREEN
   ══════════════════════════════════════ -->
   <div class="screen" id="screen-golf-booking">
-    <div class="status-bar"><span id="clock-golf-booking">9:41</span><span>📶 🔋</span></div>
+    <div class="status-bar"><span id="clock-golf-booking">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
     <div class="header">
       <span class="back-btn" onclick="goBack()">←</span>
-      <h1>⛳ 예약 정보 입력</h1>
+      <h1>예약 정보 입력</h1>
     </div>
     <div class="content">
       <div class="booking-summary" id="booking-summary-box"></div>
       <div style="padding:0 16px 8px">
-        <div class="form-label" style="margin-bottom:12px">👥 플레이어 수</div>
+        <div class="form-label" style="margin-bottom:12px">플레이어 수</div>
         <div class="player-selector">
           <button class="player-btn" onclick="changePlayerCount(-1)">−</button>
           <div class="player-count" id="player-count-display">4</div>
@@ -810,7 +839,7 @@
         <div style="text-align:center;font-size:12px;color:#888;margin-top:4px">최대 4명</div>
       </div>
       <div style="padding:16px 16px 8px">
-        <div class="form-label" style="margin-bottom:10px">🚗 카트 / 캐디 선택</div>
+        <div class="form-label" style="margin-bottom:10px">카트 / 캐디 선택</div>
         <div class="radio-group" id="cart-radio">
           <div class="radio-btn active" onclick="selectRadio(this,'cart-radio')">카트+캐디</div>
           <div class="radio-btn" onclick="selectRadio(this,'cart-radio')">카트 전용</div>
@@ -818,12 +847,12 @@
         </div>
       </div>
       <div style="padding:16px 16px 8px">
-        <div class="form-label" style="margin-bottom:10px">📋 예약자 정보</div>
+        <div class="form-label" style="margin-bottom:10px">예약자 정보</div>
         <input class="form-control" id="booker-name" type="text" placeholder="예약자 성함" style="margin-bottom:10px">
         <input class="form-control" id="booker-phone" type="tel" placeholder="연락처 (010-0000-0000)">
       </div>
       <div class="price-breakdown" id="price-breakdown"></div>
-      <button class="booking-btn" onclick="confirmGolfBooking()">⛳ 예약 확정하기</button>
+      <button class="booking-btn" onclick="confirmGolfBooking()">예약 확정하기</button>
       <div style="text-align:center;font-size:11px;color:#aaa;padding-bottom:16px">
         예약 후 취소는 라운딩 48시간 전까지 가능합니다
       </div>
@@ -834,19 +863,19 @@
        [NEW] GOLF BOOKING CONFIRM SCREEN
   ══════════════════════════════════════ -->
   <div class="screen" id="screen-golf-confirm">
-    <div class="status-bar"><span id="clock-golf-confirm">9:41</span><span>📶 🔋</span></div>
+    <div class="status-bar"><span id="clock-golf-confirm">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
     <div class="header" style="background:linear-gradient(135deg,#2e7d32,#43a047)">
       <h1 style="margin:0 auto">예약 완료</h1>
     </div>
     <div class="content">
-      <div class="confirm-circle">⛳</div>
+      <div class="confirm-circle"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
       <div style="text-align:center;font-size:18px;font-weight:800;color:var(--dark);margin-bottom:6px">예약이 완료되었습니다!</div>
       <div class="confirm-booking-id">예약 번호</div>
       <div class="confirm-id-val" id="confirm-booking-id">GF00000000</div>
       <div class="confirm-detail-card" id="confirm-detail"></div>
       <div class="confirm-actions">
-        <div class="confirm-btn-sec" onclick="showToast('📅 캘린더에 추가되었습니다')">📅 캘린더 추가</div>
-        <div class="confirm-btn-pri" onclick="goScreen('home')">🏠 홈으로</div>
+        <div class="confirm-btn-sec" onclick="showToast('캘린더에 추가되었습니다')">캘린더 추가</div>
+        <div class="confirm-btn-pri" onclick="goScreen('home')">홈으로</div>
       </div>
       <div style="text-align:center;font-size:12px;color:#aaa;padding-bottom:16px">
         예약 확인서가 등록된 연락처로 발송됩니다
@@ -861,12 +890,72 @@
 
 <script>
 // ════════════════════════════════════════
+//  PHOTO UPLOAD
+// ════════════════════════════════════════
+function renderPhotoGrid(actId) {
+  const photos = (ACTIVITIES.find(a => a.id === actId) || {}).photos || [];
+  if (!photos.length) return `<div class="photo-empty" style="grid-column:1/-1">아직 사진이 없습니다</div>`;
+  return photos.map((src, i) => `
+    <div class="photo-thumb">
+      <img src="${src}" alt="활동 사진 ${i+1}">
+      <div class="photo-thumb-del" onclick="deletePhoto(${actId},${i})">✕</div>
+    </div>`).join('');
+}
+
+function uploadPhoto(actId, input) {
+  const act = ACTIVITIES.find(a => a.id === actId);
+  if (!act) return;
+  if (!act.photos) act.photos = [];
+  const files = Array.from(input.files);
+  let loaded = 0;
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      act.photos.push(e.target.result);
+      loaded++;
+      if (loaded === files.length) {
+        const grid = document.getElementById(`photo-grid-${actId}`);
+        if (grid) grid.innerHTML = renderPhotoGrid(actId);
+        showToast(`사진 ${files.length}장이 추가되었습니다`);
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value = '';
+}
+
+function deletePhoto(actId, idx) {
+  const act = ACTIVITIES.find(a => a.id === actId);
+  if (!act || !act.photos) return;
+  act.photos.splice(idx, 1);
+  const grid = document.getElementById(`photo-grid-${actId}`);
+  if (grid) grid.innerHTML = renderPhotoGrid(actId);
+  showToast('사진이 삭제되었습니다');
+}
+
+function previewCover(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const zone = input.closest('.cover-upload-zone');
+    const placeholder = document.getElementById('cover-placeholder');
+    if (placeholder) placeholder.style.display = 'none';
+    let img = zone.querySelector('img');
+    if (!img) { img = document.createElement('img'); zone.appendChild(img); }
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ════════════════════════════════════════
 //  ACTIVITY DATA
 // ════════════════════════════════════════
 const ACTIVITIES = [
   {
     id: 0, cat: 'Cycle', catEmoji: '🚴',
-    title: '한강 라이딩 함께해요 🌊',
+    photos: [],
+    title: '한강 라이딩 함께해요',
     date: '2026.03.15 (토) 08:00', location: '여의도 한강공원',
     course: '여의도 한강공원 → 뚝섬 왕복 (약 40km)', level: '🟢 초급',
     current: 4, max: 6, popJoin: false,
@@ -877,7 +966,8 @@ const ACTIVITIES = [
   },
   {
     id: 1, cat: 'Mountain', catEmoji: '⛰️',
-    title: '북한산 둘레길 트레킹 🌿',
+    photos: [],
+    title: '북한산 둘레길 트레킹',
     date: '2026.03.20 (목) 07:30', location: '북한산국립공원 입구',
     course: '북한산성 입구 → 대성문 → 칼바위 능선 (약 12km)', level: '🟡 중급',
     current: 7, max: 10, popJoin: false,
@@ -888,7 +978,8 @@ const ACTIVITIES = [
   },
   {
     id: 2, cat: 'Run', catEmoji: '🏃',
-    title: '올림픽공원 5K 러닝크루 🏅',
+    photos: [],
+    title: '올림픽공원 5K 러닝크루',
     date: '2026.03.22 (토) 07:00', location: '올림픽공원 88호수',
     course: '88호수 → 평화의문 → 88호수 (5km 순환)', level: '🟢 초급',
     current: 12, max: 15, popJoin: false,
@@ -899,7 +990,8 @@ const ACTIVITIES = [
   },
   {
     id: 3, cat: 'Mountain', catEmoji: '⛰️',
-    title: '도봉산 단풍 트레킹 🍁',
+    photos: [],
+    title: '도봉산 단풍 트레킹',
     date: '2026.03.16 (일) 08:00', location: '도봉산역 1번 출구',
     course: '도봉산역 → 도봉산장 → 마당바위 (왕복 약 8km)', level: '🟡 중급',
     current: 3, max: 5, popJoin: true,
@@ -910,7 +1002,8 @@ const ACTIVITIES = [
   },
   {
     id: 4, cat: 'Golf', catEmoji: '⛳',
-    title: '베어즈베스트 청라 주말 라운딩 🏌️',
+    photos: [],
+    title: '베어즈베스트 청라 주말 라운딩',
     date: '2026.03.22 (토) 07:00', location: '인천 청라 베어즈베스트 GC',
     course: '18홀 Par 72 · 잭 니클라우스 디자인', level: '🟡 중급',
     current: 3, max: 4, popJoin: false,
@@ -1052,23 +1145,37 @@ function renderSearchResults() {
 }
 
 // ════════════════════════════════════════
+//  SVG ICON HELPERS
+// ════════════════════════════════════════
+const IC = {
+  cal: `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>`,
+  pin: `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
+  ppl: `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>`,
+  rte: `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="6" cy="19" r="3"/><circle cx="18" cy="5" r="3"/><path d="M12 19h4.5a3.5 3.5 0 000-7h-8a3.5 3.5 0 010-7H12"/></svg>`,
+  map: `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>`,
+  img: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`,
+};
+
+// ════════════════════════════════════════
 //  CARD BUILDER
 // ════════════════════════════════════════
 function buildCard(a, showLevel) {
+  const lvlDot = a.level.includes('초급') ? '#16a34a' : a.level.includes('중급') ? '#f59e0b' : '#ef4444';
+  const lvlTxt = a.level.replace(/[🟢🟡🔴]\s*/g,'');
   const div = document.createElement('div');
   div.className = 'activity-card';
   div.onclick = () => openDetail(a.id);
   div.innerHTML = `
     <div class="activity-card-header" style="background:${a.headerGrad}">
-      <span class="activity-cat-badge">${a.catEmoji} ${a.cat}</span>
-      <span class="activity-level">${a.popJoin ? '⚡ 즉시참여' : a.level}</span>
+      <span class="activity-cat-badge">${a.cat}</span>
+      <span class="activity-level">${a.popJoin ? '즉시참여' : `<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${lvlDot};margin-right:4px;vertical-align:middle"></span>${lvlTxt}`}</span>
     </div>
     <div class="activity-card-body">
-      <div class="activity-title">${a.title}</div>
+      <div class="activity-title">${a.title.replace(/[🌊🌿🏅🍁🏌️⛳🚴⛰️🏃]\s*/g,'').trim()}</div>
       <div class="activity-meta">
-        <div class="meta-item">📅 ${a.date}</div>
-        <div class="meta-item">📍 ${a.location}</div>
-        <div class="meta-item">👥 ${a.current}/${a.max}명</div>
+        <div class="meta-item">${IC.cal} ${a.date}</div>
+        <div class="meta-item">${IC.pin} ${a.location}</div>
+        <div class="meta-item">${IC.ppl} ${a.current}/${a.max}명</div>
       </div>
     </div>
     <div class="activity-card-footer">
@@ -1095,7 +1202,7 @@ function openDetail(id) {
   const a = ACTIVITIES[id];
   if (!a) return;
 
-  document.getElementById('detail-cat-label').textContent = `${a.catEmoji} ${a.cat}`;
+  document.getElementById('detail-cat-label').textContent = a.cat;
   document.getElementById('detail-slots').textContent = `${a.max - a.current}명`;
 
   const pColors = ['#111111','#166534','#1F1F1F','#374151','#6366f1','#8b5cf6','#f59e0b','#ef4444'];
@@ -1103,26 +1210,30 @@ function openDetail(id) {
   const participantsHtml = pNames.slice(0, a.current).map((n, i) =>
     `<div class="participant-avatar" style="background:${pColors[i % pColors.length]}">${n}</div>`
   ).join('') + (a.max - a.current > 0
-    ? `<div class="participant-avatar" style="background:#eee;color:#999;border:2px dashed #ccc">+${a.max - a.current}</div>`
+    ? `<div class="participant-avatar" style="background:var(--bg);color:var(--text3);border:1.5px dashed var(--border);font-size:11px">+${a.max - a.current}</div>`
     : '');
+
+  const lvlDot = a.level.includes('초급') ? '#16a34a' : a.level.includes('중급') ? '#f59e0b' : '#ef4444';
+  const lvlTxt = a.level.replace(/[🟢🟡🔴]\s*/g,'');
+  const cleanTitle = a.title.replace(/[🌊🌿🏅🍁🏌️⛳🚴⛰️🏃]\s*/g,'').trim();
 
   document.getElementById('detail-content').innerHTML = `
     <div class="detail-map">
-      <div class="detail-map-icon">🗺️</div>
-      <div>📍 ${a.location}</div>
-      <div style="font-size:11px;opacity:0.6;margin-top:4px">지도 연동 예정 (Google Maps API)</div>
+      <div class="detail-map-icon" style="opacity:0.4">${IC.map}</div>
+      <div style="font-size:12px;margin-top:4px">${a.location}</div>
+      <div style="font-size:11px;opacity:0.5;margin-top:3px">지도 연동 예정</div>
     </div>
     <div class="detail-body">
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
-        <span style="background:${a.headerGrad};color:white;border-radius:7px;padding:4px 11px;font-size:11px;font-weight:700;letter-spacing:0.5px">${a.catEmoji} ${a.cat}</span>
-        <span style="background:var(--bg);color:var(--text2);border-radius:7px;padding:4px 11px;font-size:11px;font-weight:600;border:1px solid var(--border)">${a.level}</span>
-        ${a.popJoin ? '<span style="background:#fff7ed;color:#c2410c;border-radius:7px;padding:4px 11px;font-size:11px;font-weight:600">⚡ 즉시참여</span>' : ''}
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+        <span style="background:${a.headerGrad};color:white;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;letter-spacing:0.5px">${a.cat}</span>
+        <span style="background:var(--bg);color:var(--text2);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:600;border:1px solid var(--border);display:inline-flex;align-items:center;gap:4px"><span style="width:6px;height:6px;border-radius:50%;background:${lvlDot};display:inline-block"></span>${lvlTxt}</span>
+        ${a.popJoin ? '<span style="background:#fff7ed;color:#c2410c;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:600">즉시참여</span>' : ''}
       </div>
-      <div class="detail-title">${a.title}</div>
-      <div class="detail-info-row"><div class="detail-info-icon">📅</div><div>${a.date}</div></div>
-      <div class="detail-info-row"><div class="detail-info-icon">📍</div><div>${a.location}</div></div>
-      <div class="detail-info-row"><div class="detail-info-icon">🛣️</div><div>${a.course}</div></div>
-      <div class="detail-info-row"><div class="detail-info-icon">👥</div><div>${a.current}명 참가 중 / 최대 ${a.max}명</div></div>
+      <div class="detail-title">${cleanTitle}</div>
+      <div class="detail-info-row"><div class="detail-info-icon">${IC.cal}</div><div>${a.date}</div></div>
+      <div class="detail-info-row"><div class="detail-info-icon">${IC.pin}</div><div>${a.location}</div></div>
+      <div class="detail-info-row"><div class="detail-info-icon">${IC.rte}</div><div>${a.course}</div></div>
+      <div class="detail-info-row"><div class="detail-info-icon">${IC.ppl}</div><div>${a.current}명 참가 중 / 최대 ${a.max}명</div></div>
       <div class="detail-section">
         <div class="detail-section-title">리더 정보</div>
         <div class="detail-leader-card">
@@ -1144,6 +1255,15 @@ function openDetail(id) {
         <div class="detail-section-title">활동 소개</div>
         <div class="detail-desc">${a.desc}</div>
       </div>
+    </div>
+    <div class="photo-section">
+      <div class="detail-section-title" style="margin-bottom:10px">활동 사진</div>
+      <div class="photo-grid" id="photo-grid-${a.id}">${renderPhotoGrid(a.id)}</div>
+      <label class="photo-add-btn" for="photo-input-${a.id}">
+        ${IC.img} 사진 추가하기
+        <input type="file" id="photo-input-${a.id}" accept="image/*" multiple style="display:none"
+          onchange="uploadPhoto(${a.id}, this)">
+      </label>
     </div>
     <div style="height:20px"></div>
   `;
@@ -1202,11 +1322,8 @@ function submitCreate() {
   const title = document.getElementById('new-title').value.trim();
   if (!title) { showToast('❗ 활동 제목을 입력해주세요'); return; }
 
-  const catBtn  = document.querySelector('#cat-radio .radio-btn.active')?.textContent.trim() || '🚴 Cycle';
-  const catParts = catBtn.split(' ');
-  const catEmoji = catParts[0];
-  const cat = catParts[1];
-  const level = document.querySelector('#level-radio .radio-btn.active')?.textContent.trim() || '🟢 초급';
+  const cat = document.querySelector('#cat-radio .radio-btn.active')?.textContent.trim() || 'Cycle';
+  const level = document.querySelector('#level-radio .radio-btn.active')?.textContent.trim() || '초급';
   const dateVal = document.getElementById('new-date').value;
   const region  = document.getElementById('new-region');
   const regionText = region.options[region.selectedIndex].text;
@@ -1214,7 +1331,7 @@ function submitCreate() {
   const desc    = document.getElementById('new-desc').value || '활동 소개가 없습니다.';
 
   const newA = {
-    id: ACTIVITIES.length, cat, catEmoji, title,
+    id: ACTIVITIES.length, cat, title,
     date: `${dateVal.replace(/-/g,'.')} 09:00`,
     location: regionText, course, level,
     current: 1, max: 10, popJoin: false,
@@ -1407,8 +1524,8 @@ function renderGolfList(list) {
     card.className = 'golf-card';
     card.onclick = () => openGolfDetail(c);
     const srcBadge = c.source === 'osm'
-      ? `<span class="golf-api-badge">🌐 OSM</span>`
-      : `<span class="golf-tag">📋 로컬</span>`;
+      ? `<span class="golf-api-badge">OSM</span>`
+      : `<span class="golf-tag">로컬</span>`;
     const price = Number(c.price_wd).toLocaleString();
     card.innerHTML = `
       <div class="golf-card-banner" style="background:${c.color}">
@@ -1416,12 +1533,12 @@ function renderGolfList(list) {
           <div class="golf-card-name">${c.name}</div>
           <div class="golf-card-holes">${c.holes}홀 Par ${c.par}</div>
         </div>
-        <div class="golf-card-icon">⛳</div>
+        <div class="golf-card-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="3" x2="12" y2="22"/><path d="M12 3l8 4-8 4V3z"/><ellipse cx="12" cy="22" rx="5" ry="1.5"/></svg></div>
       </div>
       <div class="golf-card-body">
-        <div class="golf-card-loc">📍 ${c.location}</div>
+        <div class="golf-card-loc">${IC.pin} ${c.location}</div>
         <div class="golf-card-row">
-          <div class="golf-rating">⭐ ${c.rating} <span style="font-size:11px;color:#aaa;font-weight:400">(${c.reviews}리뷰)</span></div>
+          <div class="golf-rating">★ ${c.rating} <span style="font-size:11px;color:#aaa;font-weight:400">(${c.reviews}리뷰)</span></div>
           <div class="golf-price">평일 ${price}원~</div>
         </div>
         <div class="golf-tags" style="margin-top:8px">
@@ -1471,12 +1588,12 @@ function openGolfDetail(course) {
 
   document.getElementById('golf-detail-content').innerHTML = `
     <div class="golf-detail-banner" style="background:${course.color}">
-      <div class="golf-detail-name">⛳ ${course.name}</div>
-      <div class="golf-detail-sub">📍 ${course.location}</div>
+      <div class="golf-detail-name">${course.name}</div>
+      <div class="golf-detail-sub">${IC.pin} ${course.location}</div>
       <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
         <span style="background:rgba(255,255,255,0.2);color:white;border-radius:10px;padding:3px 10px;font-size:11px">${course.holes}홀 Par ${course.par}</span>
-        <span style="background:rgba(255,255,255,0.2);color:white;border-radius:10px;padding:3px 10px;font-size:11px">⭐ ${course.rating}</span>
-        ${course.source==='osm'?'<span style="background:rgba(255,255,255,0.2);color:white;border-radius:10px;padding:3px 10px;font-size:11px">🌐 OSM 실시간</span>':''}
+        <span style="background:rgba(255,255,255,0.2);color:white;border-radius:10px;padding:3px 10px;font-size:11px">★ ${course.rating}</span>
+        ${course.source==='osm'?'<span style="background:rgba(255,255,255,0.2);color:white;border-radius:10px;padding:3px 10px;font-size:11px">OSM 실시간</span>':''}
       </div>
     </div>
     <div class="golf-detail-stats">
@@ -1485,7 +1602,7 @@ function openGolfDetail(course) {
       <div class="golf-stat"><div class="golf-stat-num">${priceWd}~</div><div class="golf-stat-lbl">평일(원)</div></div>
       <div class="golf-stat"><div class="golf-stat-num">${priceWe}~</div><div class="golf-stat-lbl">주말(원)</div></div>
     </div>
-    <div class="tee-section-title">📅 날짜 선택</div>
+    <div class="tee-section-title">날짜 선택</div>
     <div class="date-picker-row" id="date-picker-row">${dateBtns}</div>
     <div class="tee-section-title">⏰ 티타임 선택</div>
     <div class="tee-grid" id="tee-grid">${teeGrid}</div>
@@ -1545,10 +1662,10 @@ function openGolfBooking() {
   document.getElementById('player-count-display').textContent = playerCount;
 
   document.getElementById('booking-summary-box').innerHTML = `
-    <div class="booking-summary-title">⛳ 예약 정보 확인</div>
+    <div class="booking-summary-title">예약 정보 확인</div>
     <div class="booking-summary-name">${c.name}</div>
-    <div class="booking-summary-info">📅 ${dateLabel} ${selectedTeeTime} · ${c.holes}홀 Par ${c.par}</div>
-    <div class="booking-summary-info">📍 ${c.location}</div>
+    <div class="booking-summary-info">${dateLabel} ${selectedTeeTime} · ${c.holes}홀 Par ${c.par}</div>
+    <div class="booking-summary-info">${IC.pin} ${c.location}</div>
   `;
   updatePriceBreakdown();
   goScreen('golf-booking');
@@ -1602,7 +1719,7 @@ async function confirmGolfBooking() {
   // 프로토타입: 예약 시뮬레이션
   await new Promise(r => setTimeout(r, 900));
   const bookingId = 'GF' + Date.now().toString().slice(-8);
-  btn.textContent = '⛳ 예약 확정하기';
+  btn.textContent = '예약 확정하기';
   btn.disabled = false;
   showConfirm(bookingId, name, phone);
 }

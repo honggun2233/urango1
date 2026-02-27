@@ -308,6 +308,42 @@
   .cover-upload-zone { display: flex; align-items: center; justify-content: center; gap: 8px; height: 90px; border: 1.5px dashed var(--border); border-radius: var(--r); cursor: pointer; font-size: 13px; color: var(--text2); transition: all 0.2s; overflow: hidden; position: relative; }
   .cover-upload-zone:hover { border-color: var(--dark); color: var(--text1); }
   .cover-upload-zone img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+  /* ─── Strava Screens ─── */
+  .strava-tabs { background: var(--surface); display: flex; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .strava-tab { flex: 1; text-align: center; padding: 12px 0; font-size: 14px; font-weight: 600; color: var(--text3); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+  .strava-tab.active { color: #FC4C02; border-bottom-color: #FC4C02; }
+  .strava-card { background: var(--surface); margin: 0 14px 10px; border-radius: var(--r); overflow: hidden; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; }
+  .strava-card:hover { border-color: #FC4C02; box-shadow: var(--shadow); }
+  .strava-card-header { padding: 11px 14px; color: white; display: flex; justify-content: space-between; align-items: center; }
+  .strava-badge { background: #FC4C02; border-radius: 5px; padding: 2px 8px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; color: white; flex-shrink: 0; }
+  .strava-card-body { padding: 12px 14px; }
+  .strava-stats-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 6px; }
+  .strava-stat-item { display: flex; flex-direction: column; gap: 1px; }
+  .strava-stat-val { font-size: 14px; font-weight: 700; color: var(--text1); }
+  .strava-stat-lbl { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.3px; }
+  .strava-card-footer { padding: 8px 14px; border-top: 1px solid var(--border); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .strava-foot-item { font-size: 11px; color: var(--text2); display: flex; align-items: center; gap: 3px; }
+  /* Strava Detail */
+  .strava-detail-banner { padding: 20px; color: white; }
+  .strava-detail-name { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+  .strava-detail-loc { font-size: 13px; color: rgba(255,255,255,0.55); }
+  .strava-big-stats { display: flex; background: var(--surface); margin: 0 14px; border-radius: var(--r); box-shadow: var(--shadow); overflow: hidden; }
+  .strava-big-stat { flex: 1; text-align: center; padding: 13px 8px; border-right: 1px solid var(--border); }
+  .strava-big-stat:last-child { border-right: none; }
+  .strava-big-num { font-size: 17px; font-weight: 800; color: #FC4C02; }
+  .strava-big-lbl { font-size: 10px; color: var(--text3); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .strava-elevation-card { margin: 14px 14px 0; background: var(--surface); border-radius: var(--r); border: 1px solid var(--border); overflow: hidden; }
+  .strava-elevation-title { font-size: 11px; font-weight: 700; color: var(--text2); padding: 10px 14px 4px; text-transform: uppercase; letter-spacing: 0.6px; }
+  .strava-segment-item { padding: 10px 14px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .strava-segment-item:last-child { border-bottom: none; }
+  .strava-segment-name { font-size: 13px; font-weight: 600; color: var(--text1); }
+  .strava-segment-info { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .strava-segment-kom { font-size: 12px; font-weight: 700; color: #FC4C02; }
+  .strava-cta { margin: 14px; display: block; width: calc(100% - 28px); background: #FC4C02; color: white; border: none; border-radius: 11px; padding: 15px; font-size: 16px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+  .strava-cta:hover { background: #e04000; }
+  .strava-load-btn { display: none; align-items: center; gap: 8px; width: 100%; padding: 11px 14px; border: 1.5px solid #FC4C02; border-radius: 9px; font-size: 13px; font-weight: 600; color: #FC4C02; cursor: pointer; transition: all 0.2s; background: transparent; margin-bottom: 8px; }
+  .strava-load-btn:hover { background: rgba(252,76,2,0.06); }
 </style>
 </head>
 <body>
@@ -490,6 +526,10 @@
         </div>
         <div class="form-group">
           <label class="form-label">상세 코스</label>
+          <button class="strava-load-btn" id="strava-load-btn" onclick="openStravaFromCreate()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Strava 코스 불러오기
+          </button>
           <input class="form-control" id="new-course" type="text" placeholder="예: 여의도 한강공원 → 뚝섬 왕복">
         </div>
         <div class="form-group">
@@ -881,6 +921,54 @@
         예약 확인서가 등록된 연락처로 발송됩니다
       </div>
     </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       [NEW] STRAVA COURSE LIST SCREEN
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-strava">
+    <div class="status-bar"><span id="clock-strava">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
+    <div class="header" style="justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="back-btn" onclick="goBack()">←</span>
+        <div>
+          <h1>Strava <span style="color:#FC4C02">코스</span></h1>
+          <div class="subtitle">인기 코스로 활동 시작하기</div>
+        </div>
+      </div>
+      <div style="color:#FC4C02;line-height:0">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FC4C02" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+    </div>
+    <div class="strava-tabs">
+      <div class="strava-tab active" id="strava-tab-cycle" onclick="switchStravaTab('cycle')">Cycle</div>
+      <div class="strava-tab" id="strava-tab-run" onclick="switchStravaTab('run')">Run</div>
+    </div>
+    <div class="golf-region-chips" id="strava-region-chips">
+      <div class="chip active" data-region="전체" onclick="selectStravaRegion(this)">전체</div>
+      <div class="chip" data-region="서울" onclick="selectStravaRegion(this)">서울</div>
+      <div class="chip" data-region="경기" onclick="selectStravaRegion(this)">경기</div>
+      <div class="chip" data-region="강원" onclick="selectStravaRegion(this)">강원</div>
+      <div class="chip" data-region="제주" onclick="selectStravaRegion(this)">제주</div>
+    </div>
+    <div class="content">
+      <div class="page-info" id="strava-count">Strava 인기 코스</div>
+      <div id="strava-list"></div>
+      <div style="height:20px"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       [NEW] STRAVA COURSE DETAIL SCREEN
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-strava-detail">
+    <div class="status-bar"><span id="clock-strava-detail">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
+    <div class="header">
+      <span class="back-btn" onclick="goBack()">←</span>
+      <h1 id="strava-detail-title">코스 상세</h1>
+    </div>
+    <div class="content" id="strava-detail-content"></div>
   </div>
 
 </div><!-- /phone-frame -->
@@ -1359,6 +1447,7 @@ function submitCreate() {
 function selectRadio(el, groupId) {
   document.querySelectorAll('#' + groupId + ' .radio-btn').forEach(r => r.classList.remove('active'));
   el.classList.add('active');
+  if (groupId === 'cat-radio') showStravaBtn();
 }
 
 // ════════════════════════════════════════
@@ -1747,13 +1836,438 @@ function showConfirm(bookingId, name, phone) {
 }
 
 // ════════════════════════════════════════
-//  goCategory 수정 — Golf는 전용 화면으로
+//  STRAVA — 데이터 & API
+// ════════════════════════════════════════
+
+// ── 실제 Strava API 호출 구조 ──────────────────────
+// OAuth2 인증 후:
+// GET https://www.strava.com/api/v3/segments/explore
+//   ?bounds=37.3,126.7,37.7,127.3
+//   &activity_type=riding  // or 'running'
+//   Authorization: Bearer {access_token}
+//
+// GET https://www.strava.com/api/v3/routes
+//   Authorization: Bearer {access_token}
+// ──────────────────────────────────────────────────
+
+const STRAVA_ROUTES = [
+  // ── Cycle 코스 (8개) — 한국 인기 라이딩 코스 mock ──
+  { id:'sc1', type:'cycle', name:'한강 자전거도로 전구간', location:'서울 여의도-뚝섬', region:'서울',
+    distance:41.2, elevation:45, est_time:'2시간 10분', avg_speed:19,
+    kudos:1247, athletes:892, segments:8, color:'#111111',
+    desc:'여의도에서 뚝섬까지 한강 자전거도로 풀코스입니다. 평탄한 코스로 초보자도 즐길 수 있으며, 한강의 아름다운 풍경을 감상하며 달릴 수 있습니다. 중간에 편의시설이 잘 갖춰져 있습니다.',
+    source:'strava',
+    seg_list:[
+      {name:'여의도 구간', dist:'5.2km', elev:'+3m', kom:'8:42'},
+      {name:'마포대교-동작대교', dist:'7.8km', elev:'+8m', kom:'14:15'},
+      {name:'반포-잠수교 구간', dist:'6.3km', elev:'+5m', kom:'11:28'},
+      {name:'성수-뚝섬 구간', dist:'5.1km', elev:'+6m', kom:'9:03'},
+    ]
+  },
+  { id:'sc2', type:'cycle', name:'남산 순환 라이딩', location:'서울 중구 남산', region:'서울',
+    distance:15.3, elevation:312, est_time:'1시간 05분', avg_speed:14,
+    kudos:834, athletes:512, segments:5, color:'#374151',
+    desc:'남산을 한 바퀴 도는 도심 라이딩 코스입니다. 경사가 있어 중급 이상에게 권장합니다. 정상에서 서울 시내 전경을 감상할 수 있습니다.',
+    source:'strava',
+    seg_list:[
+      {name:'남산1호터널 앞 클라임', dist:'2.1km', elev:'+180m', kom:'7:30'},
+      {name:'남산 정상 구간', dist:'1.8km', elev:'+82m', kom:'5:12'},
+      {name:'남대문 하강 구간', dist:'3.2km', elev:'-190m', kom:'4:45'},
+    ]
+  },
+  { id:'sc3', type:'cycle', name:'북한산 외곽 투어', location:'서울 은평-도봉', region:'서울',
+    distance:28.7, elevation:520, est_time:'1시간 50분', avg_speed:15,
+    kudos:623, athletes:378, segments:6, color:'#1F1F1F',
+    desc:'북한산 외곽을 따라 달리는 중급 코스입니다. 자연 경관이 아름다우며, 여러 클라임 구간이 포함되어 있어 실력 향상에 좋습니다.',
+    source:'strava',
+    seg_list:[
+      {name:'불광-구기 클라임', dist:'3.5km', elev:'+230m', kom:'12:40'},
+      {name:'세검정-평창 구간', dist:'4.2km', elev:'+145m', kom:'15:20'},
+    ]
+  },
+  { id:'sc4', type:'cycle', name:'양재천-탄천 평지 코스', location:'서울 강남-송파', region:'서울',
+    distance:22.4, elevation:28, est_time:'1시간 10분', avg_speed:19,
+    kudos:945, athletes:721, segments:4, color:'#166534',
+    desc:'양재천에서 탄천을 따라 이어지는 완전 평지 코스입니다. 신호가 거의 없어 속도를 낼 수 있으며, 자전거 도로가 잘 정비되어 있습니다.',
+    source:'strava',
+    seg_list:[
+      {name:'양재천 스프린트 구간', dist:'2.8km', elev:'+2m', kom:'4:52'},
+      {name:'탄천-위례 구간', dist:'5.3km', elev:'+8m', kom:'8:55'},
+    ]
+  },
+  { id:'sc5', type:'cycle', name:'팔당 라이딩 투어', location:'경기 하남-남양주', region:'경기',
+    distance:58.6, elevation:380, est_time:'3시간 20분', avg_speed:18,
+    kudos:1089, athletes:654, segments:10, color:'#0277bd',
+    desc:'서울에서 출발해 팔당댐까지 이어지는 당일 라이딩 코스입니다. 아름다운 한강 상류를 감상하며 달릴 수 있으며, 팔당 카페거리에서 휴식을 취할 수 있습니다.',
+    source:'strava',
+    seg_list:[
+      {name:'미사-덕소 구간', dist:'8.5km', elev:'+45m', kom:'22:30'},
+      {name:'팔당댐 접근로', dist:'3.2km', elev:'+180m', kom:'10:15'},
+      {name:'북한강 자전거길', dist:'12.3km', elev:'+60m', kom:'32:40'},
+    ]
+  },
+  { id:'sc6', type:'cycle', name:'제주 환상 자전거길', location:'제주특별자치도', region:'제주',
+    distance:234.0, elevation:1820, est_time:'13시간 00분', avg_speed:18,
+    kudos:2341, athletes:1203, segments:22, color:'#00695c',
+    desc:'제주도를 한 바퀴 도는 환상 자전거길 전구간입니다. 1박 2일 코스로 제주의 해안도로와 중산간 도로를 모두 경험할 수 있습니다.',
+    source:'strava',
+    seg_list:[
+      {name:'성산-표선 해안 구간', dist:'28.4km', elev:'+85m', kom:'1:12:30'},
+      {name:'서귀포 구간', dist:'22.1km', elev:'+210m', kom:'58:40'},
+      {name:'한림-협재 구간', dist:'18.7km', elev:'+95m', kom:'48:25'},
+    ]
+  },
+  { id:'sc7', type:'cycle', name:'춘천 자전거 코스', location:'강원 춘천', region:'강원',
+    distance:67.4, elevation:650, est_time:'3시간 45분', avg_speed:18,
+    kudos:756, athletes:423, segments:9, color:'#37474f',
+    desc:'춘천 의암호와 소양강을 따라 달리는 코스입니다. 아름다운 강원도 자연 경관과 함께 적당한 언덕이 있어 즐거운 라이딩을 즐길 수 있습니다.',
+    source:'strava',
+    seg_list:[
+      {name:'의암호 순환로', dist:'14.2km', elev:'+85m', kom:'36:20'},
+      {name:'소양강 자전거길', dist:'18.5km', elev:'+120m', kom:'47:35'},
+    ]
+  },
+  { id:'sc8', type:'cycle', name:'가평 자라섬 코스', location:'경기 가평', region:'경기',
+    distance:44.8, elevation:290, est_time:'2시간 30분', avg_speed:18,
+    kudos:687, athletes:389, segments:7, color:'#1565c0',
+    desc:'가평 자라섬을 중심으로 북한강을 따라 달리는 코스입니다. 아름다운 강변 풍경과 적당한 업다운이 있어 인기 있는 당일치기 코스입니다.',
+    source:'strava',
+    seg_list:[
+      {name:'자라섬 남도 구간', dist:'5.6km', elev:'+25m', kom:'13:40'},
+      {name:'청평-가평 구간', dist:'11.2km', elev:'+150m', kom:'31:20'},
+    ]
+  },
+  // ── Run 코스 (7개) ──
+  { id:'sr1', type:'run', name:'남산 순환 러닝 코스', location:'서울 중구 남산', region:'서울',
+    distance:8.3, elevation:280, est_time:'55분', avg_pace:'6:37',
+    kudos:1543, athletes:1089, segments:5, color:'#374151',
+    desc:'남산을 한 바퀴 도는 인기 러닝 코스입니다. 오르막과 내리막이 반복되어 근력 향상에 좋으며, 정상에서 서울 야경을 감상할 수 있습니다.',
+    source:'strava',
+    seg_list:[
+      {name:'남산 메인 클라임', dist:'1.8km', elev:'+180m', kom:'8:45'},
+      {name:'N서울타워 방면', dist:'0.9km', elev:'+65m', kom:'4:12'},
+      {name:'남산 하강 구간', dist:'2.4km', elev:'-220m', kom:'10:30'},
+    ]
+  },
+  { id:'sr2', type:'run', name:'한강 러닝 코스', location:'서울 마포-영등포', region:'서울',
+    distance:10.0, elevation:15, est_time:'58분', avg_pace:'5:48',
+    kudos:2103, athletes:1567, segments:4, color:'#111111',
+    desc:'한강변을 달리는 서울 대표 러닝 코스입니다. 완전 평지로 페이스를 유지하기 좋으며, 한강의 탁 트인 경치를 즐길 수 있습니다.',
+    source:'strava',
+    seg_list:[
+      {name:'여의도 한강공원 스프린트', dist:'2.0km', elev:'+3m', kom:'6:48'},
+      {name:'마포-당산 구간', dist:'3.8km', elev:'+5m', kom:'11:35'},
+    ]
+  },
+  { id:'sr3', type:'run', name:'올림픽공원 러닝', location:'서울 송파구', region:'서울',
+    distance:5.6, elevation:22, est_time:'32분', avg_pace:'5:42',
+    kudos:1876, athletes:1432, segments:3, color:'#166534',
+    desc:'올림픽공원 내부를 달리는 5.6km 순환 코스입니다. 공원 내 잘 정비된 러닝로와 아름다운 자연환경으로 초보자부터 상급자까지 즐길 수 있습니다.',
+    source:'strava',
+    seg_list:[
+      {name:'88호수 순환', dist:'1.8km', elev:'+8m', kom:'5:12'},
+      {name:'평화의문-몽촌토성', dist:'2.2km', elev:'+10m', kom:'6:35'},
+    ]
+  },
+  { id:'sr4', type:'run', name:'북악스카이웨이 러닝', location:'서울 종로구', region:'서울',
+    distance:14.2, elevation:420, est_time:'1시간 25분', avg_pace:'5:59',
+    kudos:678, athletes:312, segments:6, color:'#1F1F1F',
+    desc:'북악산을 따라 달리는 도전적인 코스입니다. 서울 시내 전경을 감상하며 달릴 수 있으며, 강한 업힐 구간이 포함되어 있어 체력 향상에 효과적입니다.',
+    source:'strava',
+    seg_list:[
+      {name:'자하문-팔각정 클라임', dist:'2.8km', elev:'+280m', kom:'15:30'},
+      {name:'북악 팔각정-성북 구간', dist:'3.5km', elev:'+95m', kom:'18:20'},
+    ]
+  },
+  { id:'sr5', type:'run', name:'청계천 야간 러닝', location:'서울 종로-중구', region:'서울',
+    distance:7.8, elevation:12, est_time:'43분', avg_pace:'5:31',
+    kudos:1234, athletes:987, segments:4, color:'#0277bd',
+    desc:'청계천을 따라 달리는 야경 러닝 코스입니다. 청계광장에서 출발해 청계천을 따라 동쪽으로 달린 후 복귀하는 코스로, 도심 속 힐링 러닝을 즐길 수 있습니다.',
+    source:'strava',
+    seg_list:[
+      {name:'청계광장-동대문 구간', dist:'3.0km', elev:'+5m', kom:'8:45'},
+      {name:'복귀 구간', dist:'3.0km', elev:'+5m', kom:'8:30'},
+    ]
+  },
+  { id:'sr6', type:'run', name:'서울숲 공원 러닝', location:'서울 성동구', region:'서울',
+    distance:4.2, elevation:8, est_time:'24분', avg_pace:'5:43',
+    kudos:934, athletes:723, segments:2, color:'#16a34a',
+    desc:'서울숲 내부를 달리는 짧고 쉬운 입문 코스입니다. 잘 정비된 공원 러닝로와 아름다운 자연환경이 특징입니다. 초보 러너에게 추천합니다.',
+    source:'strava',
+    seg_list:[
+      {name:'서울숲 메인 루프', dist:'3.5km', elev:'+6m', kom:'10:15'},
+    ]
+  },
+  { id:'sr7', type:'run', name:'광화문-경복궁 코스', location:'서울 종로구', region:'서울',
+    distance:6.5, elevation:35, est_time:'38분', avg_pace:'5:50',
+    kudos:1056, athletes:832, segments:3, color:'#6366f1',
+    desc:'광화문에서 출발해 경복궁 주변을 달리는 역사 문화 코스입니다. 서울의 역사적 명소들을 달리며 감상할 수 있어 국내외 러너들에게 인기가 높습니다.',
+    source:'strava',
+    seg_list:[
+      {name:'세종대로-경복궁 구간', dist:'2.1km', elev:'+15m', kom:'6:20'},
+      {name:'삼청동-청와대 구간', dist:'2.4km', elev:'+18m', kom:'7:15'},
+    ]
+  },
+];
+
+let selectedStravaRoute = null;
+let stravaCurrentTab    = 'cycle';
+let stravaCurrentRegion = '전체';
+
+// ── 탭 전환 ──
+function switchStravaTab(tab) {
+  stravaCurrentTab = tab;
+  document.getElementById('strava-tab-cycle').classList.toggle('active', tab === 'cycle');
+  document.getElementById('strava-tab-run').classList.toggle('active', tab === 'run');
+  renderStravaList();
+}
+
+// ── 지역 필터 ──
+function selectStravaRegion(el) {
+  document.querySelectorAll('#strava-region-chips .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  stravaCurrentRegion = el.dataset.region;
+  renderStravaList();
+}
+
+// ── 코스 목록 렌더링 ──
+function renderStravaList() {
+  const filtered = STRAVA_ROUTES.filter(r => {
+    if (r.type !== stravaCurrentTab) return false;
+    if (stravaCurrentRegion !== '전체' && r.region !== stravaCurrentRegion) return false;
+    return true;
+  });
+
+  const countEl = document.getElementById('strava-count');
+  const listEl  = document.getElementById('strava-list');
+  if (!listEl) return;
+
+  if (countEl) countEl.textContent = `Strava 인기 코스 ${filtered.length}개`;
+  listEl.innerHTML = '';
+
+  if (filtered.length === 0) {
+    listEl.innerHTML = '<div style="text-align:center;padding:40px;color:#aaa">해당 지역의 코스가 없습니다</div>';
+    return;
+  }
+
+  filtered.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'strava-card';
+    card.onclick = () => openStravaDetail(r);
+
+    const typeLabel = r.type === 'cycle' ? 'Cycle' : 'Run';
+    const metric2 = r.type === 'cycle'
+      ? `<div class="strava-stat-item"><div class="strava-stat-val">${r.avg_speed}km/h</div><div class="strava-stat-lbl">평균속도</div></div>`
+      : `<div class="strava-stat-item"><div class="strava-stat-val">${r.avg_pace}/km</div><div class="strava-stat-lbl">평균페이스</div></div>`;
+
+    card.innerHTML = `
+      <div class="strava-card-header" style="background:${r.color}">
+        <span style="font-size:14px;font-weight:700;color:white;flex:1;margin-right:8px">${r.name}</span>
+        <span class="strava-badge">${typeLabel}</span>
+      </div>
+      <div class="strava-card-body">
+        <div class="strava-stats-row">
+          <div class="strava-stat-item">
+            <div class="strava-stat-val">${r.distance}km</div>
+            <div class="strava-stat-lbl">거리</div>
+          </div>
+          <div class="strava-stat-item">
+            <div class="strava-stat-val">${r.elevation}m</div>
+            <div class="strava-stat-lbl">고도</div>
+          </div>
+          <div class="strava-stat-item">
+            <div class="strava-stat-val">${r.est_time}</div>
+            <div class="strava-stat-lbl">예상시간</div>
+          </div>
+          ${metric2}
+        </div>
+      </div>
+      <div class="strava-card-footer">
+        <div class="strava-foot-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="#FC4C02" stroke="#FC4C02" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> ${r.kudos.toLocaleString()}</div>
+        <div class="strava-foot-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> ${r.athletes.toLocaleString()}명</div>
+        <div class="strava-foot-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> ${r.segments} 세그</div>
+        <div class="strava-foot-item" style="margin-left:auto;font-size:10px;color:#bbb">${r.location}</div>
+      </div>
+    `;
+    listEl.appendChild(card);
+  });
+}
+
+// ── 고도 프로파일 SVG 포인트 생성 ──
+function generateElevationPoints(route, w, h) {
+  const n = 40;
+  const hash = route.id.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+  const points = [];
+  for (let i = 0; i <= n; i++) {
+    const t = i / n;
+    const val = Math.sin(t * Math.PI * 2 + hash) * 0.3
+              + Math.sin(t * Math.PI * 4 + hash * 0.7) * 0.2
+              + Math.sin(t * Math.PI * 1.5 + hash * 0.3) * 0.15
+              + 0.5;
+    const y = h - (val * h * 0.7) - 5;
+    points.push({ x: Math.round(t * w), y: Math.max(5, Math.min(h - 5, Math.round(y))) });
+  }
+  return points;
+}
+
+// ── 코스 상세 열기 ──
+function openStravaDetail(route) {
+  const W = 316, H = 80;
+  const pts = generateElevationPoints(route, W, H);
+  const pathD = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x},${p.y}`).join(' ');
+  const areaD = `${pathD} L ${W},${H} L 0,${H} Z`;
+
+  const typeLabel   = route.type === 'cycle' ? 'Cycle' : 'Run';
+  const metric2Lbl  = route.type === 'cycle' ? '평균속도' : '평균페이스';
+  const metric2Val  = route.type === 'cycle' ? `${route.avg_speed}km/h` : `${route.avg_pace}/km`;
+
+  const segHtml = (route.seg_list || []).map(s => `
+    <div class="strava-segment-item">
+      <div>
+        <div class="strava-segment-name">${s.name}</div>
+        <div class="strava-segment-info">${s.dist} · 고도 ${s.elev}</div>
+      </div>
+      <div class="strava-segment-kom">KOM ${s.kom}</div>
+    </div>`).join('');
+
+  document.getElementById('strava-detail-title').textContent = route.name;
+  document.getElementById('strava-detail-content').innerHTML = `
+    <div class="strava-detail-banner" style="background:${route.color}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+        <div>
+          <div class="strava-detail-name">${route.name}</div>
+          <div class="strava-detail-loc">${route.location}</div>
+        </div>
+        <span class="strava-badge">${typeLabel}</span>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+        <span style="background:rgba(255,255,255,0.2);color:white;border-radius:10px;padding:3px 10px;font-size:11px">Strava</span>
+        <span style="background:rgba(255,255,255,0.2);color:white;border-radius:10px;padding:3px 10px;font-size:11px">${route.athletes.toLocaleString()}명 완주</span>
+        <span style="background:rgba(255,255,255,0.2);color:white;border-radius:10px;padding:3px 10px;font-size:11px">${route.segments} 세그먼트</span>
+      </div>
+    </div>
+    <div class="strava-big-stats">
+      <div class="strava-big-stat"><div class="strava-big-num">${route.distance}</div><div class="strava-big-lbl">km 거리</div></div>
+      <div class="strava-big-stat"><div class="strava-big-num">${route.elevation}</div><div class="strava-big-lbl">m 고도</div></div>
+      <div class="strava-big-stat"><div class="strava-big-num">${route.est_time}</div><div class="strava-big-lbl">예상시간</div></div>
+    </div>
+    <div class="strava-elevation-card">
+      <div class="strava-elevation-title">고도 프로파일</div>
+      <svg width="100%" height="90" viewBox="0 0 ${W} 90" preserveAspectRatio="none" style="display:block">
+        <defs>
+          <linearGradient id="elev-grad-${route.id}" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#FC4C02" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#FC4C02" stop-opacity="0.04"/>
+          </linearGradient>
+        </defs>
+        <path d="${areaD}" fill="url(#elev-grad-${route.id})"/>
+        <path d="${pathD}" fill="none" stroke="#FC4C02" stroke-width="2"/>
+      </svg>
+    </div>
+    <div style="padding:14px">
+      <div class="detail-section-title" style="margin-bottom:10px">코스 소개</div>
+      <div class="detail-desc">${route.desc}</div>
+    </div>
+    <div style="padding:0 14px 14px">
+      <div class="detail-section-title" style="margin-bottom:8px">주요 세그먼트</div>
+      <div style="background:var(--surface);border-radius:var(--r);border:1px solid var(--border);overflow:hidden">
+        ${segHtml}
+      </div>
+    </div>
+    <div style="padding:0 14px 14px">
+      <div style="display:flex;gap:20px">
+        <div class="strava-stat-item">
+          <div class="strava-stat-val" style="color:#FC4C02;font-size:16px">${route.kudos.toLocaleString()}</div>
+          <div class="strava-stat-lbl">Kudos</div>
+        </div>
+        <div class="strava-stat-item">
+          <div class="strava-stat-val" style="color:#FC4C02;font-size:16px">${metric2Val}</div>
+          <div class="strava-stat-lbl">${metric2Lbl}</div>
+        </div>
+      </div>
+    </div>
+    <button class="strava-cta" onclick="selectStravaRoute(STRAVA_ROUTES.find(r=>r.id==='${route.id}'))">이 코스로 활동 만들기</button>
+    <div style="height:20px"></div>
+  `;
+  goScreen('strava-detail');
+}
+
+// ── 코스 선택 → 폼 자동입력 ──
+function selectStravaRoute(route) {
+  if (!route) return;
+  selectedStravaRoute = route;
+  goScreen('create');
+  const createContent = document.querySelector('#screen-create .content');
+  if (createContent) createContent.scrollTop = 0;
+
+  // 카테고리 자동 선택
+  document.querySelectorAll('#cat-radio .radio-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.trim() === (route.type === 'cycle' ? 'Cycle' : 'Run'));
+  });
+
+  // 코스명 자동 입력
+  const courseEl = document.getElementById('new-course');
+  if (courseEl) courseEl.value = `${route.name} (${route.distance}km, 고도 ${route.elevation}m)`;
+
+  // 제목 힌트 설정
+  const titleEl = document.getElementById('new-title');
+  if (titleEl) {
+    titleEl.value = '';
+    titleEl.placeholder = `예: ${route.name} 함께해요`;
+  }
+
+  showStravaBtn();
+  showToast('Strava 코스가 적용되었습니다');
+}
+
+// ── Strava 버튼 show/hide ──
+function showStravaBtn() {
+  const btn = document.getElementById('strava-load-btn');
+  if (!btn) return;
+  const activeCat = document.querySelector('#cat-radio .radio-btn.active')?.textContent.trim();
+  btn.style.display = (activeCat === 'Cycle' || activeCat === 'Run') ? 'flex' : 'none';
+}
+
+// ── 활동 생성 폼에서 Strava 열기 ──
+function openStravaFromCreate() {
+  const activeCat = document.querySelector('#cat-radio .radio-btn.active')?.textContent.trim();
+  if (activeCat === 'Cycle') {
+    stravaCurrentTab = 'cycle';
+  } else if (activeCat === 'Run') {
+    stravaCurrentTab = 'run';
+  }
+  document.getElementById('strava-tab-cycle').classList.toggle('active', stravaCurrentTab === 'cycle');
+  document.getElementById('strava-tab-run').classList.toggle('active', stravaCurrentTab === 'run');
+  stravaCurrentRegion = '전체';
+  document.querySelectorAll('#strava-region-chips .chip').forEach(c => c.classList.toggle('active', c.dataset.region === '전체'));
+  renderStravaList();
+  goScreen('strava');
+}
+
+// ════════════════════════════════════════
+//  goCategory 수정 — Golf/Cycle/Run 전용 화면으로
 // ════════════════════════════════════════
 const _origGoCategory = goCategory;
 goCategory = function(catName) {
   if (catName === 'Golf') {
     goScreen('golf');
     loadGolfCourses('전체');
+  } else if (catName === 'Cycle') {
+    stravaCurrentTab = 'cycle';
+    stravaCurrentRegion = '전체';
+    document.querySelectorAll('#strava-region-chips .chip').forEach(c => c.classList.toggle('active', c.dataset.region === '전체'));
+    document.getElementById('strava-tab-cycle').classList.add('active');
+    document.getElementById('strava-tab-run').classList.remove('active');
+    renderStravaList();
+    goScreen('strava');
+  } else if (catName === 'Run') {
+    stravaCurrentTab = 'run';
+    stravaCurrentRegion = '전체';
+    document.querySelectorAll('#strava-region-chips .chip').forEach(c => c.classList.toggle('active', c.dataset.region === '전체'));
+    document.getElementById('strava-tab-cycle').classList.remove('active');
+    document.getElementById('strava-tab-run').classList.add('active');
+    renderStravaList();
+    goScreen('strava');
   } else {
     _origGoCategory(catName);
   }
@@ -1764,6 +2278,8 @@ goCategory = function(catName) {
 // ════════════════════════════════════════
 renderHomeActivities();
 renderSearchResults();
+renderStravaList();
+showStravaBtn();
 </script>
 </body>
 </html>

@@ -351,6 +351,38 @@
   .lang-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
   .header .lang-btn { padding: 3px 9px; font-size: 11px; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.55); }
   .header .lang-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+  /* ── 랭킹 ────────────────────────────────── */
+  .ranking-period-tabs { display:flex; background:var(--surface); border-bottom:1px solid var(--border); flex-shrink:0; }
+  .ranking-period-tab  { flex:1; text-align:center; padding:11px 0; font-size:13px; font-weight:600; color:var(--text3); cursor:pointer; border-bottom:2px solid transparent; transition:all .2s; }
+  .ranking-period-tab.active { color:var(--accent); border-bottom-color:var(--accent); }
+
+  .ranking-metric-tabs { display:flex; gap:6px; padding:10px 14px; background:var(--surface); flex-shrink:0; border-bottom:1px solid var(--border); }
+  .ranking-metric-tab  { flex:1; text-align:center; padding:6px 2px; font-size:11px; font-weight:600; border-radius:20px; border:1.5px solid var(--border); color:var(--text3); cursor:pointer; transition:all .2s; }
+  .ranking-metric-tab.active { background:var(--dark); color:white; border-color:var(--dark); }
+
+  .rank-header-bar { padding:8px 16px; font-size:11px; color:var(--text3); background:var(--bg); border-bottom:1px solid var(--border); flex-shrink:0; }
+  .rank-row  { display:flex; align-items:center; gap:12px; padding:13px 16px; border-bottom:1px solid var(--border); transition:background .15s; }
+  .rank-row.top1 { background:rgba(255,184,0,.07); }
+  .rank-row.top2 { background:rgba(168,168,168,.06); }
+  .rank-row.top3 { background:rgba(205,127,50,.06); }
+  .rank-num  { width:30px; text-align:center; font-size:14px; font-weight:800; color:var(--text3); flex-shrink:0; }
+  .rank-num.gold   { font-size:20px; }
+  .rank-num.silver { font-size:19px; }
+  .rank-num.bronze { font-size:18px; }
+  .rank-avatar { width:40px; height:40px; border-radius:50%; background:var(--dark); color:white; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:700; flex-shrink:0; }
+  .rank-info   { flex:1; min-width:0; }
+  .rank-name   { font-size:14px; font-weight:700; color:var(--text1); }
+  .rank-delta  { font-size:11px; color:var(--text3); margin-top:2px; }
+  .rank-delta.up   { color:#22C55E; }
+  .rank-delta.down { color:#EF4444; }
+  .rank-score      { font-size:18px; font-weight:800; color:var(--text1); text-align:right; line-height:1.1; }
+  .rank-score-unit { font-size:11px; color:var(--text3); font-weight:400; }
+
+  .my-rank-bar  { display:flex; align-items:center; gap:12px; padding:13px 16px; background:var(--dark); color:white; border-top:2px solid var(--accent); flex-shrink:0; }
+  .my-rank-pos  { font-size:12px; font-weight:700; color:var(--accent); white-space:nowrap; }
+  .my-rank-name { flex:1; font-size:14px; font-weight:600; }
+  .my-rank-val  { font-size:17px; font-weight:800; }
 </style>
 </head>
 <body>
@@ -635,6 +667,10 @@
         <div class="menu-item" onclick="showToast('평균 평점 4.8점 (총 56회 평가)')">
           <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
           <div class="menu-text" data-i18n="rating_hist">평가 내역</div><div class="menu-arrow">›</div>
+        </div>
+        <div class="menu-item" onclick="switchRankingPeriod('weekly');switchRankingMetric('attendance');goScreen('ranking')">
+          <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+          <div class="menu-text" data-i18n="ranking_view">랭킹 보기</div><div class="menu-arrow">›</div>
         </div>
         <div class="menu-item" onclick="showToast('알림 설정으로 이동합니다')">
           <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
@@ -992,6 +1028,35 @@
       <h1 id="strava-detail-title">코스 상세</h1>
     </div>
     <div class="content" id="strava-detail-content"></div>
+  </div>
+
+  <!-- ── RANKING ──────────────────────────── -->
+  <div class="screen" id="screen-ranking">
+    <div class="status-bar"></div>
+    <div class="header" style="justify-content:space-between">
+      <div style="cursor:pointer;color:white;display:flex;align-items:center;gap:6px" onclick="goBack()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15,18 9,12 15,6"/></svg>
+      </div>
+      <h1>랭킹</h1>
+      <div style="width:44px"></div>
+    </div>
+
+    <div class="ranking-period-tabs" id="ranking-period-tabs">
+      <div class="ranking-period-tab active" onclick="switchRankingPeriod('weekly')">주간</div>
+      <div class="ranking-period-tab" onclick="switchRankingPeriod('monthly')">월간</div>
+      <div class="ranking-period-tab" onclick="switchRankingPeriod('total')">전체</div>
+    </div>
+
+    <div class="ranking-metric-tabs" id="ranking-metric-tabs">
+      <div class="ranking-metric-tab active" onclick="switchRankingMetric('attendance')">참석율</div>
+      <div class="ranking-metric-tab" onclick="switchRankingMetric('creation')">생성율</div>
+      <div class="ranking-metric-tab" onclick="switchRankingMetric('cycle')">사이클</div>
+      <div class="ranking-metric-tab" onclick="switchRankingMetric('run')">러닝</div>
+    </div>
+
+    <div class="rank-header-bar" id="rank-header-bar"></div>
+    <div class="content" id="ranking-list"></div>
+    <div class="my-rank-bar" id="my-rank-bar"></div>
   </div>
 
 </div><!-- /phone-frame -->
@@ -2033,6 +2098,169 @@ const STRAVA_ROUTES = [
   },
 ];
 
+// ════════════════════════════════════════
+//  RANKING DATA
+// ════════════════════════════════════════
+const RANKING_DATA = {
+  weekly: {
+    attendance: [
+      { rank:1, name:'박민준', initial:'박', score:98, unit:'%', delta:'+2' },
+      { rank:2, name:'김서연', initial:'김', score:95, unit:'%', delta:'+1' },
+      { rank:3, name:'이준호', initial:'이', score:93, unit:'%', delta:'0'  },
+      { rank:4, name:'최유나', initial:'최', score:91, unit:'%', delta:'-1' },
+      { rank:5, name:'정다은', initial:'정', score:88, unit:'%', delta:'+3' },
+      { rank:6, name:'강민혁', initial:'강', score:86, unit:'%', delta:'0'  },
+      { rank:7, name:'윤지아', initial:'윤', score:84, unit:'%', delta:'-2' },
+      { rank:8, name:'장현우', initial:'장', score:82, unit:'%', delta:'+1' },
+      { rank:9, name:'한소희', initial:'한', score:79, unit:'%', delta:'0'  },
+      { rank:10,name:'임재원', initial:'임', score:77, unit:'%', delta:'-1' },
+    ],
+    creation: [
+      { rank:1, name:'강민혁', initial:'강', score:23, unit:'개', delta:'+1' },
+      { rank:2, name:'박민준', initial:'박', score:19, unit:'개', delta:'0'  },
+      { rank:3, name:'윤지아', initial:'윤', score:16, unit:'개', delta:'+2' },
+      { rank:4, name:'장현우', initial:'장', score:14, unit:'개', delta:'-1' },
+      { rank:5, name:'최유나', initial:'최', score:11, unit:'개', delta:'0'  },
+      { rank:6, name:'정다은', initial:'정', score:9,  unit:'개', delta:'+1' },
+      { rank:7, name:'이준호', initial:'이', score:8,  unit:'개', delta:'0'  },
+      { rank:8, name:'한소희', initial:'한', score:6,  unit:'개', delta:'-1' },
+      { rank:9, name:'임재원', initial:'임', score:5,  unit:'개', delta:'0'  },
+      { rank:10,name:'김서연', initial:'김', score:4,  unit:'개', delta:'-2' },
+    ],
+    cycle: [
+      { rank:1, name:'이준호', initial:'이', score:342, unit:'km', delta:'+1' },
+      { rank:2, name:'박민준', initial:'박', score:298, unit:'km', delta:'-1' },
+      { rank:3, name:'장현우', initial:'장', score:251, unit:'km', delta:'0'  },
+      { rank:4, name:'강민혁', initial:'강', score:198, unit:'km', delta:'+2' },
+      { rank:5, name:'정다은', initial:'정', score:172, unit:'km', delta:'0'  },
+      { rank:6, name:'임재원', initial:'임', score:154, unit:'km', delta:'-1' },
+      { rank:7, name:'한소희', initial:'한', score:128, unit:'km', delta:'+1' },
+      { rank:8, name:'최유나', initial:'최', score:112, unit:'km', delta:'0'  },
+      { rank:9, name:'윤지아', initial:'윤', score:95,  unit:'km', delta:'-1' },
+      { rank:10,name:'김서연', initial:'김', score:89,  unit:'km', delta:'0'  },
+    ],
+    run: [
+      { rank:1, name:'김서연', initial:'김', score:187, unit:'km', delta:'+2' },
+      { rank:2, name:'최유나', initial:'최', score:163, unit:'km', delta:'0'  },
+      { rank:3, name:'정다은', initial:'정', score:141, unit:'km', delta:'-1' },
+      { rank:4, name:'한소희', initial:'한', score:118, unit:'km', delta:'+1' },
+      { rank:5, name:'윤지아', initial:'윤', score:97,  unit:'km', delta:'0'  },
+      { rank:6, name:'박민준', initial:'박', score:82,  unit:'km', delta:'-1' },
+      { rank:7, name:'강민혁', initial:'강', score:71,  unit:'km', delta:'0'  },
+      { rank:8, name:'이준호', initial:'이', score:58,  unit:'km', delta:'+1' },
+      { rank:9, name:'임재원', initial:'임', score:45,  unit:'km', delta:'0'  },
+      { rank:10,name:'장현우', initial:'장', score:32,  unit:'km', delta:'-2' },
+    ],
+  },
+  monthly: {
+    attendance: [
+      { rank:1, name:'김서연', initial:'김', score:99, unit:'%', delta:'+3' },
+      { rank:2, name:'박민준', initial:'박', score:96, unit:'%', delta:'0'  },
+      { rank:3, name:'정다은', initial:'정', score:92, unit:'%', delta:'+1' },
+      { rank:4, name:'강민혁', initial:'강', score:89, unit:'%', delta:'-1' },
+      { rank:5, name:'이준호', initial:'이', score:85, unit:'%', delta:'+2' },
+      { rank:6, name:'한소희', initial:'한', score:82, unit:'%', delta:'0'  },
+      { rank:7, name:'최유나', initial:'최', score:79, unit:'%', delta:'-2' },
+      { rank:8, name:'장현우', initial:'장', score:75, unit:'%', delta:'+1' },
+      { rank:9, name:'윤지아', initial:'윤', score:71, unit:'%', delta:'0'  },
+      { rank:10,name:'임재원', initial:'임', score:65, unit:'%', delta:'-1' },
+    ],
+    creation: [
+      { rank:1, name:'박민준', initial:'박', score:48, unit:'개', delta:'+2' },
+      { rank:2, name:'강민혁', initial:'강', score:41, unit:'개', delta:'-1' },
+      { rank:3, name:'윤지아', initial:'윤', score:35, unit:'개', delta:'+1' },
+      { rank:4, name:'이준호', initial:'이', score:28, unit:'개', delta:'0'  },
+      { rank:5, name:'장현우', initial:'장', score:22, unit:'개', delta:'+3' },
+      { rank:6, name:'최유나', initial:'최', score:18, unit:'개', delta:'0'  },
+      { rank:7, name:'정다은', initial:'정', score:14, unit:'개', delta:'-1' },
+      { rank:8, name:'한소희', initial:'한', score:10, unit:'개', delta:'0'  },
+      { rank:9, name:'임재원', initial:'임', score:6,  unit:'개', delta:'+1' },
+      { rank:10,name:'김서연', initial:'김', score:3,  unit:'개', delta:'-2' },
+    ],
+    cycle: [
+      { rank:1, name:'이준호', initial:'이', score:1398, unit:'km', delta:'+1' },
+      { rank:2, name:'장현우', initial:'장', score:1201, unit:'km', delta:'0'  },
+      { rank:3, name:'박민준', initial:'박', score:1054, unit:'km', delta:'-1' },
+      { rank:4, name:'강민혁', initial:'강', score:876,  unit:'km', delta:'+2' },
+      { rank:5, name:'정다은', initial:'정', score:712,  unit:'km', delta:'0'  },
+      { rank:6, name:'임재원', initial:'임', score:581,  unit:'km', delta:'-1' },
+      { rank:7, name:'한소희', initial:'한', score:448,  unit:'km', delta:'+1' },
+      { rank:8, name:'최유나', initial:'최', score:312,  unit:'km', delta:'0'  },
+      { rank:9, name:'윤지아', initial:'윤', score:198,  unit:'km', delta:'-1' },
+      { rank:10,name:'김서연', initial:'김', score:80,   unit:'km', delta:'0'  },
+    ],
+    run: [
+      { rank:1, name:'김서연', initial:'김', score:518, unit:'km', delta:'+1' },
+      { rank:2, name:'최유나', initial:'최', score:463, unit:'km', delta:'0'  },
+      { rank:3, name:'정다은', initial:'정', score:392, unit:'km', delta:'-1' },
+      { rank:4, name:'한소희', initial:'한', score:301, unit:'km', delta:'+2' },
+      { rank:5, name:'윤지아', initial:'윤', score:248, unit:'km', delta:'0'  },
+      { rank:6, name:'박민준', initial:'박', score:197, unit:'km', delta:'-1' },
+      { rank:7, name:'강민혁', initial:'강', score:154, unit:'km', delta:'0'  },
+      { rank:8, name:'이준호', initial:'이', score:112, unit:'km', delta:'+1' },
+      { rank:9, name:'임재원', initial:'임', score:72,  unit:'km', delta:'0'  },
+      { rank:10,name:'장현우', initial:'장', score:30,  unit:'km', delta:'-2' },
+    ],
+  },
+  total: {
+    attendance: [
+      { rank:1, name:'박민준', initial:'박', score:98, unit:'%', delta:'+1' },
+      { rank:2, name:'김서연', initial:'김', score:96, unit:'%', delta:'0'  },
+      { rank:3, name:'강민혁', initial:'강', score:93, unit:'%', delta:'+2' },
+      { rank:4, name:'정다은', initial:'정', score:90, unit:'%', delta:'-1' },
+      { rank:5, name:'이준호', initial:'이', score:87, unit:'%', delta:'0'  },
+      { rank:6, name:'최유나', initial:'최', score:83, unit:'%', delta:'+1' },
+      { rank:7, name:'한소희', initial:'한', score:78, unit:'%', delta:'-1' },
+      { rank:8, name:'장현우', initial:'장', score:73, unit:'%', delta:'0'  },
+      { rank:9, name:'윤지아', initial:'윤', score:67, unit:'%', delta:'+2' },
+      { rank:10,name:'임재원', initial:'임', score:55, unit:'%', delta:'-1' },
+    ],
+    creation: [
+      { rank:1, name:'강민혁', initial:'강', score:178, unit:'개', delta:'0'  },
+      { rank:2, name:'박민준', initial:'박', score:154, unit:'개', delta:'+1' },
+      { rank:3, name:'윤지아', initial:'윤', score:132, unit:'개', delta:'-1' },
+      { rank:4, name:'장현우', initial:'장', score:108, unit:'개', delta:'+2' },
+      { rank:5, name:'이준호', initial:'이', score:87,  unit:'개', delta:'0'  },
+      { rank:6, name:'최유나', initial:'최', score:71,  unit:'개', delta:'-1' },
+      { rank:7, name:'정다은', initial:'정', score:54,  unit:'개', delta:'+1' },
+      { rank:8, name:'한소희', initial:'한', score:38,  unit:'개', delta:'0'  },
+      { rank:9, name:'임재원', initial:'임', score:24,  unit:'개', delta:'-1' },
+      { rank:10,name:'김서연', initial:'김', score:10,  unit:'개', delta:'0'  },
+    ],
+    cycle: [
+      { rank:1, name:'이준호', initial:'이', score:8432, unit:'km', delta:'+1' },
+      { rank:2, name:'장현우', initial:'장', score:7201, unit:'km', delta:'0'  },
+      { rank:3, name:'박민준', initial:'박', score:6098, unit:'km', delta:'-1' },
+      { rank:4, name:'강민혁', initial:'강', score:4871, unit:'km', delta:'+2' },
+      { rank:5, name:'정다은', initial:'정', score:3654, unit:'km', delta:'0'  },
+      { rank:6, name:'임재원', initial:'임', score:2487, unit:'km', delta:'-1' },
+      { rank:7, name:'한소희', initial:'한', score:1812, unit:'km', delta:'+1' },
+      { rank:8, name:'최유나', initial:'최', score:1240, unit:'km', delta:'0'  },
+      { rank:9, name:'윤지아', initial:'윤', score:698,  unit:'km', delta:'-1' },
+      { rank:10,name:'김서연', initial:'김', score:200,  unit:'km', delta:'0'  },
+    ],
+    run: [
+      { rank:1, name:'김서연', initial:'김', score:2287, unit:'km', delta:'+1' },
+      { rank:2, name:'최유나', initial:'최', score:1943, unit:'km', delta:'0'  },
+      { rank:3, name:'정다은', initial:'정', score:1612, unit:'km', delta:'-1' },
+      { rank:4, name:'한소희', initial:'한', score:1234, unit:'km', delta:'+2' },
+      { rank:5, name:'윤지아', initial:'윤', score:987,  unit:'km', delta:'0'  },
+      { rank:6, name:'박민준', initial:'박', score:742,  unit:'km', delta:'-1' },
+      { rank:7, name:'강민혁', initial:'강', score:548,  unit:'km', delta:'0'  },
+      { rank:8, name:'이준호', initial:'이', score:380,  unit:'km', delta:'+1' },
+      { rank:9, name:'임재원', initial:'임', score:218,  unit:'km', delta:'0'  },
+      { rank:10,name:'장현우', initial:'장', score:80,   unit:'km', delta:'-2' },
+    ],
+  },
+};
+
+// 로그인 사용자(홍길동) 본인 순위 mock
+const MY_RANKS = {
+  weekly:  { attendance:{rank:14,score:72}, creation:{rank:8,score:5},   cycle:{rank:21,score:89},   run:{rank:31,score:23}  },
+  monthly: { attendance:{rank:9, score:81}, creation:{rank:5,score:17},  cycle:{rank:12,score:312},  run:{rank:18,score:97}  },
+  total:   { attendance:{rank:6, score:88}, creation:{rank:3,score:48},  cycle:{rank:7, score:1240}, run:{rank:11,score:380} },
+};
+
 let selectedStravaRoute = null;
 let stravaCurrentTab    = 'cycle';
 let stravaCurrentRegion = '전체';
@@ -2297,6 +2525,64 @@ goCategory = function(catName) {
 };
 
 // ════════════════════════════════════════
+//  RANKING
+// ════════════════════════════════════════
+let rankingPeriod = 'weekly';
+let rankingMetric = 'attendance';
+
+const RANK_METRIC_LABEL = { attendance:'참석율', creation:'모임 생성', cycle:'사이클 거리', run:'러닝 거리' };
+const RANK_PERIOD_LABEL = { weekly:'이번 주', monthly:'이번 달', total:'누적' };
+
+function renderRanking() {
+  const list   = RANKING_DATA[rankingPeriod][rankingMetric];
+  const myRank = MY_RANKS[rankingPeriod][rankingMetric];
+  const unit   = list[0]?.unit ?? '';
+
+  document.getElementById('rank-header-bar').textContent =
+    `${RANK_METRIC_LABEL[rankingMetric]}  ·  ${RANK_PERIOD_LABEL[rankingPeriod]} TOP 10`;
+
+  const avatarColors = ['#111','#166534','#374151','#7C3AED','#B45309','#0369A1','#065F46','#9F1239','#1E40AF','#4D7C0F'];
+  document.getElementById('ranking-list').innerHTML = list.map(u => {
+    const medalMap = { 1:'🥇', 2:'🥈', 3:'🥉' };
+    const badgeMap = { 1:'gold', 2:'silver', 3:'bronze' };
+    const rowCls   = u.rank <= 3 ? `top${u.rank}` : '';
+    const numCls   = badgeMap[u.rank] ?? '';
+    const numLabel = medalMap[u.rank] ?? u.rank;
+    const dNum     = parseInt(u.delta);
+    const deltaCls = dNum > 0 ? 'up' : dNum < 0 ? 'down' : '';
+    const deltaLbl = dNum > 0 ? `▲ ${dNum}위 상승` : dNum < 0 ? `▼ ${Math.abs(dNum)}위 하락` : '변동 없음';
+    return `<div class="rank-row ${rowCls}">
+      <div class="rank-num ${numCls}">${numLabel}</div>
+      <div class="rank-avatar" style="background:${avatarColors[u.rank-1]||'#111'}">${u.initial}</div>
+      <div class="rank-info">
+        <div class="rank-name">${u.name}</div>
+        <div class="rank-delta ${deltaCls}">${deltaLbl}</div>
+      </div>
+      <div class="rank-score">${u.score}<span class="rank-score-unit"> ${unit}</span></div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('my-rank-bar').innerHTML =
+    `<span class="my-rank-pos">나의 순위 · ${myRank.rank}위</span>
+     <span class="my-rank-name">홍길동</span>
+     <span class="my-rank-val">${myRank.score}<span style="font-size:11px;opacity:.7;font-weight:400"> ${unit}</span></span>`;
+}
+
+function switchRankingPeriod(period) {
+  rankingPeriod = period;
+  document.querySelectorAll('.ranking-period-tab').forEach((t,i) =>
+    t.classList.toggle('active', ['weekly','monthly','total'][i] === period));
+  renderRanking();
+}
+
+function switchRankingMetric(metric) {
+  rankingMetric = metric;
+  document.querySelectorAll('.ranking-metric-tab').forEach((t,i) =>
+    t.classList.toggle('active', ['attendance','creation','cycle','run'][i] === metric));
+  renderRanking();
+}
+
+// ════════════════════════════════════════
 //  i18n — 다국어 지원 (KO / EN)
 // ════════════════════════════════════════
 const STRINGS = {
@@ -2356,6 +2642,9 @@ const STRINGS = {
     lbl_pref_cat:'선호 카테고리',
     my_acts:'내 활동 목록', following:'팔로잉 / 팔로워', photos_p:'사진첩',
     rating_hist:'평가 내역', notify_set:'알림 설정', acct_set:'계정 설정', btn_logout:'로그아웃',
+    ranking_view:'랭킹 보기', h_ranking:'랭킹',
+    rank_weekly:'주간', rank_monthly:'월간', rank_total:'전체',
+    rank_attendance:'참석율', rank_creation:'생성율', rank_cycle:'사이클', rank_run:'러닝',
     booking_process:'예약 처리 중...',
     toast_apply:'참가 신청이 완료되었습니다!', toast_create:'활동이 생성되었습니다!',
     toast_strava:'Strava 코스가 적용되었습니다', toast_need_title:'활동 제목을 입력해주세요',
@@ -2421,6 +2710,9 @@ const STRINGS = {
     lbl_pref_cat:'Preferred Categories',
     my_acts:'My Activities', following:'Following / Followers', photos_p:'Photos',
     rating_hist:'Ratings', notify_set:'Notifications', acct_set:'Account Settings', btn_logout:'Log Out',
+    ranking_view:'Rankings', h_ranking:'Ranking',
+    rank_weekly:'Weekly', rank_monthly:'Monthly', rank_total:'All-time',
+    rank_attendance:'Attendance', rank_creation:'Creation', rank_cycle:'Cycling', rank_run:'Running',
     booking_process:'Processing...',
     toast_apply:'Successfully applied!', toast_create:'Activity created!',
     toast_strava:'Strava course applied', toast_need_title:'Please enter an activity title',
@@ -2461,6 +2753,7 @@ function setLang(lang) {
     'screen-search': s('h_search'), 'screen-create': s('h_create'),
     'screen-messages': s('h_messages'), 'screen-notify': s('h_notify'),
     'screen-golf': s('h_golf'), 'screen-golf-booking': s('h_golf_booking'),
+    'screen-ranking': s('h_ranking'),
   };
   Object.entries(hMap).forEach(([id, text]) => {
     const h1 = document.querySelector(`#${id} .header h1`);
@@ -2482,6 +2775,7 @@ function setLang(lang) {
 renderHomeActivities();
 renderSearchResults();
 renderStravaList();
+renderRanking();
 showStravaBtn();
 setLang('ko');
 </script>

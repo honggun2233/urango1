@@ -344,6 +344,11 @@
   .strava-cta:hover { background: #e04000; }
   .strava-load-btn { display: none; align-items: center; gap: 8px; width: 100%; padding: 11px 14px; border: 1.5px solid #FC4C02; border-radius: 9px; font-size: 13px; font-weight: 600; color: #FC4C02; cursor: pointer; transition: all 0.2s; background: transparent; margin-bottom: 8px; }
   .strava-load-btn:hover { background: rgba(252,76,2,0.06); }
+
+  /* ─── Lang Toggle ─── */
+  .lang-toggle { display: flex; gap: 4px; margin-top: 14px; }
+  .lang-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 5px 14px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.2s; letter-spacing: 0.5px; }
+  .lang-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
 </style>
 </head>
 <body>
@@ -383,6 +388,10 @@
     <div>🚀 활동 생성 → 홈 반영</div>
   </div>
   <div style="margin-top:12px; font-size:11px; opacity:0.4;">Version 3.2 · 2026.02.27</div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" data-lang="ko" onclick="setLang('ko')">KO</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+  </div>
 </div>
 
 <!-- ─── Phone Frame ─── -->
@@ -407,38 +416,38 @@
     </div>
     <div class="content" id="content-home">
       <div class="hero-banner">
-        <h2>함께 달리고,<br>함께 오르고!</h2>
-        <p>검증된 리더와 함께하는 안전한 아웃도어</p>
+        <h2 data-i18n="hero_title">함께 달리고,<br>함께 오르고!</h2>
+        <p data-i18n="hero_sub">검증된 리더와 함께하는 안전한 아웃도어</p>
         <div class="hero-stats">
-          <div class="hero-stat"><div class="num">1,247</div><div class="lbl">활성 활동</div></div>
-          <div class="hero-stat"><div class="num">8,924</div><div class="lbl">활동 리더</div></div>
-          <div class="hero-stat"><div class="num">42,100</div><div class="lbl">전체 회원</div></div>
+          <div class="hero-stat"><div class="num">1,247</div><div class="lbl" data-i18n="hero_acts">활성 활동</div></div>
+          <div class="hero-stat"><div class="num">8,924</div><div class="lbl" data-i18n="hero_leaders">활동 리더</div></div>
+          <div class="hero-stat"><div class="num">42,100</div><div class="lbl" data-i18n="hero_members">전체 회원</div></div>
         </div>
       </div>
-      <div class="page-info">서울특별시 기준 추천 활동</div>
+      <div class="page-info" data-i18n="page_seoul">서울특별시 기준 추천 활동</div>
       <div class="categories-grid">
         <div class="category-card" onclick="goCategory('Cycle')">
           <div class="cat-emoji"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="16" r="4"/><circle cx="18" cy="16" r="4"/><path d="M6 16l5-9h3"/><path d="M14 7l3 9"/><path d="M10 7l2 5h6"/><circle cx="15" cy="5.5" r="1.5"/></svg></div>
           <div class="cat-name">Cycle</div>
-          <div class="cat-count">342개 활동</div>
+          <div class="cat-count" data-i18n="cat_cycle_cnt">342개 활동</div>
         </div>
         <div class="category-card" onclick="goCategory('Golf')">
           <div class="cat-emoji"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="3" x2="12" y2="22"/><path d="M12 3l8 4-8 4V3z"/><ellipse cx="12" cy="22" rx="5" ry="1.5"/></svg></div>
           <div class="cat-name">Golf</div>
-          <div class="cat-count">골프장 예약</div>
+          <div class="cat-count" data-i18n="cat_golf_cnt">골프장 예약</div>
         </div>
         <div class="category-card" onclick="goCategory('Run')">
           <div class="cat-emoji"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4" r="1.8"/><path d="M7 20l2.5-5 3 2.5 2-5.5"/><path d="M7 14l2.5-3.5 4.5-0.5 2.5-2.5"/><path d="M16 14l2.5 4"/></svg></div>
           <div class="cat-name">Run</div>
-          <div class="cat-count">426개 활동</div>
+          <div class="cat-count" data-i18n="cat_run_cnt">426개 활동</div>
         </div>
         <div class="category-card" onclick="goCategory('Mountain')">
           <div class="cat-emoji"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l5.5-11 4 7 2.5-4.5L21 20H3z"/><path d="M13.5 15.5l2.5-4.5"/></svg></div>
           <div class="cat-name">Mountain</div>
-          <div class="cat-count">292개 활동</div>
+          <div class="cat-count" data-i18n="cat_mountain_cnt">292개 활동</div>
         </div>
       </div>
-      <div class="section-title">이번 주 추천 활동</div>
+      <div class="section-title" data-i18n="week_acts">이번 주 추천 활동</div>
       <div id="home-activity-list"></div>
       <div style="height:20px"></div>
     </div>
@@ -458,19 +467,19 @@
     <div class="status-bar"><span id="clock-search">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
     <div class="header"><h1>활동 검색</h1></div>
     <div class="search-bar-wrap">
-      <input class="search-input" id="search-input" placeholder="리더, 장소, 코스 검색..." type="text" oninput="renderSearchResults()">
+      <input class="search-input" id="search-input" data-i18n-ph="search_ph" placeholder="리더, 장소, 코스 검색..." type="text" oninput="renderSearchResults()">
       <button class="search-btn" onclick="renderSearchResults()">검색</button>
     </div>
     <!-- Fix: 카테고리 칩(단일) + 옵션 칩(복수) 분리 -->
     <div class="filter-chips" id="filter-chips">
-      <div class="chip cat-chip active" data-cat="전체" onclick="toggleCatChip(this)">전체</div>
+      <div class="chip cat-chip active" data-cat="전체" data-i18n="chip_all" onclick="toggleCatChip(this)">전체</div>
       <div class="chip cat-chip" data-cat="Cycle" onclick="toggleCatChip(this)">Cycle</div>
       <div class="chip cat-chip" data-cat="Golf" onclick="toggleCatChip(this)">Golf</div>
       <div class="chip cat-chip" data-cat="Run" onclick="toggleCatChip(this)">Run</div>
       <div class="chip cat-chip" data-cat="Mountain" onclick="toggleCatChip(this)">Mountain</div>
-      <div class="chip opt-chip" data-opt="이번주" onclick="toggleOptChip(this)">이번주</div>
-      <div class="chip opt-chip" data-opt="즉시참여" onclick="toggleOptChip(this)">즉시참여</div>
-      <div class="chip opt-chip" data-opt="초급" onclick="toggleOptChip(this)">초급</div>
+      <div class="chip opt-chip" data-opt="이번주" data-i18n="chip_week" onclick="toggleOptChip(this)">이번주</div>
+      <div class="chip opt-chip" data-opt="즉시참여" data-i18n="chip_popjoin" onclick="toggleOptChip(this)">즉시참여</div>
+      <div class="chip opt-chip" data-opt="초급" data-i18n="chip_beginner" onclick="toggleOptChip(this)">초급</div>
     </div>
     <div class="content">
       <div class="page-info" id="search-count">총 5개의 활동이 검색되었습니다</div>
@@ -495,7 +504,7 @@
     <div class="content">
       <div class="create-form">
         <div class="form-group">
-          <label class="form-label">카테고리 선택</label>
+          <label class="form-label" data-i18n="lbl_category">카테고리 선택</label>
           <div class="radio-group" id="cat-radio">
             <div class="radio-btn active" onclick="selectRadio(this,'cat-radio')">Cycle</div>
             <div class="radio-btn" onclick="selectRadio(this,'cat-radio')">Golf</div>
@@ -504,16 +513,16 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">활동 제목</label>
-          <input class="form-control" id="new-title" type="text" placeholder="예: 한강 라이딩 함께해요!">
+          <label class="form-label" data-i18n="lbl_title">활동 제목</label>
+          <input class="form-control" id="new-title" type="text" data-i18n-ph="title_ph" placeholder="예: 한강 라이딩 함께해요!">
         </div>
         <div class="form-group">
-          <label class="form-label">날짜</label>
+          <label class="form-label" data-i18n="lbl_date">날짜</label>
           <input class="form-control" id="new-date" type="date" value="2026-03-15">
         </div>
         <!-- Fix: 지역 선택 옵션 추가 -->
         <div class="form-group">
-          <label class="form-label">지역</label>
+          <label class="form-label" data-i18n="lbl_region">지역</label>
           <select class="form-control" id="new-region">
             <option value="서울">서울특별시</option>
             <option value="경기">경기도</option>
@@ -531,44 +540,44 @@
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">상세 코스</label>
+          <label class="form-label" data-i18n="lbl_course">상세 코스</label>
           <button class="strava-load-btn" id="strava-load-btn" onclick="openStravaFromCreate()">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-            Strava 코스 불러오기
+            <span data-i18n="strava_load">Strava 코스 불러오기</span>
           </button>
-          <input class="form-control" id="new-course" type="text" placeholder="예: 여의도 한강공원 → 뚝섬 왕복">
+          <input class="form-control" id="new-course" type="text" data-i18n-ph="course_ph" placeholder="예: 여의도 한강공원 → 뚝섬 왕복">
         </div>
         <div class="form-group">
-          <label class="form-label">난이도</label>
+          <label class="form-label" data-i18n="lbl_level">난이도</label>
           <div class="radio-group" id="level-radio">
-            <div class="radio-btn active" onclick="selectRadio(this,'level-radio')"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#16a34a;margin-right:5px;vertical-align:middle"></span>초급</div>
-            <div class="radio-btn" onclick="selectRadio(this,'level-radio')"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#f59e0b;margin-right:5px;vertical-align:middle"></span>중급</div>
-            <div class="radio-btn" onclick="selectRadio(this,'level-radio')"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#ef4444;margin-right:5px;vertical-align:middle"></span>고급</div>
+            <div class="radio-btn active" onclick="selectRadio(this,'level-radio')"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#16a34a;margin-right:5px;vertical-align:middle"></span><span data-i18n="radio_beginner">초급</span></div>
+            <div class="radio-btn" onclick="selectRadio(this,'level-radio')"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#f59e0b;margin-right:5px;vertical-align:middle"></span><span data-i18n="radio_mid">중급</span></div>
+            <div class="radio-btn" onclick="selectRadio(this,'level-radio')"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#ef4444;margin-right:5px;vertical-align:middle"></span><span data-i18n="radio_adv">고급</span></div>
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">인원 제한</label>
+          <label class="form-label" data-i18n="lbl_size">인원 제한</label>
           <div class="radio-group" id="size-radio">
-            <div class="radio-btn" onclick="selectRadio(this,'size-radio')">2~5명</div>
-            <div class="radio-btn active" onclick="selectRadio(this,'size-radio')">6~10명</div>
-            <div class="radio-btn" onclick="selectRadio(this,'size-radio')">11명 이상</div>
+            <div class="radio-btn" data-i18n="radio_s" onclick="selectRadio(this,'size-radio')">2~5명</div>
+            <div class="radio-btn active" data-i18n="radio_m" onclick="selectRadio(this,'size-radio')">6~10명</div>
+            <div class="radio-btn" data-i18n="radio_l" onclick="selectRadio(this,'size-radio')">11명 이상</div>
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">활동 소개</label>
-          <textarea class="form-control" id="new-desc" rows="3" placeholder="활동에 대한 간단한 소개를 작성해주세요..."></textarea>
+          <label class="form-label" data-i18n="lbl_desc">활동 소개</label>
+          <textarea class="form-control" id="new-desc" rows="3" data-i18n-ph="desc_ph" placeholder="활동에 대한 간단한 소개를 작성해주세요..."></textarea>
         </div>
         <div class="form-group">
-          <label class="form-label">커버 사진 <span style="font-weight:400;color:var(--text3)">(선택)</span></label>
+          <label class="form-label"><span data-i18n="lbl_cover">커버 사진</span> <span style="font-weight:400;color:var(--text3)" data-i18n="lbl_optional">(선택)</span></label>
           <label class="cover-upload-zone" for="cover-photo-input">
             <span id="cover-placeholder" style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text3)">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              사진 선택
+              <span data-i18n="select_photo">사진 선택</span>
             </span>
             <input type="file" id="cover-photo-input" accept="image/*" style="display:none" onchange="previewCover(this)">
           </label>
         </div>
-        <button class="create-submit" onclick="submitCreate()">활동 생성하기</button>
+        <button class="create-submit" data-i18n="btn_create" onclick="submitCreate()">활동 생성하기</button>
       </div>
     </div>
     <nav class="bottom-nav">
@@ -593,11 +602,11 @@
     </div>
     <div class="content">
       <div class="profile-stats">
-        <div class="stat-item"><div class="stat-num">24</div><div class="stat-lbl">리드 활동</div></div>
-        <div class="stat-item" style="border-left:1px solid #eee;border-right:1px solid #eee"><div class="stat-num">87</div><div class="stat-lbl">참여 활동</div></div>
-        <div class="stat-item"><div class="stat-num">312</div><div class="stat-lbl">팔로워</div></div>
+        <div class="stat-item"><div class="stat-num">24</div><div class="stat-lbl" data-i18n="lbl_lead_acts">리드 활동</div></div>
+        <div class="stat-item" style="border-left:1px solid #eee;border-right:1px solid #eee"><div class="stat-num">87</div><div class="stat-lbl" data-i18n="lbl_join_acts">참여 활동</div></div>
+        <div class="stat-item"><div class="stat-num">312</div><div class="stat-lbl" data-i18n="lbl_followers">팔로워</div></div>
       </div>
-      <div style="padding:14px 16px 8px;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px">선호 카테고리</div>
+      <div style="padding:14px 16px 8px;font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px" data-i18n="lbl_pref_cat">선호 카테고리</div>
       <div style="padding:0 16px;display:flex;gap:6px;flex-wrap:wrap">
         <div class="chip active">Cycle</div>
         <div class="chip active">Mountain</div>
@@ -605,31 +614,31 @@
       <div class="profile-menu">
         <div class="menu-item" onclick="showToast('내 활동 목록을 불러옵니다')">
           <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 010-5H6M18 9h1.5a2.5 2.5 0 000-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0012 0V2z"/></svg></div>
-          <div class="menu-text">내 활동 목록</div><div class="menu-arrow">›</div>
+          <div class="menu-text" data-i18n="my_acts">내 활동 목록</div><div class="menu-arrow">›</div>
         </div>
         <div class="menu-item" onclick="showToast('팔로잉 198명 / 팔로워 312명')">
           <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
-          <div class="menu-text">팔로잉 / 팔로워</div><div class="menu-arrow">›</div>
+          <div class="menu-text" data-i18n="following">팔로잉 / 팔로워</div><div class="menu-arrow">›</div>
         </div>
         <div class="menu-item" onclick="showToast('사진첩: 87장의 사진이 있습니다')">
           <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
-          <div class="menu-text">사진첩</div><div class="menu-arrow">›</div>
+          <div class="menu-text" data-i18n="photos_p">사진첩</div><div class="menu-arrow">›</div>
         </div>
         <div class="menu-item" onclick="showToast('평균 평점 4.8점 (총 56회 평가)')">
           <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-          <div class="menu-text">평가 내역</div><div class="menu-arrow">›</div>
+          <div class="menu-text" data-i18n="rating_hist">평가 내역</div><div class="menu-arrow">›</div>
         </div>
         <div class="menu-item" onclick="showToast('알림 설정으로 이동합니다')">
           <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
-          <div class="menu-text">알림 설정</div><div class="menu-arrow">›</div>
+          <div class="menu-text" data-i18n="notify_set">알림 설정</div><div class="menu-arrow">›</div>
         </div>
         <div class="menu-item" onclick="showToast('계정 설정으로 이동합니다')">
           <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
-          <div class="menu-text">계정 설정</div><div class="menu-arrow">›</div>
+          <div class="menu-text" data-i18n="acct_set">계정 설정</div><div class="menu-arrow">›</div>
         </div>
         <div class="menu-item" onclick="showToast('로그아웃 되었습니다')">
           <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
-          <div class="menu-text" style="color:#ef4444">로그아웃</div><div class="menu-arrow">›</div>
+          <div class="menu-text" style="color:#ef4444" data-i18n="btn_logout">로그아웃</div><div class="menu-arrow">›</div>
         </div>
       </div>
     </div>
@@ -649,7 +658,7 @@
     <div class="status-bar"><span id="clock-messages">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
     <div class="header"><h1>메시지</h1></div>
     <div class="content">
-      <div class="page-info">읽지 않은 메시지 3개</div>
+      <div class="page-info" data-i18n="unread_msg">읽지 않은 메시지 3개</div>
       <div class="dm-list">
         <div class="dm-item" onclick="openChat('박민준','박','#111111')">
           <div class="dm-avatar">박</div>
@@ -723,8 +732,8 @@
     </div>
     <div class="content" id="detail-content"></div>
     <div class="detail-join-bar">
-      <div class="detail-join-info">남은 자리 <strong id="detail-slots">-</strong></div>
-      <button class="detail-join-btn" onclick="showToast('✅ 참가 신청이 완료되었습니다!')">참가 신청하기</button>
+      <div class="detail-join-info"><span data-i18n="slots_left">남은 자리</span> <strong id="detail-slots">-</strong></div>
+      <button class="detail-join-btn" data-i18n="btn_apply" onclick="showToast('✅ ' + s('toast_apply'))">참가 신청하기</button>
     </div>
   </div>
 
@@ -737,9 +746,9 @@
       <span class="back-btn" onclick="goScreen('messages')">←</span>
       <div class="chat-header-info">
         <div class="chat-header-name" id="chat-name">박민준 리더</div>
-        <div class="chat-header-status">온라인</div>
+        <div class="chat-header-status" data-i18n="online">온라인</div>
       </div>
-      <div style="cursor:pointer;color:white;line-height:0" onclick="showToast('통화 연결 중...')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+      <div style="cursor:pointer;color:white;line-height:0" onclick="showToast(s('toast_calling'))"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 .84h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
     </div>
     <div class="chat-messages" id="chat-messages"></div>
     <div class="chat-input-bar">
@@ -758,7 +767,7 @@
       <h1>알림</h1>
     </div>
     <div class="content">
-      <div class="page-info">읽지 않은 알림 4개</div>
+      <div class="page-info" data-i18n="unread_notify">읽지 않은 알림 4개</div>
       <div class="notify-list">
         <div class="notify-item unread" onclick="this.classList.remove('unread');this.querySelector('.notify-dot')?.remove();showToast('알림을 확인했습니다')">
           <div class="notify-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
@@ -858,8 +867,8 @@
     </div>
     <div class="content" id="golf-detail-content"></div>
     <div class="detail-join-bar">
-      <div class="detail-join-info">티타임 선택 후<br><strong id="golf-selected-time">시간을 선택하세요</strong></div>
-      <button class="detail-join-btn" style="background:linear-gradient(135deg,#2e7d32,#43a047)"
+      <div class="detail-join-info"><span data-i18n="golf_sel_after">티타임 선택 후</span><br><strong id="golf-selected-time" data-i18n="golf_time_ph">시간을 선택하세요</strong></div>
+      <button class="detail-join-btn" style="background:linear-gradient(135deg,#2e7d32,#43a047)" data-i18n="btn_book"
         onclick="openGolfBooking()">예약하기</button>
     </div>
   </div>
@@ -871,35 +880,35 @@
     <div class="status-bar"><span id="clock-golf-booking">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
     <div class="header">
       <span class="back-btn" onclick="goBack()">←</span>
-      <h1>예약 정보 입력</h1>
+      <h1 data-i18n="h_golf_booking">예약 정보 입력</h1>
     </div>
     <div class="content">
       <div class="booking-summary" id="booking-summary-box"></div>
       <div style="padding:0 16px 8px">
-        <div class="form-label" style="margin-bottom:12px">플레이어 수</div>
+        <div class="form-label" style="margin-bottom:12px" data-i18n="lbl_players">플레이어 수</div>
         <div class="player-selector">
           <button class="player-btn" onclick="changePlayerCount(-1)">−</button>
           <div class="player-count" id="player-count-display">4</div>
           <button class="player-btn" onclick="changePlayerCount(1)">+</button>
         </div>
-        <div style="text-align:center;font-size:12px;color:#888;margin-top:4px">최대 4명</div>
+        <div style="text-align:center;font-size:12px;color:#888;margin-top:4px" data-i18n="max_players">최대 4명</div>
       </div>
       <div style="padding:16px 16px 8px">
-        <div class="form-label" style="margin-bottom:10px">카트 / 캐디 선택</div>
+        <div class="form-label" style="margin-bottom:10px" data-i18n="lbl_cart">카트 / 캐디 선택</div>
         <div class="radio-group" id="cart-radio">
-          <div class="radio-btn active" onclick="selectRadio(this,'cart-radio')">카트+캐디</div>
-          <div class="radio-btn" onclick="selectRadio(this,'cart-radio')">카트 전용</div>
-          <div class="radio-btn" onclick="selectRadio(this,'cart-radio')">도보</div>
+          <div class="radio-btn active" data-i18n="cart_caddie" onclick="selectRadio(this,'cart-radio')">카트+캐디</div>
+          <div class="radio-btn" data-i18n="cart_only" onclick="selectRadio(this,'cart-radio')">카트 전용</div>
+          <div class="radio-btn" data-i18n="cart_walk" onclick="selectRadio(this,'cart-radio')">도보</div>
         </div>
       </div>
       <div style="padding:16px 16px 8px">
-        <div class="form-label" style="margin-bottom:10px">예약자 정보</div>
-        <input class="form-control" id="booker-name" type="text" placeholder="예약자 성함" style="margin-bottom:10px">
-        <input class="form-control" id="booker-phone" type="tel" placeholder="연락처 (010-0000-0000)">
+        <div class="form-label" style="margin-bottom:10px" data-i18n="lbl_booker">예약자 정보</div>
+        <input class="form-control" id="booker-name" type="text" data-i18n-ph="booker_name_ph" placeholder="예약자 성함" style="margin-bottom:10px">
+        <input class="form-control" id="booker-phone" type="tel" data-i18n-ph="booker_phone_ph" placeholder="연락처 (010-0000-0000)">
       </div>
       <div class="price-breakdown" id="price-breakdown"></div>
-      <button class="booking-btn" onclick="confirmGolfBooking()">예약 확정하기</button>
-      <div style="text-align:center;font-size:11px;color:#aaa;padding-bottom:16px">
+      <button class="booking-btn" data-i18n="btn_confirm" onclick="confirmGolfBooking()">예약 확정하기</button>
+      <div style="text-align:center;font-size:11px;color:#aaa;padding-bottom:16px" data-i18n="cancel_note">
         예약 후 취소는 라운딩 48시간 전까지 가능합니다
       </div>
     </div>
@@ -911,19 +920,19 @@
   <div class="screen" id="screen-golf-confirm">
     <div class="status-bar"><span id="clock-golf-confirm">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
     <div class="header" style="background:linear-gradient(135deg,#2e7d32,#43a047)">
-      <h1 style="margin:0 auto">예약 완료</h1>
+      <h1 style="margin:0 auto" data-i18n="h_golf_confirm">예약 완료</h1>
     </div>
     <div class="content">
       <div class="confirm-circle"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div style="text-align:center;font-size:18px;font-weight:800;color:var(--dark);margin-bottom:6px">예약이 완료되었습니다!</div>
-      <div class="confirm-booking-id">예약 번호</div>
+      <div style="text-align:center;font-size:18px;font-weight:800;color:var(--dark);margin-bottom:6px" data-i18n="booking_ok">예약이 완료되었습니다!</div>
+      <div class="confirm-booking-id" data-i18n="booking_num">예약 번호</div>
       <div class="confirm-id-val" id="confirm-booking-id">GF00000000</div>
       <div class="confirm-detail-card" id="confirm-detail"></div>
       <div class="confirm-actions">
-        <div class="confirm-btn-sec" onclick="showToast('캘린더에 추가되었습니다')">캘린더 추가</div>
-        <div class="confirm-btn-pri" onclick="goScreen('home')">홈으로</div>
+        <div class="confirm-btn-sec" data-i18n="btn_cal" onclick="showToast(s('toast_cal'))">캘린더 추가</div>
+        <div class="confirm-btn-pri" data-i18n="btn_home" onclick="goScreen('home')">홈으로</div>
       </div>
-      <div style="text-align:center;font-size:12px;color:#aaa;padding-bottom:16px">
+      <div style="text-align:center;font-size:12px;color:#aaa;padding-bottom:16px" data-i18n="confirm_note">
         예약 확인서가 등록된 연락처로 발송됩니다
       </div>
     </div>
@@ -940,7 +949,7 @@
         <span class="back-btn" onclick="goBack()">←</span>
         <div>
           <h1>Strava <span style="color:#FC4C02">코스</span></h1>
-          <div class="subtitle">인기 코스로 활동 시작하기</div>
+          <div class="subtitle" data-i18n="strava_sub">인기 코스로 활동 시작하기</div>
         </div>
       </div>
       <div style="color:#FC4C02;line-height:0">
@@ -1262,7 +1271,7 @@ function buildCard(a, showLevel) {
   div.innerHTML = `
     <div class="activity-card-header" style="background:${a.headerGrad}">
       <span class="activity-cat-badge">${a.cat}</span>
-      <span class="activity-level">${a.popJoin ? '즉시참여' : `<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${lvlDot};margin-right:4px;vertical-align:middle"></span>${lvlTxt}`}</span>
+      <span class="activity-level">${a.popJoin ? s('btn_popjoin') : `<span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${lvlDot};margin-right:4px;vertical-align:middle"></span>${lvlTxt}`}</span>
     </div>
     <div class="activity-card-body">
       <div class="activity-title">${a.title.replace(/[🌊🌿🏅🍁🏌️⛳🚴⛰️🏃]\s*/g,'').trim()}</div>
@@ -1282,7 +1291,7 @@ function buildCard(a, showLevel) {
       </div>
       <button class="join-btn"
         onclick="event.stopPropagation();openDetail(${a.id})">
-        ${a.popJoin ? '즉시참여' : '참가 신청'}
+        ${a.popJoin ? s('btn_popjoin') : s('btn_join')}
       </button>
     </div>
   `;
@@ -1315,13 +1324,13 @@ function openDetail(id) {
     <div class="detail-map">
       <div class="detail-map-icon" style="opacity:0.4">${IC.map}</div>
       <div style="font-size:12px;margin-top:4px">${a.location}</div>
-      <div style="font-size:11px;opacity:0.5;margin-top:3px">지도 연동 예정</div>
+      <div style="font-size:11px;opacity:0.5;margin-top:3px">${s('map_label')}</div>
     </div>
     <div class="detail-body">
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
         <span style="background:${a.headerGrad};color:white;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;letter-spacing:0.5px">${a.cat}</span>
         <span style="background:var(--bg);color:var(--text2);border-radius:6px;padding:3px 10px;font-size:11px;font-weight:600;border:1px solid var(--border);display:inline-flex;align-items:center;gap:4px"><span style="width:6px;height:6px;border-radius:50%;background:${lvlDot};display:inline-block"></span>${lvlTxt}</span>
-        ${a.popJoin ? '<span style="background:#fff7ed;color:#c2410c;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:600">즉시참여</span>' : ''}
+        ${a.popJoin ? `<span style="background:#fff7ed;color:#c2410c;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:600">${s('btn_popjoin')}</span>` : ''}
       </div>
       <div class="detail-title">${cleanTitle}</div>
       <div class="detail-info-row"><div class="detail-info-icon">${IC.cal}</div><div>${a.date}</div></div>
@@ -1329,32 +1338,32 @@ function openDetail(id) {
       <div class="detail-info-row"><div class="detail-info-icon">${IC.rte}</div><div>${a.course}</div></div>
       <div class="detail-info-row"><div class="detail-info-icon">${IC.ppl}</div><div>${a.current}명 참가 중 / 최대 ${a.max}명</div></div>
       <div class="detail-section">
-        <div class="detail-section-title">리더 정보</div>
+        <div class="detail-section-title">${s('lbl_leader')}</div>
         <div class="detail-leader-card">
           <div class="detail-avatar-lg" style="background:${a.grad}">${a.initial}</div>
           <div class="detail-leader-info">
             <div class="detail-leader-name">${a.leader} 리더</div>
             <div class="detail-stars">${a.rating}</div>
-            <div class="detail-leader-stats">${a.ratingCount} · 인증 리더</div>
+            <div class="detail-leader-stats">${a.ratingCount} · ${s('certified')}</div>
           </div>
           <button style="background:var(--bg);color:var(--text1);border:1.5px solid var(--border);border-radius:8px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer"
-            onclick="openChat('${a.leader}','${a.initial}','${a.grad}')">DM</button>
+            onclick="openChat('${a.leader}','${a.initial}','${a.grad}')">${s('dm_btn')}</button>
         </div>
       </div>
       <div class="detail-section">
-        <div class="detail-section-title">참가자 (${a.current}/${a.max})</div>
+        <div class="detail-section-title">${s('lbl_participants')} (${a.current}/${a.max})</div>
         <div class="participants-row">${participantsHtml}</div>
       </div>
       <div class="detail-section">
-        <div class="detail-section-title">활동 소개</div>
+        <div class="detail-section-title">${s('lbl_intro')}</div>
         <div class="detail-desc">${a.desc}</div>
       </div>
     </div>
     <div class="photo-section">
-      <div class="detail-section-title" style="margin-bottom:10px">활동 사진</div>
+      <div class="detail-section-title" style="margin-bottom:10px">${s('lbl_photos')}</div>
       <div class="photo-grid" id="photo-grid-${a.id}">${renderPhotoGrid(a.id)}</div>
       <label class="photo-add-btn" for="photo-input-${a.id}">
-        ${IC.img} 사진 추가하기
+        ${IC.img} ${s('add_photo')}
         <input type="file" id="photo-input-${a.id}" accept="image/*" multiple style="display:none"
           onchange="uploadPhoto(${a.id}, this)">
       </label>
@@ -1414,7 +1423,7 @@ function sendMessage() {
 // ════════════════════════════════════════
 function submitCreate() {
   const title = document.getElementById('new-title').value.trim();
-  if (!title) { showToast('❗ 활동 제목을 입력해주세요'); return; }
+  if (!title) { showToast('❗ ' + s('toast_need_title')); return; }
 
   const cat = document.querySelector('#cat-radio .radio-btn.active')?.textContent.trim() || 'Cycle';
   const level = document.querySelector('#level-radio .radio-btn.active')?.textContent.trim() || '초급';
@@ -1442,7 +1451,7 @@ function submitCreate() {
   document.getElementById('new-course').value = '';
   document.getElementById('new-desc').value = '';
 
-  showToast('✅ 활동이 생성되었습니다!');
+  showToast('✅ ' + s('toast_create'));
 
   setTimeout(() => {
     goScreen('home');
@@ -1652,7 +1661,7 @@ function openGolfDetail(course) {
   selectedGolfCourse = course;
   selectedTeeDate = null;
   selectedTeeTime = null;
-  document.getElementById('golf-selected-time').textContent = '시간을 선택하세요';
+  document.getElementById('golf-selected-time').textContent = s('golf_time_ph');
   document.getElementById('golf-detail-title').textContent = course.name;
 
   // 날짜 버튼 생성 (오늘 포함 7일)
@@ -1697,12 +1706,12 @@ function openGolfDetail(course) {
       <div class="golf-stat"><div class="golf-stat-num">${priceWd}~</div><div class="golf-stat-lbl">평일(원)</div></div>
       <div class="golf-stat"><div class="golf-stat-num">${priceWe}~</div><div class="golf-stat-lbl">주말(원)</div></div>
     </div>
-    <div class="tee-section-title">날짜 선택</div>
+    <div class="tee-section-title">${s('lbl_date_sel')}</div>
     <div class="date-picker-row" id="date-picker-row">${dateBtns}</div>
-    <div class="tee-section-title">⏰ 티타임 선택</div>
+    <div class="tee-section-title">${s('lbl_tee')}</div>
     <div class="tee-grid" id="tee-grid">${teeGrid}</div>
     <div style="padding:0 16px 16px">
-      <div class="detail-section-title" style="margin-bottom:10px">시설 정보</div>
+      <div class="detail-section-title" style="margin-bottom:10px">${s('lbl_facilities')}</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         ${(course.facilities||[]).map(f=>`<span class="golf-tag">✓ ${f}</span>`).join('')}
       </div>
@@ -1723,7 +1732,7 @@ function buildTeeGrid(dateIso) {
     const remain = isFull ? 0 : ((seed + i * 3) % 4) + 1;
     return `<div class="tee-btn${isFull?' full':''}" data-time="${t}" ${isFull?'':'onclick="selectTeeTime(this)"'}>
       <div class="tee-time">${t}</div>
-      <div class="tee-info">${isFull ? '마감' : `잔여 ${remain}명`}</div>
+      <div class="tee-info">${isFull ? s('tee_full') : `${s('tee_left')} ${remain}`}</div>
     </div>`;
   }).join('');
 }
@@ -1733,7 +1742,7 @@ function selectGolfDate(el) {
   el.classList.add('active');
   selectedTeeDate = el.dataset.date;
   selectedTeeTime = null;
-  document.getElementById('golf-selected-time').textContent = '시간을 선택하세요';
+  document.getElementById('golf-selected-time').textContent = s('golf_time_ph');
   const grid = document.getElementById('tee-grid');
   if (grid) grid.innerHTML = buildTeeGrid(selectedTeeDate);
 }
@@ -1750,7 +1759,7 @@ function selectTeeTime(el) {
 //  GOLF BOOKING
 // ════════════════════════════════════════
 function openGolfBooking() {
-  if (!selectedTeeTime) { showToast('⚠️ 티타임을 먼저 선택해주세요'); return; }
+  if (!selectedTeeTime) { showToast('⚠️ ' + s('toast_need_tee')); return; }
   const c = selectedGolfCourse;
   const dateLabel = document.getElementById('date-picker-row')?.querySelector('.date-btn.active')?.dataset.label || selectedTeeDate;
   playerCount = 4;
@@ -1782,20 +1791,20 @@ function updatePriceBreakdown() {
   const cartFee   = document.querySelector('#cart-radio .radio-btn.active')?.textContent === '도보' ? 0 : 50000;
   const total     = (basePrice + cartFee) * playerCount;
   document.getElementById('price-breakdown').innerHTML = `
-    <div class="price-row"><span>그린피 (${isWeekend?'주말':'평일'}) × ${playerCount}명</span><span>${(basePrice * playerCount).toLocaleString()}원</span></div>
-    <div class="price-row"><span>카트/캐디비 × ${playerCount}명</span><span>${(cartFee * playerCount).toLocaleString()}원</span></div>
-    <div class="price-row total"><span>총 결제 금액</span><span>${total.toLocaleString()}원</span></div>
+    <div class="price-row"><span>${s('greenfee')} (${isWeekend?s('we'):s('wd')}) × ${playerCount}명</span><span>${(basePrice * playerCount).toLocaleString()}원</span></div>
+    <div class="price-row"><span>${s('cart_fee')} × ${playerCount}명</span><span>${(cartFee * playerCount).toLocaleString()}원</span></div>
+    <div class="price-row total"><span>${s('price_total')}</span><span>${total.toLocaleString()}원</span></div>
   `;
 }
 
 async function confirmGolfBooking() {
   const name  = document.getElementById('booker-name').value.trim();
   const phone = document.getElementById('booker-phone').value.trim();
-  if (!name)  { showToast('❗ 예약자 성함을 입력해주세요'); return; }
-  if (!phone) { showToast('❗ 연락처를 입력해주세요'); return; }
+  if (!name)  { showToast('❗ ' + s('toast_need_name')); return; }
+  if (!phone) { showToast('❗ ' + s('toast_need_phone')); return; }
 
   const btn = document.querySelector('.booking-btn');
-  btn.textContent = '예약 처리 중...';
+  btn.textContent = s('booking_process');
   btn.disabled = true;
 
   // ── 실제 예약 API 호출 구조 (예시) ──────────────────────────
@@ -1814,7 +1823,7 @@ async function confirmGolfBooking() {
   // 프로토타입: 예약 시뮬레이션
   await new Promise(r => setTimeout(r, 900));
   const bookingId = 'GF' + Date.now().toString().slice(-8);
-  btn.textContent = '예약 확정하기';
+  btn.textContent = s('btn_confirm');
   btn.disabled = false;
   showConfirm(bookingId, name, phone);
 }
@@ -1831,12 +1840,12 @@ function showConfirm(bookingId, name, phone) {
 
   document.getElementById('confirm-booking-id').textContent = bookingId;
   document.getElementById('confirm-detail').innerHTML = `
-    <div class="confirm-row"><span class="confirm-label">골프장</span><span class="confirm-value">${c.name}</span></div>
-    <div class="confirm-row"><span class="confirm-label">일시</span><span class="confirm-value">${dateLabel} ${selectedTeeTime}</span></div>
-    <div class="confirm-row"><span class="confirm-label">인원</span><span class="confirm-value">${playerCount}명</span></div>
-    <div class="confirm-row"><span class="confirm-label">카트/캐디</span><span class="confirm-value">${cartType}</span></div>
-    <div class="confirm-row"><span class="confirm-label">예약자</span><span class="confirm-value">${name} (${phone})</span></div>
-    <div class="confirm-row"><span class="confirm-label">총 결제</span><span class="confirm-value" style="color:var(--primary)">${total.toLocaleString()}원</span></div>
+    <div class="confirm-row"><span class="confirm-label">${s('conf_course')}</span><span class="confirm-value">${c.name}</span></div>
+    <div class="confirm-row"><span class="confirm-label">${s('conf_dt')}</span><span class="confirm-value">${dateLabel} ${selectedTeeTime}</span></div>
+    <div class="confirm-row"><span class="confirm-label">${s('conf_players')}</span><span class="confirm-value">${playerCount}명</span></div>
+    <div class="confirm-row"><span class="confirm-label">${s('conf_cart')}</span><span class="confirm-value">${cartType}</span></div>
+    <div class="confirm-row"><span class="confirm-label">${s('conf_booker')}</span><span class="confirm-value">${name} (${phone})</span></div>
+    <div class="confirm-row"><span class="confirm-label">${s('conf_total')}</span><span class="confirm-value" style="color:var(--primary)">${total.toLocaleString()}원</span></div>
   `;
   goScreen('golf-confirm');
 }
@@ -2063,8 +2072,8 @@ function renderStravaList() {
 
     const typeLabel = r.type === 'cycle' ? 'Cycle' : 'Run';
     const metric2 = r.type === 'cycle'
-      ? `<div class="strava-stat-item"><div class="strava-stat-val">${r.avg_speed}km/h</div><div class="strava-stat-lbl">평균속도</div></div>`
-      : `<div class="strava-stat-item"><div class="strava-stat-val">${r.avg_pace}/km</div><div class="strava-stat-lbl">평균페이스</div></div>`;
+      ? `<div class="strava-stat-item"><div class="strava-stat-val">${r.avg_speed}km/h</div><div class="strava-stat-lbl">${s('stat_speed')}</div></div>`
+      : `<div class="strava-stat-item"><div class="strava-stat-val">${r.avg_pace}/km</div><div class="strava-stat-lbl">${s('stat_pace')}</div></div>`;
 
     card.innerHTML = `
       <div class="strava-card-header" style="background:${r.color}">
@@ -2075,15 +2084,15 @@ function renderStravaList() {
         <div class="strava-stats-row">
           <div class="strava-stat-item">
             <div class="strava-stat-val">${r.distance}km</div>
-            <div class="strava-stat-lbl">거리</div>
+            <div class="strava-stat-lbl">${s('stat_dist')}</div>
           </div>
           <div class="strava-stat-item">
             <div class="strava-stat-val">${r.elevation}m</div>
-            <div class="strava-stat-lbl">고도</div>
+            <div class="strava-stat-lbl">${s('stat_elev')}</div>
           </div>
           <div class="strava-stat-item">
             <div class="strava-stat-val">${r.est_time}</div>
-            <div class="strava-stat-lbl">예상시간</div>
+            <div class="strava-stat-lbl">${s('stat_time')}</div>
           </div>
           ${metric2}
         </div>
@@ -2091,7 +2100,7 @@ function renderStravaList() {
       <div class="strava-card-footer">
         <div class="strava-foot-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="#FC4C02" stroke="#FC4C02" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> ${r.kudos.toLocaleString()}</div>
         <div class="strava-foot-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> ${r.athletes.toLocaleString()}명</div>
-        <div class="strava-foot-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> ${r.segments} 세그</div>
+        <div class="strava-foot-item"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> ${r.segments} ${s('seg_unit')}</div>
         <div class="strava-foot-item" style="margin-left:auto;font-size:10px;color:#bbb">${r.location}</div>
       </div>
     `;
@@ -2124,7 +2133,7 @@ function openStravaDetail(route) {
   const areaD = `${pathD} L ${W},${H} L 0,${H} Z`;
 
   const typeLabel   = route.type === 'cycle' ? 'Cycle' : 'Run';
-  const metric2Lbl  = route.type === 'cycle' ? '평균속도' : '평균페이스';
+  const metric2Lbl  = route.type === 'cycle' ? s('stat_speed') : s('stat_pace');
   const metric2Val  = route.type === 'cycle' ? `${route.avg_speed}km/h` : `${route.avg_pace}/km`;
 
   const segHtml = (route.seg_list || []).map(s => `
@@ -2148,17 +2157,17 @@ function openStravaDetail(route) {
       </div>
       <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
         <span style="background:rgba(255,255,255,0.2);color:white;border-radius:10px;padding:3px 10px;font-size:11px">Strava</span>
-        <span style="background:rgba(255,255,255,0.2);color:white;border-radius:10px;padding:3px 10px;font-size:11px">${route.athletes.toLocaleString()}명 완주</span>
-        <span style="background:rgba(255,255,255,0.2);color:white;border-radius:10px;padding:3px 10px;font-size:11px">${route.segments} 세그먼트</span>
+        <span style="background:rgba(255,255,255,0.2);color:white;border-radius:10px;padding:3px 10px;font-size:11px">${route.athletes.toLocaleString()}${s('completed')}</span>
+        <span style="background:rgba(255,255,255,0.2);color:white;border-radius:10px;padding:3px 10px;font-size:11px">${route.segments} ${s('seg_unit')}</span>
       </div>
     </div>
     <div class="strava-big-stats">
-      <div class="strava-big-stat"><div class="strava-big-num">${route.distance}</div><div class="strava-big-lbl">km 거리</div></div>
-      <div class="strava-big-stat"><div class="strava-big-num">${route.elevation}</div><div class="strava-big-lbl">m 고도</div></div>
-      <div class="strava-big-stat"><div class="strava-big-num">${route.est_time}</div><div class="strava-big-lbl">예상시간</div></div>
+      <div class="strava-big-stat"><div class="strava-big-num">${route.distance}</div><div class="strava-big-lbl">${s('stat_dist_u')}</div></div>
+      <div class="strava-big-stat"><div class="strava-big-num">${route.elevation}</div><div class="strava-big-lbl">${s('stat_elev_u')}</div></div>
+      <div class="strava-big-stat"><div class="strava-big-num">${route.est_time}</div><div class="strava-big-lbl">${s('stat_time')}</div></div>
     </div>
     <div class="strava-elevation-card">
-      <div class="strava-elevation-title">고도 프로파일</div>
+      <div class="strava-elevation-title">${s('lbl_elev')}</div>
       <svg width="100%" height="90" viewBox="0 0 ${W} 90" preserveAspectRatio="none" style="display:block">
         <defs>
           <linearGradient id="elev-grad-${route.id}" x1="0" y1="0" x2="0" y2="1">
@@ -2171,11 +2180,11 @@ function openStravaDetail(route) {
       </svg>
     </div>
     <div style="padding:14px">
-      <div class="detail-section-title" style="margin-bottom:10px">코스 소개</div>
+      <div class="detail-section-title" style="margin-bottom:10px">${s('lbl_intro')}</div>
       <div class="detail-desc">${route.desc}</div>
     </div>
     <div style="padding:0 14px 14px">
-      <div class="detail-section-title" style="margin-bottom:8px">주요 세그먼트</div>
+      <div class="detail-section-title" style="margin-bottom:8px">${s('lbl_segments')}</div>
       <div style="background:var(--surface);border-radius:var(--r);border:1px solid var(--border);overflow:hidden">
         ${segHtml}
       </div>
@@ -2192,7 +2201,7 @@ function openStravaDetail(route) {
         </div>
       </div>
     </div>
-    <button class="strava-cta" onclick="selectStravaRoute(STRAVA_ROUTES.find(r=>r.id==='${route.id}'))">이 코스로 활동 만들기</button>
+    <button class="strava-cta" onclick="selectStravaRoute(STRAVA_ROUTES.find(r=>r.id==='${route.id}'))">${s('strava_cta')}</button>
     <div style="height:20px"></div>
   `;
   goScreen('strava-detail');
@@ -2223,7 +2232,7 @@ function selectStravaRoute(route) {
   }
 
   showStravaBtn();
-  showToast('Strava 코스가 적용되었습니다');
+  showToast(s('toast_strava'));
 }
 
 // ── Strava 버튼 show/hide ──
@@ -2280,12 +2289,193 @@ goCategory = function(catName) {
 };
 
 // ════════════════════════════════════════
+//  i18n — 다국어 지원 (KO / EN)
+// ════════════════════════════════════════
+const STRINGS = {
+  ko: {
+    nav_home:'홈', nav_search:'검색', nav_create:'생성', nav_profile:'프로필', nav_messages:'메시지',
+    h_search:'활동 검색', h_create:'활동 만들기', h_messages:'메시지',
+    h_notify:'알림', h_golf:'골프장 예약', h_detail:'활동 상세',
+    h_golf_booking:'예약 정보 입력', h_golf_confirm:'예약 완료',
+    hero_title:'함께 달리고,\n함께 오르고!', hero_sub:'검증된 리더와 함께하는 안전한 아웃도어',
+    hero_acts:'활성 활동', hero_leaders:'활동 리더', hero_members:'전체 회원',
+    page_seoul:'서울특별시 기준 추천 활동',
+    cat_cycle_cnt:'342개 활동', cat_golf_cnt:'골프장 예약',
+    cat_run_cnt:'426개 활동', cat_mountain_cnt:'292개 활동',
+    week_acts:'이번 주 추천 활동',
+    search_ph:'리더, 장소, 코스 검색...',
+    chip_all:'전체', chip_week:'이번주', chip_popjoin:'즉시참여', chip_beginner:'초급',
+    lbl_category:'카테고리 선택', lbl_title:'활동 제목', lbl_date:'날짜',
+    lbl_region:'지역', lbl_course:'상세 코스', lbl_level:'난이도',
+    lbl_size:'인원 제한', lbl_desc:'활동 소개', lbl_cover:'커버 사진', lbl_optional:'(선택)',
+    title_ph:'예: 한강 라이딩 함께해요!', course_ph:'예: 여의도 한강공원 → 뚝섬 왕복',
+    desc_ph:'활동에 대한 간단한 소개를 작성해주세요...',
+    radio_beginner:'초급', radio_mid:'중급', radio_adv:'고급',
+    radio_s:'2~5명', radio_m:'6~10명', radio_l:'11명 이상',
+    strava_load:'Strava 코스 불러오기', btn_create:'활동 생성하기',
+    btn_join:'참가 신청', btn_popjoin:'즉시참여', btn_apply:'참가 신청하기',
+    slots_left:'남은 자리',
+    lbl_leader:'리더 정보', lbl_participants:'참가자', lbl_intro:'활동 소개',
+    lbl_photos:'활동 사진', add_photo:'사진 추가하기', select_photo:'사진 선택', dm_btn:'DM',
+    golf_search_ph:'골프장 이름, 지역 검색...',
+    lbl_date_sel:'날짜 선택', lbl_tee:'⏰ 티타임 선택',
+    lbl_facilities:'시설 정보', tee_full:'마감', tee_left:'잔여',
+    btn_book:'예약하기', golf_sel_after:'티타임 선택 후', golf_time_ph:'시간을 선택하세요',
+    lbl_players:'플레이어 수', max_players:'최대 4명',
+    lbl_cart:'카트 / 캐디 선택',
+    cart_caddie:'카트+캐디', cart_only:'카트 전용', cart_walk:'도보',
+    lbl_booker:'예약자 정보',
+    booker_name_ph:'예약자 성함', booker_phone_ph:'연락처 (010-0000-0000)',
+    btn_confirm:'예약 확정하기',
+    cancel_note:'예약 후 취소는 라운딩 48시간 전까지 가능합니다',
+    booking_ok:'예약이 완료되었습니다!', booking_num:'예약 번호',
+    btn_cal:'캘린더 추가', btn_home:'홈으로',
+    confirm_note:'예약 확인서가 등록된 연락처로 발송됩니다',
+    conf_course:'골프장', conf_dt:'일시', conf_players:'인원',
+    conf_cart:'카트/캐디', conf_booker:'예약자', conf_total:'총 결제',
+    greenfee:'그린피', cart_fee:'카트/캐디비', price_total:'총 결제 금액',
+    wd:'평일', we:'주말',
+    strava_sub:'인기 코스로 활동 시작하기',
+    strava_cta:'이 코스로 활동 만들기',
+    lbl_elev:'고도 프로파일', lbl_segments:'주요 세그먼트',
+    stat_dist:'거리', stat_elev:'고도', stat_time:'예상시간',
+    stat_speed:'평균속도', stat_pace:'평균페이스',
+    stat_dist_u:'km 거리', stat_elev_u:'m 고도',
+    seg_unit:'세그', completed:'명 완주',
+    unread_msg:'읽지 않은 메시지 3개', online:'온라인',
+    unread_notify:'읽지 않은 알림 4개',
+    lbl_lead_acts:'리드 활동', lbl_join_acts:'참여 활동', lbl_followers:'팔로워',
+    lbl_pref_cat:'선호 카테고리',
+    my_acts:'내 활동 목록', following:'팔로잉 / 팔로워', photos_p:'사진첩',
+    rating_hist:'평가 내역', notify_set:'알림 설정', acct_set:'계정 설정', btn_logout:'로그아웃',
+    booking_process:'예약 처리 중...',
+    toast_apply:'참가 신청이 완료되었습니다!', toast_create:'활동이 생성되었습니다!',
+    toast_strava:'Strava 코스가 적용되었습니다', toast_need_title:'활동 제목을 입력해주세요',
+    toast_need_tee:'티타임을 먼저 선택해주세요', toast_need_name:'예약자 성함을 입력해주세요',
+    toast_need_phone:'연락처를 입력해주세요', toast_calling:'통화 연결 중...',
+    toast_cal:'캘린더에 추가되었습니다',
+    map_label:'지도 연동 예정', certified:'인증 리더',
+    new_leader:'신규 리더',
+  },
+  en: {
+    nav_home:'Home', nav_search:'Search', nav_create:'Create', nav_profile:'Profile', nav_messages:'Messages',
+    h_search:'Search', h_create:'New Activity', h_messages:'Messages',
+    h_notify:'Notifications', h_golf:'Golf Booking', h_detail:'Detail',
+    h_golf_booking:'Booking Info', h_golf_confirm:'Booking Complete',
+    hero_title:'Ride Together,\nClimb Together!', hero_sub:'Safe outdoor activities with verified leaders',
+    hero_acts:'Activities', hero_leaders:'Leaders', hero_members:'Members',
+    page_seoul:'Recommended activities near Seoul',
+    cat_cycle_cnt:'342 activities', cat_golf_cnt:'Book Golf Course',
+    cat_run_cnt:'426 activities', cat_mountain_cnt:'292 activities',
+    week_acts:'Recommended This Week',
+    search_ph:'Search leaders, places, courses...',
+    chip_all:'All', chip_week:'This Week', chip_popjoin:'Join Now', chip_beginner:'Beginner',
+    lbl_category:'Category', lbl_title:'Activity Title', lbl_date:'Date',
+    lbl_region:'Region', lbl_course:'Course Detail', lbl_level:'Difficulty',
+    lbl_size:'Max Participants', lbl_desc:'Description', lbl_cover:'Cover Photo', lbl_optional:'(Optional)',
+    title_ph:'e.g. Han River Ride Together!', course_ph:'e.g. Yeouido Park → Ttukseom Round Trip',
+    desc_ph:'Write a brief introduction for this activity...',
+    radio_beginner:'Beginner', radio_mid:'Intermediate', radio_adv:'Advanced',
+    radio_s:'2–5', radio_m:'6–10', radio_l:'11+',
+    strava_load:'Import Strava Course', btn_create:'Create Activity',
+    btn_join:'Join', btn_popjoin:'Join Now', btn_apply:'Apply to Join',
+    slots_left:'Spots left',
+    lbl_leader:'Leader', lbl_participants:'Participants', lbl_intro:'About',
+    lbl_photos:'Photos', add_photo:'Add Photo', select_photo:'Select Photo', dm_btn:'DM',
+    golf_search_ph:'Search by course name or region...',
+    lbl_date_sel:'Select Date', lbl_tee:'⏰ Tee Time',
+    lbl_facilities:'Facilities', tee_full:'Full', tee_left:'Left',
+    btn_book:'Book', golf_sel_after:'After selecting tee time', golf_time_ph:'Select a tee time',
+    lbl_players:'Number of Players', max_players:'Max 4',
+    lbl_cart:'Cart / Caddie',
+    cart_caddie:'Cart + Caddie', cart_only:'Cart Only', cart_walk:'Walk',
+    lbl_booker:'Booker Info',
+    booker_name_ph:'Full Name', booker_phone_ph:'Phone Number',
+    btn_confirm:'Confirm Booking',
+    cancel_note:'Cancellations accepted up to 48 hours before tee time',
+    booking_ok:'Booking Confirmed!', booking_num:'Booking ID',
+    btn_cal:'Add to Calendar', btn_home:'Home',
+    confirm_note:'Confirmation will be sent to your registered contact',
+    conf_course:'Course', conf_dt:'Date & Time', conf_players:'Players',
+    conf_cart:'Cart/Caddie', conf_booker:'Booker', conf_total:'Total',
+    greenfee:'Green Fee', cart_fee:'Cart/Caddie Fee', price_total:'Total Amount',
+    wd:'Weekday', we:'Weekend',
+    strava_sub:'Start your activity with a popular route',
+    strava_cta:'Start Activity with This Course',
+    lbl_elev:'Elevation Profile', lbl_segments:'Key Segments',
+    stat_dist:'Distance', stat_elev:'Elevation', stat_time:'Est. Time',
+    stat_speed:'Avg Speed', stat_pace:'Avg Pace',
+    stat_dist_u:'km', stat_elev_u:'m Elev.',
+    seg_unit:'Segs', completed:' completed',
+    unread_msg:'3 unread messages', online:'Online',
+    unread_notify:'4 unread notifications',
+    lbl_lead_acts:'Led', lbl_join_acts:'Joined', lbl_followers:'Followers',
+    lbl_pref_cat:'Preferred Categories',
+    my_acts:'My Activities', following:'Following / Followers', photos_p:'Photos',
+    rating_hist:'Ratings', notify_set:'Notifications', acct_set:'Account Settings', btn_logout:'Log Out',
+    booking_process:'Processing...',
+    toast_apply:'Successfully applied!', toast_create:'Activity created!',
+    toast_strava:'Strava course applied', toast_need_title:'Please enter an activity title',
+    toast_need_tee:'Please select a tee time first', toast_need_name:'Please enter your name',
+    toast_need_phone:'Please enter your phone number', toast_calling:'Connecting call...',
+    toast_cal:'Added to calendar',
+    map_label:'Map integration coming soon', certified:'Verified Leader',
+    new_leader:'New Leader',
+  }
+};
+
+let currentLang = 'ko';
+const s = k => (STRINGS[currentLang] || STRINGS.ko)[k] ?? k;
+
+function setLang(lang) {
+  currentLang = lang;
+  // Toggle button state
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  // data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    const val = s(key);
+    if (key === 'hero_title') {
+      el.innerHTML = val.replace(/\n/g, '<br>');
+    } else {
+      el.textContent = val;
+    }
+  });
+  // data-i18n-ph placeholders
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = s(el.dataset.i18nPh); });
+  // Nav labels (all .bottom-nav bars, same order)
+  const navKeys = ['nav_home','nav_search','nav_create','nav_profile','nav_messages'];
+  document.querySelectorAll('.bottom-nav').forEach(nav => {
+    nav.querySelectorAll('.nav-label').forEach((lbl, i) => { if (navKeys[i]) lbl.textContent = s(navKeys[i]); });
+  });
+  // Screen h1 headers (by unique screen parent)
+  const hMap = {
+    'screen-search': s('h_search'), 'screen-create': s('h_create'),
+    'screen-messages': s('h_messages'), 'screen-notify': s('h_notify'),
+    'screen-golf': s('h_golf'), 'screen-golf-booking': s('h_golf_booking'),
+  };
+  Object.entries(hMap).forEach(([id, text]) => {
+    const h1 = document.querySelector(`#${id} .header h1`);
+    if (h1) h1.textContent = text;
+  });
+  // golf confirm header
+  const gch = document.querySelector('#screen-golf-confirm .header h1');
+  if (gch) gch.textContent = s('h_golf_confirm');
+  // Re-render visible dynamic content
+  const activeId = document.querySelector('.screen.active')?.id;
+  if (activeId === 'screen-home') renderHomeActivities();
+  if (activeId === 'screen-search') renderSearchResults();
+  if (activeId === 'screen-strava') renderStravaList();
+}
+
+// ════════════════════════════════════════
 //  INIT
 // ════════════════════════════════════════
 renderHomeActivities();
 renderSearchResults();
 renderStravaList();
 showStravaBtn();
+setLang('ko');
 </script>
 </body>
 </html>

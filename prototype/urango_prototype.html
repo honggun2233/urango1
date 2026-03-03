@@ -349,6 +349,8 @@
   .lang-toggle { display: flex; gap: 4px; margin-top: 14px; }
   .lang-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 5px 14px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5); cursor: pointer; transition: all 0.2s; letter-spacing: 0.5px; }
   .lang-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+  .header .lang-btn { padding: 3px 9px; font-size: 11px; background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.55); }
+  .header .lang-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
 </style>
 </head>
 <body>
@@ -409,9 +411,15 @@
         <h1>URANGO</h1>
         <div class="subtitle">어디로 떠날까요?</div>
       </div>
-      <div style="cursor:pointer;position:relative;color:white;line-height:0" onclick="goScreen('notify')">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-        <div style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:var(--accent);border-radius:50%;border:2px solid var(--dark)"></div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="display:flex;gap:3px">
+          <button class="lang-btn active" data-lang="ko" onclick="setLang('ko')">KO</button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+        </div>
+        <div style="cursor:pointer;position:relative;color:white;line-height:0" onclick="goScreen('notify')">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <div style="position:absolute;top:-2px;right:-2px;width:8px;height:8px;background:var(--accent);border-radius:50%;border:2px solid var(--dark)"></div>
+        </div>
       </div>
     </div>
     <div class="content" id="content-home">

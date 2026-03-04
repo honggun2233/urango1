@@ -283,6 +283,40 @@
   .booking-btn { margin: 0 14px 14px; width: calc(100% - 28px); background: var(--golf); color: white; border: none; border-radius: 11px; padding: 15px; font-size: 16px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
   .booking-btn:hover { background: #14532d; }
 
+  /* Team Invite */
+  .team-section { padding: 16px 16px 8px; }
+  .team-section-title { font-size: 13px; font-weight: 700; color: var(--text2); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .team-slots { display: flex; flex-direction: column; gap: 8px; }
+  .team-slot { display: flex; align-items: center; gap: 12px; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 10px 12px; }
+  .team-slot.me { border-color: var(--golf); background: #f0fdf4; }
+  .team-slot-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; overflow: hidden; }
+  .team-slot-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+  .team-slot-info { flex: 1; min-width: 0; }
+  .team-slot-name { font-size: 14px; font-weight: 700; color: var(--text1); }
+  .team-slot-sub  { font-size: 11px; color: var(--text3); margin-top: 1px; }
+  .team-slot-badge { font-size: 10px; font-weight: 700; background: var(--golf); color: white; border-radius: 4px; padding: 2px 6px; flex-shrink: 0; }
+  .team-invite-btn { font-size: 12px; font-weight: 700; color: var(--golf); border: 1.5px dashed var(--golf); border-radius: 7px; padding: 5px 12px; cursor: pointer; flex-shrink: 0; background: none; transition: all 0.2s; }
+  .team-invite-btn:hover { background: var(--golf); color: white; }
+  .team-remove-btn { font-size: 18px; color: var(--text3); cursor: pointer; flex-shrink: 0; line-height: 1; padding: 4px; }
+  .team-remove-btn:hover { color: #ef4444; }
+
+  /* Friend Picker Modal */
+  .friend-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 9000; display: none; align-items: flex-end; justify-content: center; }
+  .friend-modal-overlay.open { display: flex; }
+  .friend-modal { background: var(--surface); border-radius: 18px 18px 0 0; width: 100%; max-width: 390px; padding-bottom: env(safe-area-inset-bottom,12px); max-height: 70vh; display: flex; flex-direction: column; }
+  .friend-modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 10px auto 6px; }
+  .friend-modal-title { font-size: 16px; font-weight: 800; padding: 8px 16px 12px; color: var(--text1); border-bottom: 1px solid var(--border); }
+  .friend-modal-list { overflow-y: auto; flex: 1; padding: 8px 0; }
+  .friend-item { display: flex; align-items: center; gap: 12px; padding: 10px 16px; cursor: pointer; transition: background 0.15s; }
+  .friend-item:hover { background: var(--bg); }
+  .friend-item.selected { background: #f0fdf4; }
+  .friend-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .friend-info { flex: 1; }
+  .friend-name { font-size: 14px; font-weight: 700; color: var(--text1); }
+  .friend-sub  { font-size: 12px; color: var(--text3); margin-top: 1px; }
+  .friend-check { font-size: 20px; color: var(--golf); font-weight: 700; }
+  .friend-modal-close { margin: 10px 16px 4px; padding: 13px; background: var(--golf); color: white; border: none; border-radius: 11px; font-size: 15px; font-weight: 700; cursor: pointer; }
+
   /* Booking Confirm */
   .confirm-circle { width: 72px; height: 72px; border-radius: 50%; background: var(--golf); display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 28px auto 16px; }
   .confirm-booking-id { font-size: 13px; color: var(--text3); text-align: center; margin-bottom: 4px; }
@@ -937,6 +971,13 @@
         </div>
         <div style="text-align:center;font-size:12px;color:#888;margin-top:4px" data-i18n="max_players">최대 4명</div>
       </div>
+
+      <!-- 팀원 초대 섹션 -->
+      <div class="team-section">
+        <div class="team-section-title" data-i18n="lbl_team">팀원 초대</div>
+        <div class="team-slots" id="team-slots"></div>
+      </div>
+
       <div style="padding:16px 16px 8px">
         <div class="form-label" style="margin-bottom:10px" data-i18n="lbl_cart">카트 / 캐디 선택</div>
         <div class="radio-group" id="cart-radio">
@@ -982,6 +1023,18 @@
     </div>
   </div>
 
+
+  <!-- ══════════════════════════════════════
+       GOLF TEAM — FRIEND PICKER MODAL
+  ══════════════════════════════════════ -->
+  <div class="friend-modal-overlay" id="friend-modal-overlay" onclick="closeFriendModal(event)">
+    <div class="friend-modal">
+      <div class="friend-modal-handle"></div>
+      <div class="friend-modal-title" data-i18n="modal_invite_title">팀원 선택</div>
+      <div class="friend-modal-list" id="friend-modal-list"></div>
+      <button class="friend-modal-close" data-i18n="modal_invite_done" onclick="confirmFriendSelection()">선택 완료</button>
+    </div>
+  </div>
 
   <!-- ══════════════════════════════════════
        [NEW] STRAVA COURSE LIST SCREEN
@@ -1831,11 +1884,110 @@ function selectTeeTime(el) {
 // ════════════════════════════════════════
 //  GOLF BOOKING
 // ════════════════════════════════════════
+// ── 팀 예약 데이터 ──────────────────────────────────────
+const MOCK_FRIENDS = [
+  { id: 1, name: '김민준', sub: '핸디캡 12 · 주 2회 라운딩', emoji: '🏌️' },
+  { id: 2, name: '이서연', sub: '핸디캡 18 · 주말 라운더',    emoji: '⛳' },
+  { id: 3, name: '박지훈', sub: '핸디캡 8 · 싱글 골퍼',       emoji: '🏆' },
+  { id: 4, name: '최수아', sub: '핸디캡 22 · 입문 6개월',     emoji: '🌿' },
+  { id: 5, name: '정도윤', sub: '핸디캡 15 · 주말 라운더',    emoji: '🎯' },
+  { id: 6, name: '한예린', sub: '핸디캡 20 · 캐주얼 골퍼',   emoji: '☀️' },
+];
+let teamMembers = [];      // { slotIndex, friend } — 초대된 팀원
+let invitingSlot = -1;     // 현재 모달이 열린 슬롯 index
+
+function renderTeamSlots() {
+  const container = document.getElementById('team-slots');
+  if (!container) return;
+  let html = '';
+  for (let i = 0; i < playerCount; i++) {
+    if (i === 0) {
+      html += `<div class="team-slot me">
+        <div class="team-slot-avatar">🙋</div>
+        <div class="team-slot-info">
+          <div class="team-slot-name">${s('team_me')}</div>
+          <div class="team-slot-sub">${s('team_booker')}</div>
+        </div>
+        <div class="team-slot-badge">${s('team_leader')}</div>
+      </div>`;
+    } else {
+      const m = teamMembers.find(t => t.slotIndex === i);
+      if (m) {
+        html += `<div class="team-slot">
+          <div class="team-slot-avatar">${m.friend.emoji}</div>
+          <div class="team-slot-info">
+            <div class="team-slot-name">${m.friend.name}</div>
+            <div class="team-slot-sub">${m.friend.sub}</div>
+          </div>
+          <span class="team-remove-btn" onclick="removeTeamMember(${i})">✕</span>
+        </div>`;
+      } else {
+        html += `<div class="team-slot">
+          <div class="team-slot-avatar" style="color:#aaa">＋</div>
+          <div class="team-slot-info">
+            <div class="team-slot-name" style="color:var(--text3)">${i+1}P · ${s('team_empty')}</div>
+          </div>
+          <button class="team-invite-btn" onclick="openFriendModal(${i})">${s('team_invite')}</button>
+        </div>`;
+      }
+    }
+  }
+  container.innerHTML = html;
+}
+
+function openFriendModal(slotIndex) {
+  invitingSlot = slotIndex;
+  const alreadyIds = teamMembers.map(t => t.friend.id);
+  const list = document.getElementById('friend-modal-list');
+  list.innerHTML = MOCK_FRIENDS.map(f => {
+    const taken = alreadyIds.includes(f.id);
+    return `<div class="friend-item${taken?' selected':''}" onclick="${taken?'':'selectFriend('+f.id+')'}">
+      <div class="friend-avatar">${f.emoji}</div>
+      <div class="friend-info">
+        <div class="friend-name">${f.name}</div>
+        <div class="friend-sub">${taken ? s('team_already') : f.sub}</div>
+      </div>
+      ${taken ? '<span class="friend-check">✓</span>' : ''}
+    </div>`;
+  }).join('');
+  document.getElementById('friend-modal-overlay').classList.add('open');
+}
+
+function closeFriendModal(e) {
+  if (!e || e.target === document.getElementById('friend-modal-overlay')) {
+    document.getElementById('friend-modal-overlay').classList.remove('open');
+    invitingSlot = -1;
+  }
+}
+
+function selectFriend(friendId) {
+  if (invitingSlot < 0) return;
+  const f = MOCK_FRIENDS.find(x => x.id === friendId);
+  if (!f) return;
+  teamMembers = teamMembers.filter(t => t.slotIndex !== invitingSlot);
+  teamMembers.push({ slotIndex: invitingSlot, friend: f });
+  closeFriendModal();
+  renderTeamSlots();
+  showToast(`${f.name} ${s('toast_team_added')}`);
+}
+
+function confirmFriendSelection() {
+  closeFriendModal();
+  renderTeamSlots();
+}
+
+function removeTeamMember(slotIndex) {
+  teamMembers = teamMembers.filter(t => t.slotIndex !== slotIndex);
+  renderTeamSlots();
+}
+// ──────────────────────────────────────────────────────
+
 function openGolfBooking() {
   if (!selectedTeeTime) { showToast('⚠️ ' + s('toast_need_tee')); return; }
   const c = selectedGolfCourse;
   const dateLabel = document.getElementById('date-picker-row')?.querySelector('.date-btn.active')?.dataset.label || selectedTeeDate;
   playerCount = 4;
+  teamMembers = [];
   document.getElementById('player-count-display').textContent = playerCount;
 
   document.getElementById('booking-summary-box').innerHTML = `
@@ -1845,13 +1997,16 @@ function openGolfBooking() {
     <div class="booking-summary-info">${IC.pin} ${c.location}</div>
   `;
   updatePriceBreakdown();
+  renderTeamSlots();
   goScreen('golf-booking');
 }
 
 function changePlayerCount(delta) {
   playerCount = Math.max(1, Math.min(4, playerCount + delta));
   document.getElementById('player-count-display').textContent = playerCount;
+  teamMembers = teamMembers.filter(t => t.slotIndex < playerCount);
   updatePriceBreakdown();
+  renderTeamSlots();
 }
 
 function updatePriceBreakdown() {
@@ -1915,7 +2070,7 @@ function showConfirm(bookingId, name, phone) {
   document.getElementById('confirm-detail').innerHTML = `
     <div class="confirm-row"><span class="confirm-label">${s('conf_course')}</span><span class="confirm-value">${c.name}</span></div>
     <div class="confirm-row"><span class="confirm-label">${s('conf_dt')}</span><span class="confirm-value">${dateLabel} ${selectedTeeTime}</span></div>
-    <div class="confirm-row"><span class="confirm-label">${s('conf_players')}</span><span class="confirm-value">${playerCount}명</span></div>
+    <div class="confirm-row"><span class="confirm-label">${s('conf_players')}</span><span class="confirm-value">${playerCount}명${teamMembers.length ? ' · ' + ['나', ...teamMembers.sort((a,b)=>a.slotIndex-b.slotIndex).map(t=>t.friend.name)].join(', ') : ''}</span></div>
     <div class="confirm-row"><span class="confirm-label">${s('conf_cart')}</span><span class="confirm-value">${cartType}</span></div>
     <div class="confirm-row"><span class="confirm-label">${s('conf_booker')}</span><span class="confirm-value">${name} (${phone})</span></div>
     <div class="confirm-row"><span class="confirm-label">${s('conf_total')}</span><span class="confirm-value" style="color:var(--primary)">${total.toLocaleString()}원</span></div>
@@ -2653,6 +2808,10 @@ const STRINGS = {
     toast_cal:'캘린더에 추가되었습니다',
     map_label:'지도 연동 예정', certified:'인증 리더',
     new_leader:'신규 리더',
+    lbl_team:'팀원 초대', team_me:'나 (본인)', team_booker:'예약자', team_leader:'팀장',
+    team_empty:'초대 안됨', team_invite:'초대하기', team_already:'이미 초대됨',
+    modal_invite_title:'팀원 선택', modal_invite_done:'선택 완료',
+    toast_team_added:'님을 팀에 초대했습니다',
   },
   en: {
     nav_home:'Home', nav_search:'Search', nav_create:'Create', nav_profile:'Profile', nav_messages:'Messages',
@@ -2721,6 +2880,10 @@ const STRINGS = {
     toast_cal:'Added to calendar',
     map_label:'Map integration coming soon', certified:'Verified Leader',
     new_leader:'New Leader',
+    lbl_team:'Invite Team', team_me:'Me', team_booker:'Booker', team_leader:'Captain',
+    team_empty:'Not Invited', team_invite:'Invite', team_already:'Already invited',
+    modal_invite_title:'Select Member', modal_invite_done:'Done',
+    toast_team_added:'added to your team',
   }
 };
 

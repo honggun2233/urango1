@@ -339,6 +339,37 @@
   .photo-add-btn { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 11px; border: 1.5px dashed var(--border); border-radius: var(--r); font-size: 13px; color: var(--text2); cursor: pointer; transition: all 0.2s; background: transparent; }
   .photo-add-btn:hover { border-color: var(--dark); color: var(--text1); background: var(--bg); }
   .photo-empty { font-size: 12px; color: var(--text3); text-align: center; padding: 18px 0; }
+
+  /* Review System */
+  .review-card { background: var(--surface); border: 1px solid var(--border); border-radius: 11px; padding: 14px; margin-bottom: 10px; }
+  .review-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .review-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .review-name { font-size: 13px; font-weight: 700; color: var(--text1); }
+  .review-meta { font-size: 11px; color: var(--text3); margin-top: 1px; }
+  .review-stars { margin-left: auto; font-size: 13px; color: #f59e0b; letter-spacing: 1px; }
+  .review-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .review-photos { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  .review-photo { width: 72px; height: 72px; border-radius: 7px; object-fit: cover; cursor: pointer; }
+  .review-write-btn { display: flex; align-items: center; justify-content: center; gap: 7px; width: 100%; padding: 13px; background: var(--dark); color: white; border: none; border-radius: 11px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 4px; transition: opacity 0.2s; }
+  .review-write-btn:hover { opacity: 0.85; }
+  .review-empty { text-align: center; padding: 28px 0 20px; color: var(--text3); font-size: 13px; }
+
+  /* Review Write Modal */
+  .review-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 9100; display: none; align-items: flex-end; justify-content: center; }
+  .review-modal-overlay.open { display: flex; }
+  .review-modal { background: var(--surface); border-radius: 18px 18px 0 0; width: 100%; max-width: 390px; padding-bottom: env(safe-area-inset-bottom,16px); }
+  .review-modal-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 10px auto 6px; }
+  .review-modal-title { font-size: 16px; font-weight: 800; padding: 8px 16px 14px; color: var(--text1); border-bottom: 1px solid var(--border); }
+  .star-selector { display: flex; justify-content: center; gap: 10px; padding: 18px 0 10px; }
+  .star-btn { font-size: 32px; cursor: pointer; opacity: 0.25; transition: all 0.15s; line-height: 1; }
+  .star-btn.on { opacity: 1; transform: scale(1.1); }
+  .review-textarea { width: 100%; box-sizing: border-box; margin: 0 0 12px; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 13px; color: var(--text1); background: var(--bg); resize: none; height: 90px; font-family: inherit; }
+  .review-textarea:focus { outline: none; border-color: var(--dark); }
+  .review-photo-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .review-photo-thumb { width: 64px; height: 64px; border-radius: 8px; object-fit: cover; position: relative; }
+  .review-photo-add { width: 64px; height: 64px; border-radius: 8px; border: 1.5px dashed var(--border); display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--text3); cursor: pointer; background: var(--bg); flex-shrink: 0; }
+  .review-submit-btn { width: 100%; padding: 14px; background: var(--dark); color: white; border: none; border-radius: 11px; font-size: 15px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
+  .review-submit-btn:hover { opacity: 0.85; }
   .cover-upload-zone { display: flex; align-items: center; justify-content: center; gap: 8px; height: 90px; border: 1.5px dashed var(--border); border-radius: var(--r); cursor: pointer; font-size: 13px; color: var(--text2); transition: all 0.2s; overflow: hidden; position: relative; }
   .cover-upload-zone:hover { border-color: var(--dark); color: var(--text1); }
   .cover-upload-zone img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -1025,6 +1056,32 @@
 
 
   <!-- ══════════════════════════════════════
+       ACTIVITY REVIEW WRITE MODAL
+  ══════════════════════════════════════ -->
+  <div class="review-modal-overlay" id="review-modal-overlay" onclick="closeReviewModal(event)">
+    <div class="review-modal">
+      <div class="review-modal-handle"></div>
+      <div class="review-modal-title" data-i18n="h_write_review">후기 작성</div>
+      <div style="padding:0 16px 4px">
+        <div style="text-align:center;font-size:12px;color:var(--text3);margin-bottom:2px" data-i18n="review_rate_label">이 활동은 어떠셨나요?</div>
+        <div class="star-selector" id="star-selector">
+          <span class="star-btn" data-v="1" onclick="setReviewStar(1)">★</span>
+          <span class="star-btn" data-v="2" onclick="setReviewStar(2)">★</span>
+          <span class="star-btn" data-v="3" onclick="setReviewStar(3)">★</span>
+          <span class="star-btn" data-v="4" onclick="setReviewStar(4)">★</span>
+          <span class="star-btn" data-v="5" onclick="setReviewStar(5)">★</span>
+        </div>
+        <textarea class="review-textarea" id="review-textarea" data-i18n-ph="review_ph" placeholder="활동 후기를 자유롭게 남겨주세요..."></textarea>
+        <div class="review-photo-row" id="review-photo-row">
+          <label class="review-photo-add" for="review-photo-input" title="사진 추가">＋</label>
+          <input type="file" id="review-photo-input" accept="image/*" multiple style="display:none" onchange="addReviewPhotos(this)">
+        </div>
+        <button class="review-submit-btn" data-i18n="btn_submit_review" onclick="submitReview()">후기 등록하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
        GOLF TEAM — FRIEND PICKER MODAL
   ══════════════════════════════════════ -->
   <div class="friend-modal-overlay" id="friend-modal-overlay" onclick="closeFriendModal(event)">
@@ -1160,6 +1217,110 @@ function deletePhoto(actId, idx) {
   const grid = document.getElementById(`photo-grid-${actId}`);
   if (grid) grid.innerHTML = renderPhotoGrid(actId);
   showToast('사진이 삭제되었습니다');
+}
+
+// ════════════════════════════════════════
+//  REVIEW SYSTEM
+// ════════════════════════════════════════
+const REVIEWS = {
+  0: [
+    { id: 'r1', user: '이지수', emoji: '🚴', star: 5, date: '2026.02.28', text: '박민준 리더님 정말 친절하고 안전하게 이끌어주셨어요! 초보인데도 전혀 힘들지 않았고 중간 카페 타임이 너무 좋았습니다 ☕', photos: [] },
+    { id: 'r2', user: '김태현', emoji: '🏃', star: 4, date: '2026.02.22', text: '한강 뷰 너무 좋았고 페이스도 딱 맞았어요. 다음 라이딩도 꼭 참가할게요!', photos: [] },
+  ],
+  1: [
+    { id: 'r3', user: '박수연', emoji: '⛰️', star: 5, date: '2026.03.01', text: '칼바위 능선 경치 최고! 리더님이 안전 포인트마다 꼼꼼히 체크해주셔서 믿음직했어요.', photos: [] },
+  ],
+  2: [],
+};
+
+let reviewActId = null;
+let reviewStar = 0;
+let reviewPhotos = [];
+
+function renderReviews(actId) {
+  const list = REVIEWS[actId] || [];
+  const starStr = n => '★'.repeat(n) + '☆'.repeat(5 - n);
+  const cards = list.map(r => `
+    <div class="review-card">
+      <div class="review-card-header">
+        <div class="review-avatar" style="background:var(--bg)">${r.emoji}</div>
+        <div>
+          <div class="review-name">${r.user}</div>
+          <div class="review-meta">${r.date}</div>
+        </div>
+        <div class="review-stars">${starStr(r.star)}</div>
+      </div>
+      <div class="review-text">${r.text}</div>
+      ${r.photos.length ? `<div class="review-photos">${r.photos.map(p=>`<img class="review-photo" src="${p}" alt="후기 사진">`).join('')}</div>` : ''}
+    </div>`).join('');
+  return cards || `<div class="review-empty" data-i18n="review_empty">아직 후기가 없습니다.<br>첫 번째 후기를 남겨보세요!</div>`;
+}
+
+function openReviewModal(actId) {
+  reviewActId = actId;
+  reviewStar = 0;
+  reviewPhotos = [];
+  document.getElementById('review-textarea').value = '';
+  document.querySelectorAll('.star-btn').forEach(b => b.classList.remove('on'));
+  // reset photo row (keep only the add label+input)
+  const row = document.getElementById('review-photo-row');
+  const label = row.querySelector('label');
+  const input = row.querySelector('input');
+  row.innerHTML = '';
+  row.appendChild(label);
+  row.appendChild(input);
+  document.getElementById('review-modal-overlay').classList.add('open');
+}
+
+function closeReviewModal(e) {
+  if (!e || e.target === document.getElementById('review-modal-overlay'))
+    document.getElementById('review-modal-overlay').classList.remove('open');
+}
+
+function setReviewStar(val) {
+  reviewStar = val;
+  document.querySelectorAll('.star-btn').forEach(b =>
+    b.classList.toggle('on', Number(b.dataset.v) <= val));
+}
+
+function addReviewPhotos(input) {
+  Array.from(input.files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      reviewPhotos.push(e.target.result);
+      const row = document.getElementById('review-photo-row');
+      const img = document.createElement('img');
+      img.className = 'review-photo-thumb';
+      img.src = e.target.result;
+      row.insertBefore(img, row.querySelector('label'));
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value = '';
+}
+
+function submitReview() {
+  if (!reviewStar) { showToast('⭐ ' + s('toast_need_star')); return; }
+  const text = document.getElementById('review-textarea').value.trim();
+  if (!text) { showToast('✏️ ' + s('toast_need_review')); return; }
+
+  if (!REVIEWS[reviewActId]) REVIEWS[reviewActId] = [];
+  REVIEWS[reviewActId].unshift({
+    id: 'u' + Date.now(),
+    user: s('review_me'),
+    emoji: '🙋',
+    star: reviewStar,
+    date: new Date().toLocaleDateString('ko-KR').replace(/\. /g,'.').replace('.',''),
+    text,
+    photos: [...reviewPhotos],
+  });
+
+  // 화면 갱신
+  const section = document.getElementById(`review-section-${reviewActId}`);
+  if (section) section.innerHTML = renderReviews(reviewActId);
+
+  closeReviewModal();
+  showToast('✅ ' + s('toast_review_done'));
 }
 
 function previewCover(input) {
@@ -1486,13 +1647,13 @@ function openDetail(id) {
       </div>
     </div>
     <div class="photo-section">
-      <div class="detail-section-title" style="margin-bottom:10px">${s('lbl_photos')}</div>
-      <div class="photo-grid" id="photo-grid-${a.id}">${renderPhotoGrid(a.id)}</div>
-      <label class="photo-add-btn" for="photo-input-${a.id}">
-        ${IC.img} ${s('add_photo')}
-        <input type="file" id="photo-input-${a.id}" accept="image/*" multiple style="display:none"
-          onchange="uploadPhoto(${a.id}, this)">
-      </label>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div class="detail-section-title" style="margin:0">${s('lbl_reviews')} (${(REVIEWS[a.id]||[]).length})</div>
+      </div>
+      <div id="review-section-${a.id}">${renderReviews(a.id)}</div>
+      <button class="review-write-btn" onclick="openReviewModal(${a.id})">
+        ✏️ ${s('btn_write_review')}
+      </button>
     </div>
     <div style="height:20px"></div>
   `;
@@ -2808,6 +2969,12 @@ const STRINGS = {
     toast_cal:'캘린더에 추가되었습니다',
     map_label:'지도 연동 예정', certified:'인증 리더',
     new_leader:'신규 리더',
+    lbl_reviews:'활동 후기', btn_write_review:'후기 작성하기',
+    h_write_review:'후기 작성', review_rate_label:'이 활동은 어떠셨나요?',
+    review_ph:'활동 후기를 자유롭게 남겨주세요...', btn_submit_review:'후기 등록하기',
+    review_empty:'아직 후기가 없습니다.\n첫 번째 후기를 남겨보세요!',
+    review_me:'나', toast_need_star:'별점을 선택해주세요', toast_need_review:'후기 내용을 입력해주세요',
+    toast_review_done:'후기가 등록되었습니다!',
     lbl_team:'팀원 초대', team_me:'나 (본인)', team_booker:'예약자', team_leader:'팀장',
     team_empty:'초대 안됨', team_invite:'초대하기', team_already:'이미 초대됨',
     modal_invite_title:'팀원 선택', modal_invite_done:'선택 완료',
@@ -2880,6 +3047,12 @@ const STRINGS = {
     toast_cal:'Added to calendar',
     map_label:'Map integration coming soon', certified:'Verified Leader',
     new_leader:'New Leader',
+    lbl_reviews:'Reviews', btn_write_review:'Write a Review',
+    h_write_review:'Write Review', review_rate_label:'How was this activity?',
+    review_ph:'Share your experience...', btn_submit_review:'Submit Review',
+    review_empty:'No reviews yet.\nBe the first to leave one!',
+    review_me:'Me', toast_need_star:'Please select a star rating', toast_need_review:'Please write your review',
+    toast_review_done:'Review submitted!',
     lbl_team:'Invite Team', team_me:'Me', team_booker:'Booker', team_leader:'Captain',
     team_empty:'Not Invited', team_invite:'Invite', team_already:'Already invited',
     modal_invite_title:'Select Member', modal_invite_done:'Done',

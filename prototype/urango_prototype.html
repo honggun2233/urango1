@@ -1310,7 +1310,7 @@ function submitReview() {
     user: s('review_me'),
     emoji: '🙋',
     star: reviewStar,
-    date: new Date().toLocaleDateString('ko-KR').replace(/\. /g,'.').replace('.',''),
+    date: new Date().toLocaleDateString('ko-KR').replace(/\.\s*/g,'.').replace(/\.$/, ''),
     text,
     photos: [...reviewPhotos],
   });
@@ -1318,6 +1318,8 @@ function submitReview() {
   // 화면 갱신
   const section = document.getElementById(`review-section-${reviewActId}`);
   if (section) section.innerHTML = renderReviews(reviewActId);
+  const countEl = document.getElementById(`review-count-${reviewActId}`);
+  if (countEl) countEl.textContent = s('lbl_reviews') + ' (' + REVIEWS[reviewActId].length + ')';
 
   closeReviewModal();
   showToast('✅ ' + s('toast_review_done'));
@@ -1648,7 +1650,7 @@ function openDetail(id) {
     </div>
     <div class="photo-section">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <div class="detail-section-title" style="margin:0">${s('lbl_reviews')} (${(REVIEWS[a.id]||[]).length})</div>
+        <div class="detail-section-title" style="margin:0" id="review-count-${a.id}">${s('lbl_reviews')} (${(REVIEWS[a.id]||[]).length})</div>
       </div>
       <div id="review-section-${a.id}">${renderReviews(a.id)}</div>
       <button class="review-write-btn" onclick="openReviewModal(${a.id})">

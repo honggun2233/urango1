@@ -467,6 +467,54 @@
   .my-rank-pos  { font-size:12px; font-weight:700; color:var(--accent); white-space:nowrap; }
   .my-rank-name { flex:1; font-size:14px; font-weight:600; }
   .my-rank-val  { font-size:17px; font-weight:800; }
+
+  /* ── Challenge System ─────────────────────────── */
+  /* 홈 진입 배너 */
+  .challenge-home-section { padding: 0 16px 4px; }
+  .challenge-home-title { font-size: 13px; font-weight: 800; color: var(--text1); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+  .challenge-home-more { font-size: 12px; font-weight: 600; color: var(--accent); cursor: pointer; }
+  .challenge-home-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .challenge-home-scroll::-webkit-scrollbar { display: none; }
+  .challenge-mini-card { flex-shrink: 0; width: 200px; border-radius: 12px; padding: 14px; color: white; cursor: pointer; position: relative; overflow: hidden; }
+  .challenge-mini-card::before { content: ''; position: absolute; top: -20px; right: -20px; width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.08); }
+  .challenge-mini-emoji { font-size: 24px; margin-bottom: 6px; }
+  .challenge-mini-title { font-size: 13px; font-weight: 800; line-height: 1.3; margin-bottom: 8px; }
+  .challenge-mini-prog { height: 4px; background: rgba(255,255,255,0.25); border-radius: 2px; overflow: hidden; }
+  .challenge-mini-prog-fill { height: 100%; background: white; border-radius: 2px; transition: width 0.5s ease; }
+  .challenge-mini-status { font-size: 10px; color: rgba(255,255,255,0.7); margin-top: 5px; }
+
+  /* 챌린지 전용 화면 */
+  .challenge-tabs { display: flex; overflow-x: auto; gap: 0; border-bottom: 1px solid var(--border); background: var(--surface); flex-shrink: 0; scrollbar-width: none; }
+  .challenge-tabs::-webkit-scrollbar { display: none; }
+  .challenge-tab { flex-shrink: 0; padding: 12px 16px; font-size: 13px; font-weight: 600; color: var(--text3); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.2s; }
+  .challenge-tab.active { color: var(--dark); border-bottom-color: var(--dark); }
+
+  .challenge-card { border-radius: 14px; overflow: hidden; margin: 0 16px 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .challenge-card-banner { padding: 18px 16px 14px; color: white; position: relative; overflow: hidden; }
+  .challenge-card-banner::after { content: ''; position: absolute; bottom: -30px; right: -30px; width: 120px; height: 120px; border-radius: 50%; background: rgba(255,255,255,0.07); }
+  .challenge-card-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+  .challenge-emoji { font-size: 28px; flex-shrink: 0; }
+  .challenge-title { font-size: 15px; font-weight: 800; line-height: 1.35; }
+  .challenge-period { font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 3px; }
+  .challenge-badge-special { background: rgba(255,255,255,0.2); border-radius: 5px; padding: 2px 8px; font-size: 10px; font-weight: 700; display: inline-block; margin-top: 4px; }
+  .challenge-progress-wrap { margin-top: 10px; }
+  .challenge-progress-label { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.75); margin-bottom: 5px; }
+  .challenge-progress-bar { height: 6px; background: rgba(255,255,255,0.25); border-radius: 3px; overflow: hidden; }
+  .challenge-progress-fill { height: 100%; background: white; border-radius: 3px; transition: width 0.6s ease; }
+
+  .challenge-card-body { background: var(--surface); padding: 14px 16px; border: 1px solid var(--border); border-top: none; border-radius: 0 0 14px 14px; }
+  .challenge-desc { font-size: 13px; color: var(--text2); margin-bottom: 12px; line-height: 1.55; }
+  .challenge-reward { display: flex; align-items: center; gap: 8px; background: var(--bg); border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; }
+  .challenge-reward-label { font-size: 11px; font-weight: 700; color: var(--text3); flex-shrink: 0; }
+  .challenge-reward-text { font-size: 12px; color: var(--text1); font-weight: 600; }
+  .challenge-footer { display: flex; align-items: center; justify-content: space-between; }
+  .challenge-participants { font-size: 12px; color: var(--text3); }
+  .challenge-join-btn { border: none; border-radius: 9px; padding: 9px 18px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+  .challenge-join-btn.join   { background: var(--dark); color: white; }
+  .challenge-join-btn.join:hover { opacity: 0.85; }
+  .challenge-join-btn.joined { background: var(--bg); color: var(--text2); border: 1.5px solid var(--border); cursor: default; }
+  .challenge-join-btn.done   { background: #f0fdf4; color: #16a34a; border: 1.5px solid #bbf7d0; cursor: default; }
+  /* ─────────────────────────────────────────────── */
 </style>
 </head>
 <body>
@@ -571,6 +619,15 @@
           <div class="cat-count" data-i18n="cat_mountain_cnt">292개 활동</div>
         </div>
       </div>
+      <!-- 챌린지 홈 배너 -->
+      <div class="challenge-home-section">
+        <div class="challenge-home-title">
+          <span>🏆 <span data-i18n="h_challenge">진행 중 챌린지</span></span>
+          <span class="challenge-home-more" onclick="goScreen('challenge')" data-i18n="challenge_more">전체보기 →</span>
+        </div>
+        <div class="challenge-home-scroll" id="challenge-home-scroll"></div>
+      </div>
+
       <div class="section-title" data-i18n="week_acts">이번 주 추천 활동</div>
       <div id="home-activity-list"></div>
       <div style="height:20px"></div>
@@ -1204,6 +1261,25 @@
     <div class="my-rank-bar" id="my-rank-bar"></div>
   </div>
 
+  <!-- ══════════════════════════════════════
+       CHALLENGE SCREEN
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-challenge">
+    <div class="status-bar"><span id="clock-challenge">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
+    <div class="header">
+      <span class="back-btn" onclick="goBack()">←</span>
+      <h1 data-i18n="h_challenge">챌린지</h1>
+    </div>
+    <div class="challenge-tabs" id="challenge-tabs">
+      <div class="challenge-tab active" onclick="switchChallengeTab('all')"  data-i18n="ch_tab_all">전체</div>
+      <div class="challenge-tab"        onclick="switchChallengeTab('Cycle')" >Cycle</div>
+      <div class="challenge-tab"        onclick="switchChallengeTab('Run')"   >Run</div>
+      <div class="challenge-tab"        onclick="switchChallengeTab('Mountain')">Mountain</div>
+      <div class="challenge-tab"        onclick="switchChallengeTab('Golf')"  >Golf</div>
+    </div>
+    <div class="content" id="challenge-list" style="padding-top:14px"></div>
+  </div>
+
 </div><!-- /phone-frame -->
 
 <!-- Toast -->
@@ -1256,6 +1332,158 @@ function deletePhoto(actId, idx) {
 
 // ════════════════════════════════════════
 //  REVIEW SYSTEM
+// ════════════════════════════════════════
+// ════════════════════════════════════════
+//  CHALLENGE DATA
+// ════════════════════════════════════════
+const CHALLENGE_DATA = [
+  // ── Cycle ──────────────────────────────
+  { id:'c1', cat:'Cycle', emoji:'🚴', color:'#111111',
+    title:'봄맞이 한강 라이딩 챌린지',
+    desc:'3월 한 달간 한강 코스 라이딩 활동 3회 완주하기',
+    goal:3, progress:2, unit:'회',
+    reward:'🏅 골드 라이더 배지 + 스포츠용품 할인쿠폰 20%',
+    period:'2026.03.01 ~ 03.31', participants:1284, joined:true },
+  { id:'c2', cat:'Cycle', emoji:'🚴', color:'#1a1a2e',
+    title:'100km 완주 챌린지',
+    desc:'이번 달 누적 라이딩 거리 100km 달성하기',
+    goal:100, progress:67, unit:'km',
+    reward:'🎖️ 센추리 라이더 배지 + 자전거용품 할인권',
+    period:'2026.03.01 ~ 03.31', participants:892, joined:true },
+  // ── Run ────────────────────────────────
+  { id:'r1', cat:'Run', emoji:'🏃', color:'#374151',
+    title:'봄 러닝 5일 챌린지',
+    desc:'3월 중 러닝 활동에 5회 참여하기',
+    goal:5, progress:3, unit:'회',
+    reward:'🥇 러닝크루 배지 + 운동화 할인쿠폰 15%',
+    period:'2026.03.01 ~ 03.31', participants:2147, joined:true },
+  { id:'r2', cat:'Run', emoji:'🏃', color:'#2d3748',
+    title:'하프 마라톤 준비 챌린지',
+    desc:'이번 달 누적 러닝 거리 42km 달성하기',
+    goal:42, progress:18, unit:'km',
+    reward:'🎽 하프 완주자 배지 + 러닝기어 20% 할인',
+    period:'2026.03.15 ~ 04.15', participants:567, joined:false },
+  // ── Mountain ───────────────────────────
+  { id:'m1', cat:'Mountain', emoji:'⛰️', color:'#166534',
+    title:'봄 등산 3좌 챌린지',
+    desc:'북한산 · 도봉산 · 관악산 각 1회 완등하기',
+    goal:3, progress:1, unit:'좌',
+    reward:'🏔️ 3좌 완등 배지 + 아웃도어 브랜드 쿠폰 30%',
+    period:'2026.03.01 ~ 04.30', participants:743, joined:true },
+  { id:'m2', cat:'Mountain', emoji:'⛰️', color:'#14532d',
+    title:'에베레스트 고도 챌린지',
+    desc:'누적 등반 고도 8,848m를 달성해 에베레스트 정복!',
+    goal:8848, progress:3200, unit:'m',
+    reward:'🌄 에베레스트 스페셜 배지 + 등산용품 상품권',
+    period:'2026.03.01 ~ 05.31', participants:328, joined:false },
+  // ── Golf ───────────────────────────────
+  { id:'g1', cat:'Golf', emoji:'⛳', color:'#166534',
+    title:'버디 챌린지 — 핸디캡 줄이기',
+    desc:'이번 달 라운딩 3회 완료 + 스코어 향상 달성',
+    goal:3, progress:2, unit:'회',
+    reward:'⛳ 골드 골퍼 배지 + 그린피 할인권 30%',
+    period:'2026.03.01 ~ 03.31', participants:456, joined:true },
+  { id:'g2', cat:'Golf', emoji:'⛳', color:'#1a472a',
+    title:'4인 팀 라운딩 챌린지',
+    desc:'팀을 구성해 2개 이상 코스 라운딩 완료하기',
+    goal:2, progress:0, unit:'회',
+    reward:'🏆 팀 플레이어 배지 + 카트비 무료 쿠폰',
+    period:'2026.03.15 ~ 04.15', participants:213, joined:false },
+  // ── Special ────────────────────────────
+  { id:'s1', cat:'All', emoji:'🌟', color:'#FF4D00', special:true,
+    title:'URANGO 봄 어드벤처 챌린지',
+    desc:'Cycle · Run · Mountain · Golf 4가지 카테고리 모두 1회 이상 참여하기',
+    goal:4, progress:2, unit:'개 종목',
+    reward:'🎊 봄 어드벤처 스페셜 배지 + 시즌권 할인 40%',
+    period:'2026.03.01 ~ 04.30', participants:1876, joined:true },
+];
+
+let challengeTab = 'all';
+
+function renderChallengeList(targetId) {
+  const filtered = challengeTab === 'all'
+    ? CHALLENGE_DATA
+    : CHALLENGE_DATA.filter(c => c.cat === challengeTab || c.cat === 'All');
+  // joined 먼저, 그 다음 미참여
+  const sorted = [...filtered.filter(c=>c.joined), ...filtered.filter(c=>!c.joined)];
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  el.innerHTML = sorted.map(c => {
+    const pct = Math.min(100, Math.round(c.progress / c.goal * 100));
+    const isDone = pct >= 100;
+    const btnClass = isDone ? 'done' : c.joined ? 'joined' : 'join';
+    const btnLabel = isDone ? '🎉 ' + s('ch_done') : c.joined ? '✓ ' + s('ch_joined') : s('ch_join');
+    return `<div class="challenge-card">
+      <div class="challenge-card-banner" style="background:${c.color}">
+        <div class="challenge-card-top">
+          <div class="challenge-emoji">${c.emoji}</div>
+          <div>
+            <div class="challenge-title">${c.title}</div>
+            <div class="challenge-period">${c.period}</div>
+            ${c.special ? `<div class="challenge-badge-special">✨ SPECIAL</div>` : ''}
+          </div>
+        </div>
+        ${c.joined ? `<div class="challenge-progress-wrap">
+          <div class="challenge-progress-label">
+            <span>${s('ch_progress')}</span>
+            <span>${c.progress.toLocaleString()} / ${c.goal.toLocaleString()}${c.unit}</span>
+          </div>
+          <div class="challenge-progress-bar">
+            <div class="challenge-progress-fill" style="width:${pct}%"></div>
+          </div>
+        </div>` : ''}
+      </div>
+      <div class="challenge-card-body">
+        <div class="challenge-desc">${c.desc}</div>
+        <div class="challenge-reward">
+          <span class="challenge-reward-label">${s('ch_reward')}</span>
+          <span class="challenge-reward-text">${c.reward}</span>
+        </div>
+        <div class="challenge-footer">
+          <span class="challenge-participants">👥 ${c.participants.toLocaleString()}${s('ch_participants')}</span>
+          <button class="challenge-join-btn ${btnClass}" onclick="joinChallenge('${c.id}', this)">${btnLabel}</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderChallengeHomeScroll() {
+  const scroll = document.getElementById('challenge-home-scroll');
+  if (!scroll) return;
+  const joined = CHALLENGE_DATA.filter(c => c.joined && c.progress < c.goal);
+  scroll.innerHTML = joined.map(c => {
+    const pct = Math.min(100, Math.round(c.progress / c.goal * 100));
+    return `<div class="challenge-mini-card" style="background:${c.color}" onclick="goScreen('challenge')">
+      <div class="challenge-mini-emoji">${c.emoji}</div>
+      <div class="challenge-mini-title">${c.title}</div>
+      <div class="challenge-mini-prog">
+        <div class="challenge-mini-prog-fill" style="width:${pct}%"></div>
+      </div>
+      <div class="challenge-mini-status">${c.progress}/${c.goal}${c.unit} · ${pct}% 달성</div>
+    </div>`;
+  }).join('');
+}
+
+function switchChallengeTab(tab) {
+  challengeTab = tab;
+  document.querySelectorAll('.challenge-tab').forEach((el, i) => {
+    const tabs = ['all','Cycle','Run','Mountain','Golf'];
+    el.classList.toggle('active', tabs[i] === tab);
+  });
+  renderChallengeList('challenge-list');
+}
+
+function joinChallenge(id, btn) {
+  const c = CHALLENGE_DATA.find(x => x.id === id);
+  if (!c || c.joined) return;
+  c.joined = true;
+  btn.className = 'challenge-join-btn joined';
+  btn.textContent = '✓ ' + s('ch_joined');
+  renderChallengeHomeScroll();
+  showToast('🏆 ' + c.title + ' ' + s('toast_challenge_join'));
+}
+
 // ════════════════════════════════════════
 const REVIEWS = {
   0: [
@@ -3129,6 +3357,10 @@ const STRINGS = {
     lbl_lead_acts:'리드 활동', lbl_join_acts:'참여 활동', lbl_followers:'팔로워',
     lbl_pref_cat:'선호 카테고리',
     my_acts:'내 활동 목록', my_acts_upcoming:'예정 활동', my_acts_completed:'완료 활동',
+    h_challenge:'챌린지', challenge_more:'전체보기 →',
+    ch_tab_all:'전체', ch_progress:'진행률', ch_reward:'보상',
+    ch_participants:'명 참여 중', ch_join:'참여하기', ch_joined:'참여 중', ch_done:'달성 완료',
+    toast_challenge_join:'챌린지에 참여했습니다!',
     following:'팔로잉 / 팔로워', photos_p:'사진첩',
     rating_hist:'평가 내역', notify_set:'알림 설정', acct_set:'계정 설정', btn_logout:'로그아웃',
     ranking_view:'랭킹 보기', h_ranking:'랭킹',
@@ -3208,6 +3440,10 @@ const STRINGS = {
     lbl_lead_acts:'Led', lbl_join_acts:'Joined', lbl_followers:'Followers',
     lbl_pref_cat:'Preferred Categories',
     my_acts:'My Activities', my_acts_upcoming:'Upcoming', my_acts_completed:'Completed',
+    h_challenge:'Challenge', challenge_more:'See All →',
+    ch_tab_all:'All', ch_progress:'Progress', ch_reward:'Reward',
+    ch_participants:' participating', ch_join:'Join', ch_joined:'Joined', ch_done:'Completed!',
+    toast_challenge_join:'You joined the challenge!',
     following:'Following / Followers', photos_p:'Photos',
     rating_hist:'Ratings', notify_set:'Notifications', acct_set:'Account Settings', btn_logout:'Log Out',
     ranking_view:'Rankings', h_ranking:'Ranking',
@@ -3264,6 +3500,7 @@ function setLang(lang) {
     'screen-messages': s('h_messages'), 'screen-notify': s('h_notify'),
     'screen-golf': s('h_golf'), 'screen-golf-booking': s('h_golf_booking'),
     'screen-ranking': s('h_ranking'), 'screen-my-acts': s('my_acts'),
+    'screen-challenge': s('h_challenge'),
   };
   Object.entries(hMap).forEach(([id, text]) => {
     const h1 = document.querySelector(`#${id} .header h1`);
@@ -3274,7 +3511,8 @@ function setLang(lang) {
   if (gch) gch.textContent = s('h_golf_confirm');
   // Re-render visible dynamic content
   const activeId = document.querySelector('.screen.active')?.id;
-  if (activeId === 'screen-home') renderHomeActivities();
+  if (activeId === 'screen-home') { renderHomeActivities(); renderChallengeHomeScroll(); }
+  if (activeId === 'screen-challenge') { challengeTab = 'all'; document.querySelectorAll('.challenge-tab').forEach((el,i)=>el.classList.toggle('active',i===0)); renderChallengeList('challenge-list'); }
   if (activeId === 'screen-search') renderSearchResults();
   if (activeId === 'screen-strava') renderStravaList();
 }
@@ -3283,6 +3521,7 @@ function setLang(lang) {
 //  INIT
 // ════════════════════════════════════════
 renderHomeActivities();
+renderChallengeHomeScroll();
 renderSearchResults();
 renderStravaList();
 renderRanking();

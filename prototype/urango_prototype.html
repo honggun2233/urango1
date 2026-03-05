@@ -340,6 +340,25 @@
   .photo-add-btn:hover { border-color: var(--dark); color: var(--text1); background: var(--bg); }
   .photo-empty { font-size: 12px; color: var(--text3); text-align: center; padding: 18px 0; }
 
+  /* My Activities Screen */
+  .my-acts-tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--surface); flex-shrink: 0; }
+  .my-acts-tab { flex: 1; padding: 12px; text-align: center; font-size: 14px; font-weight: 600; color: var(--text3); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+  .my-acts-tab.active { color: var(--dark); border-bottom-color: var(--dark); }
+  .my-act-card { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.15s; }
+  .my-act-card:hover { background: var(--bg); }
+  .my-act-cat { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .my-act-info { flex: 1; min-width: 0; }
+  .my-act-title { font-size: 14px; font-weight: 700; color: var(--text1); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .my-act-meta { font-size: 12px; color: var(--text3); }
+  .my-act-badge { font-size: 11px; font-weight: 700; border-radius: 6px; padding: 3px 8px; flex-shrink: 0; }
+  .badge-done { background: #f0fdf4; color: #16a34a; }
+  .badge-review { background: var(--dark); color: white; }
+  .badge-upcoming { background: #fff7ed; color: #c2410c; }
+  /* Completed activity detail — review CTA banner */
+  .completed-banner { background: linear-gradient(135deg,#1a1a1a,#333); color: white; margin: 14px; border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; }
+  .completed-banner-text { flex: 1; font-size: 13px; line-height: 1.5; }
+  .completed-banner-btn { background: white; color: var(--dark); border: none; border-radius: 8px; padding: 8px 14px; font-size: 12px; font-weight: 700; cursor: pointer; flex-shrink: 0; }
+
   /* Review System */
   .review-card { background: var(--surface); border: 1px solid var(--border); border-radius: 11px; padding: 14px; margin-bottom: 10px; }
   .review-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
@@ -717,7 +736,7 @@
         <div class="chip active">Mountain</div>
       </div>
       <div class="profile-menu">
-        <div class="menu-item" onclick="showToast('내 활동 목록을 불러옵니다')">
+        <div class="menu-item" onclick="openMyActs()">
           <div class="menu-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 010-5H6M18 9h1.5a2.5 2.5 0 000-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22M18 2H6v7a6 6 0 0012 0V2z"/></svg></div>
           <div class="menu-text" data-i18n="my_acts">내 활동 목록</div><div class="menu-arrow">›</div>
         </div>
@@ -758,6 +777,22 @@
       <div class="nav-item active" onclick="goScreen('profile')"><div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><div class="nav-label">프로필</div></div>
       <div class="nav-item" onclick="goScreen('messages')"><div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div class="nav-label">메시지</div></div>
     </nav>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       MY ACTIVITIES SCREEN
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-my-acts">
+    <div class="status-bar"><span id="clock-my-acts">9:41</span><span style="display:flex;align-items:center;gap:5px"><svg width="14" height="10" viewBox="0 0 16 12" fill="white"><rect x="0" y="4" width="2.5" height="8" rx="0.5"/><rect x="4" y="2.5" width="2.5" height="9.5" rx="0.5"/><rect x="8" y="1" width="2.5" height="11" rx="0.5"/><rect x="12" y="0" width="2.5" height="12" rx="0.5" opacity="0.35"/></svg><svg width="20" height="10" viewBox="0 0 22 12" fill="none"><rect x="0.5" y="0.5" width="18" height="11" rx="1.5" stroke="white" stroke-opacity="0.6"/><rect x="19" y="4" width="2.5" height="4" rx="1" fill="white" fill-opacity="0.6"/><rect x="1.5" y="1.5" width="13" height="9" rx="1" fill="white"/></svg></span></div>
+    <div class="header">
+      <span class="back-btn" onclick="goBack()">←</span>
+      <h1 data-i18n="my_acts">내 활동 목록</h1>
+    </div>
+    <div class="my-acts-tabs">
+      <div class="my-acts-tab active" id="tab-upcoming" onclick="switchMyActsTab('upcoming')">예정</div>
+      <div class="my-acts-tab" id="tab-completed" onclick="switchMyActsTab('completed')">완료</div>
+    </div>
+    <div class="content" id="my-acts-content" style="padding:0"></div>
   </div>
 
   <!-- ══════════════════════════════════════
@@ -1231,6 +1266,24 @@ const REVIEWS = {
     { id: 'r3', user: '박수연', emoji: '⛰️', star: 5, date: '2026.03.01', text: '칼바위 능선 경치 최고! 리더님이 안전 포인트마다 꼼꼼히 체크해주셔서 믿음직했어요.', photos: [] },
   ],
   2: [],
+  5: [
+    { id: 'r5a', user: '최지우', emoji: '🌸', star: 5, date: '2026.02.09', text: '남산 야경과 함께 달린 최고의 라이딩! 오르막이 있지만 리더님이 페이스 조절 잘 해주셔서 힘들지 않았어요 🚴', photos: [] },
+    { id: 'r5b', user: '한도윤', emoji: '🚴', star: 4, date: '2026.02.09', text: '뷰가 정말 예뻤어요. 다음에 또 신청할게요!', photos: [] },
+  ],
+  6: [
+    { id: 'r6a', user: '오민석', emoji: '🏃', star: 5, date: '2026.02.16', text: '이준호 리더님과 함께한 10K 훈련런 최고였습니다. 페이스 관리가 완벽했고 완주 후 성취감이 엄청났어요!', photos: [] },
+  ],
+  7: [
+    { id: 'r7a', user: '신예은', emoji: '⛰️', star: 5, date: '2026.02.23', text: '관악산 정상에서 본 서울 전경... 말이 필요 없어요. 힘들었지만 절대 후회 없는 산행이었습니다 🏔️', photos: [] },
+    { id: 'r7b', user: '정민재', emoji: '🧗', star: 4, date: '2026.02.23', text: '고급 코스답게 쉽지 않았지만 리더님이 무사히 이끌어주셨어요. 체력이 많이 늘었습니다!', photos: [] },
+  ],
+  8: [
+    { id: 'r8a', user: '윤서현', emoji: '🚴', star: 5, date: '2026.03.02', text: '아라뱃길부터 한강까지 45km! 처음엔 걱정됐는데 리더님 덕분에 완주했습니다. 봄 라이딩의 진수 🌸', photos: [] },
+  ],
+  9: [
+    { id: 'r9a', user: '강태양', emoji: '⛳', star: 5, date: '2026.03.03', text: '스카이72 오션코스 바다 뷰 최고! 팀원들과 호흡도 잘 맞고 즐거운 라운딩이었습니다 ⛳', photos: [] },
+    { id: 'r9b', user: '임하나', emoji: '🏌️', star: 4, date: '2026.03.03', text: '코스 컨디션도 좋고 리더님이 스코어 관리 팁도 잘 알려주셨어요. 핸디캡 줄었습니다!', photos: [] },
+  ],
 };
 
 let reviewActId = null;
@@ -1403,6 +1456,66 @@ const ACTIVITIES = [
     rating: '★★★★★ 5.0', ratingCount: '(67회 리드)',
     headerGrad: '#166534',
     desc: '세계 명문 코스를 재현한 베어즈베스트 청라에서 함께 라운딩해요! 4인 팀 한 자리 남았습니다. 중급 이상 권장 🏌️'
+  },
+  {
+    id: 5, cat: 'Cycle', catEmoji: '🚴', completed: true,
+    photos: [],
+    title: '남산 순환 라이딩',
+    date: '2026.02.08 (일) 08:00', location: '남산공원 팔각광장',
+    course: '팔각광장 → 남산 순환로 → 팔각광장 (12km)', level: '🟢 초급',
+    current: 6, max: 6, popJoin: false,
+    leader: '박민준', initial: '박', grad: '#111111',
+    rating: '★★★★★ 4.9', ratingCount: '(48회 리드)',
+    headerGrad: '#111111',
+    desc: '남산 순환 코스를 함께 달렸던 모임입니다. 날씨 맑고 뷰가 최고였어요!'
+  },
+  {
+    id: 6, cat: 'Run', catEmoji: '🏃', completed: true,
+    photos: [],
+    title: '한강 10K 마라톤 훈련',
+    date: '2026.02.15 (일) 07:00', location: '뚝섬한강공원',
+    course: '뚝섬 → 잠실 → 뚝섬 (10km)', level: '🟡 중급',
+    current: 8, max: 10, popJoin: false,
+    leader: '이준호', initial: '이', grad: '#374151',
+    rating: '★★★★★ 5.0', ratingCount: '(67회 리드)',
+    headerGrad: '#374151',
+    desc: '뚝섬-잠실 왕복 10km 훈련런이었습니다. 페이스 5분30초 목표로 달렸어요.'
+  },
+  {
+    id: 7, cat: 'Mountain', catEmoji: '⛰️', completed: true,
+    photos: [],
+    title: '관악산 정상 정복',
+    date: '2026.02.22 (토) 07:30', location: '관악산 등산로 입구',
+    course: '서울대입구 → 연주대 정상 → 하산 (약 10km)', level: '🔴 고급',
+    current: 5, max: 5, popJoin: false,
+    leader: '김서연', initial: '김', grad: '#166534',
+    rating: '★★★★½ 4.7', ratingCount: '(31회 리드)',
+    headerGrad: '#166534',
+    desc: '관악산 연주대까지 완등! 힘들었지만 정상에서 본 서울 뷰가 압권이었습니다.'
+  },
+  {
+    id: 8, cat: 'Cycle', catEmoji: '🚴', completed: true,
+    photos: [],
+    title: '인천-서울 국토종주 1구간',
+    date: '2026.03.01 (일) 06:00', location: '인천 아라뱃길 출발점',
+    course: '아라뱃길 → 한강 합류점 (약 45km)', level: '🟡 중급',
+    current: 4, max: 6, popJoin: false,
+    leader: '박민준', initial: '박', grad: '#111111',
+    rating: '★★★★★ 4.9', ratingCount: '(48회 리드)',
+    headerGrad: '#111111',
+    desc: '아라뱃길에서 한강까지 45km 완주! 봄바람 맞으며 달린 최고의 하루였습니다.'
+  },
+  {
+    id: 9, cat: 'Golf', catEmoji: '⛳', completed: true,
+    photos: [],
+    title: '스카이72 오션코스 라운딩',
+    date: '2026.03.02 (일) 08:00', location: '인천 스카이72 GC',
+    course: '오션코스 18홀 Par 72', level: '🟡 중급',
+    current: 4, max: 4, popJoin: false,
+    leader: '정현우', initial: '정', grad: '#166534',
+    rating: '★★★★★ 5.0', ratingCount: '(67회 리드)',
+    headerGrad: '#166534',
+    desc: '스카이72 오션코스에서 4인 팀 라운딩 완료! 바다 뷰와 함께한 최고의 라운드.'
   }
 ];
 
@@ -1610,6 +1723,12 @@ function openDetail(id) {
   const cleanTitle = a.title.replace(/[🌊🌿🏅🍁🏌️⛳🚴⛰️🏃]\s*/g,'').trim();
 
   document.getElementById('detail-content').innerHTML = `
+    ${a.completed ? `
+    <div class="completed-banner">
+      <div style="font-size:24px">✅</div>
+      <div class="completed-banner-text"><strong>완료한 활동</strong><br>${a.date}에 참여하셨습니다</div>
+      <button class="completed-banner-btn" onclick="openReviewModal(${a.id})">후기 쓰기</button>
+    </div>` : ''}
     <div class="detail-map">
       <div class="detail-map-icon" style="opacity:0.4">${IC.map}</div>
       <div style="font-size:12px;margin-top:4px">${a.location}</div>
@@ -1659,6 +1778,10 @@ function openDetail(id) {
     </div>
     <div style="height:20px"></div>
   `;
+
+  // 완료된 활동: join bar 숨김, completed banner 표시
+  const joinBar = document.querySelector('#screen-detail .detail-join-bar');
+  if (joinBar) joinBar.style.display = a.completed ? 'none' : '';
 
   goScreen('detail');
 }
@@ -2144,6 +2267,53 @@ function removeTeamMember(slotIndex) {
   renderTeamSlots();
 }
 // ──────────────────────────────────────────────────────
+
+// ════════════════════════════════════════
+//  MY ACTIVITIES
+// ════════════════════════════════════════
+let myActsTab = 'upcoming';
+
+function openMyActs() {
+  myActsTab = 'upcoming';
+  document.getElementById('tab-upcoming').classList.add('active');
+  document.getElementById('tab-completed').classList.remove('active');
+  renderMyActs();
+  goScreen('my-acts');
+}
+
+function switchMyActsTab(tab) {
+  myActsTab = tab;
+  document.getElementById('tab-upcoming').classList.toggle('active', tab === 'upcoming');
+  document.getElementById('tab-completed').classList.toggle('active', tab === 'completed');
+  renderMyActs();
+}
+
+function renderMyActs() {
+  const list = ACTIVITIES.filter(a => myActsTab === 'completed' ? a.completed : !a.completed);
+  const catBg = { Cycle:'#111', Mountain:'#166534', Run:'#374151', Golf:'#166534' };
+  const content = document.getElementById('my-acts-content');
+  if (!list.length) {
+    content.innerHTML = '<div style="text-align:center;padding:48px 16px;color:var(--text3);font-size:14px">' +
+      (myActsTab === 'completed' ? '완료된 활동이 없습니다' : '예정된 활동이 없습니다') + '</div>';
+    return;
+  }
+  content.innerHTML = list.map(a => {
+    const hasReview = myActsTab === 'completed' && (REVIEWS[a.id]||[]).some(r => r.user === s('review_me'));
+    const badge = myActsTab === 'completed'
+      ? (hasReview
+          ? `<span class="my-act-badge badge-done">후기 완료</span>`
+          : `<span class="my-act-badge badge-review" onclick="event.stopPropagation();openDetail(${a.id});setTimeout(()=>openReviewModal(${a.id}),300)">후기 쓰기</span>`)
+      : `<span class="my-act-badge badge-upcoming">예정</span>`;
+    return `<div class="my-act-card" onclick="openDetail(${a.id})">
+      <div class="my-act-cat" style="background:${catBg[a.cat]||'#111'}">${a.catEmoji}</div>
+      <div class="my-act-info">
+        <div class="my-act-title">${a.title}</div>
+        <div class="my-act-meta">${a.date} · ${a.leader} 리더</div>
+      </div>
+      ${badge}
+    </div>`;
+  }).join('');
+}
 
 function openGolfBooking() {
   if (!selectedTeeTime) { showToast('⚠️ ' + s('toast_need_tee')); return; }
@@ -2958,7 +3128,8 @@ const STRINGS = {
     unread_notify:'읽지 않은 알림 4개',
     lbl_lead_acts:'리드 활동', lbl_join_acts:'참여 활동', lbl_followers:'팔로워',
     lbl_pref_cat:'선호 카테고리',
-    my_acts:'내 활동 목록', following:'팔로잉 / 팔로워', photos_p:'사진첩',
+    my_acts:'내 활동 목록', my_acts_upcoming:'예정 활동', my_acts_completed:'완료 활동',
+    following:'팔로잉 / 팔로워', photos_p:'사진첩',
     rating_hist:'평가 내역', notify_set:'알림 설정', acct_set:'계정 설정', btn_logout:'로그아웃',
     ranking_view:'랭킹 보기', h_ranking:'랭킹',
     rank_weekly:'주간', rank_monthly:'월간', rank_total:'전체',
@@ -3036,7 +3207,8 @@ const STRINGS = {
     unread_notify:'4 unread notifications',
     lbl_lead_acts:'Led', lbl_join_acts:'Joined', lbl_followers:'Followers',
     lbl_pref_cat:'Preferred Categories',
-    my_acts:'My Activities', following:'Following / Followers', photos_p:'Photos',
+    my_acts:'My Activities', my_acts_upcoming:'Upcoming', my_acts_completed:'Completed',
+    following:'Following / Followers', photos_p:'Photos',
     rating_hist:'Ratings', notify_set:'Notifications', acct_set:'Account Settings', btn_logout:'Log Out',
     ranking_view:'Rankings', h_ranking:'Ranking',
     rank_weekly:'Weekly', rank_monthly:'Monthly', rank_total:'All-time',
@@ -3091,7 +3263,7 @@ function setLang(lang) {
     'screen-search': s('h_search'), 'screen-create': s('h_create'),
     'screen-messages': s('h_messages'), 'screen-notify': s('h_notify'),
     'screen-golf': s('h_golf'), 'screen-golf-booking': s('h_golf_booking'),
-    'screen-ranking': s('h_ranking'),
+    'screen-ranking': s('h_ranking'), 'screen-my-acts': s('my_acts'),
   };
   Object.entries(hMap).forEach(([id, text]) => {
     const h1 = document.querySelector(`#${id} .header h1`);
